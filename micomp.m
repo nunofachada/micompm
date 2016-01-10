@@ -2,7 +2,7 @@ function c = micomp(nout, ccat, ve, varargin)
 %MICOMP Summary of this function goes here
 % do_plot - plot stuff? Can be a cell of output titles
 % ccat - provide a concatened output?
-% nout - Number of outputs or plot titles
+% nout - Number of outputs or plot titles (account for concat. output)
 %  len - Length of outputs
 %   ve - variance explained
 % varargin - each variable argument is a cell of sets of folder + files,
@@ -21,11 +21,6 @@ ncomp = numel(varargin);
 % Create necessary variables
 outputs = cell(ncomp, 1);
 groups = cell(ncomp, 1);
-if ccat
-    outputs_ccat = cell(ncomp, 1);
-end;
-
-nout = nout + ccat;
 
 % Other required variables
 scores = cell(nout, ncomp);
@@ -34,12 +29,7 @@ varexp = cell(nout, ncomp);
 % Group data for comparisons
 for i=1:ncomp
     
-    [outputs{i}, groups{i}] = group_outputs(varargin{i}{:});
-
-    % Perform output concatenation?
-    if ccat
-        outputs_ccat{i} = group_outputs_rangescale(varargin{i}{:});
-    end;
+    [outputs{i}, groups{i}] = grpoutputs(ccat, varargin{i}{:});
 
 end;
 
@@ -50,23 +40,19 @@ end;
 t = zeros(nout * ncomp, 4);
 
 % Cycle through outputs
-for i=1:nout
+for i = 1:nout
     
     
     % Cycle through comparisons
-    for j=1:ncomp
+    for j = 1:ncomp
 
         % Get current output e group
-        if i==nout && ccat
-            co = (outputs_ccat{j})';
-        else
-            co = (outputs{j}{i})';
-        end;
+        co = (outputs{j}{i})';
         cg = (groups{j})';
 
         % Perform model comparison
         [npcs, p_mnv, p_anv, p_kw, scores{i, j}, varexp{i, j}] = ...
-            compare_models(ve, co, cg, 0);
+            cmpoutput(ve, co, cg, 0);
         
         
         % Put values in table
@@ -82,7 +68,8 @@ for i=1:nout
 end;
 
 
-c = struct('data', {t}, 'scores', {scores}, 'groups', {groups}, 'varexp', {varexp});
+c = struct('data', {t}, 'scores', {scores}, 'groups', {groups}, ...
+    'varexp', {varexp});
 
 
 end

@@ -2,9 +2,20 @@
 
 This is work-in-progress MATLAB package for comparing simulation output.
 
-### Usage
+### List of functions
 
-To do.
+* [grpoutputs] - Group outputs from multiple observations of the models to be
+compared.
+
+* [cmpoutput] - ...
+
+* [micomp] - ...
+
+* [micomp_show] - ...
+
+* [manova_check] - ...
+
+* [tikscatter] - ...
 
 ### Theory
 
@@ -15,3 +26,9 @@ arXiv preprint.
 
 [MIT License](LICENSE)
 
+[grpoutputs]: grpoutputs.m
+[cmpoutput]: cmpoutput.m
+[micomp]: micomp.m
+[micomp_show]: micomp_show.m
+[manova_check]: manova_check.m
+[tikscatter]: tikscatter.m

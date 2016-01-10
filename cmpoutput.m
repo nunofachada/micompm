@@ -1,5 +1,5 @@
 function [npcs, p_mnv, p_anv, p_kw, score, varexp] = ...
-    compare_models(ve, data, groups, summary)
+    cmpoutput(ve, data, groups, summary)
 % ve is a value between 0 and 1 which should be the minimum variance
 % explained by the PCs, required to compare models.
 % data is expected to be m x n with m observations and n variables. 
