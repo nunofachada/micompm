@@ -163,7 +163,7 @@ elseif type == 1 % Latex type
                     fprintf('& %d ', t(row_idx, j));
                 elseif j<5
                     % Properly format p-value        
-                    fprintf(' & %14s', ltxpe(t(row_idx, j)));
+                    fprintf(' & %14s', ltxpv(t(row_idx, j)));
                 else
                     % Scatter plot
                     fprintf(' & \\raisebox{-.5\\height}{\\resizebox {1.2cm} {1.2cm} {%s}}', tikscatter(scores{k, i}, groups{i}));

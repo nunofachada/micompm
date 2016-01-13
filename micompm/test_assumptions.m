@@ -1,4 +1,4 @@
-function [p_uv, p_mv, p_hcvm] = assumptions(data, groups, npcs)
+function [p_uv, p_mv, p_hcvm] = test_assumptions(data, groups, npcs)
 %
 % Copyright (c) 2016 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 

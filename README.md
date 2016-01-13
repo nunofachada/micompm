@@ -15,9 +15,9 @@ outputs.
 
 * [micomp_show] - ...
 
-* [assumptions] - ...
+* [test_assumptions] - ...
 
-* [tikscatter] - ...
+_micompm_ uses additional [helper] and [3rd party] functions.
 
 ### Theory
 
@@ -28,9 +28,10 @@ arXiv preprint.
 
 [MIT License](LICENSE)
 
-[grpoutputs]: grpoutputs.m
-[cmpoutput]: cmpoutput.m
-[micomp]: micomp.m
-[micomp_show]: micomp_show.m
-[assumptions]: assumptions.m
-[tikscatter]: tikscatter.m
+[grpoutputs]: micompm/grpoutputs.m
+[cmpoutput]: micompm/cmpoutput.m
+[micomp]: micompm/micomp.m
+[micomp_show]: micompm/micomp_show.m
+[test_assumptions]: micompm/test_assumptions.m
+[helper]: helpers
+[3rd party]: 3rdparty

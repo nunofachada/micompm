@@ -65,8 +65,8 @@ cumvar = cumsum(varexp);
 npcs = find(cumvar > ve, 1);
 
 % Perform MANOVA
-[~, p_mnv] = manova1(score(:, 1:npcs), groups);
-%[~ , p_mnv] = mancovan(score(:, 1:npcs), groups);
+%[~, p_mnv] = manova1(score(:, 1:npcs), groups);
+[~ , p_mnv] = mancovan(score(:, 1:npcs), groups);
 
 % Allocate arrays for ANOVA and KW
 p_par = zeros(npcs, 1);
