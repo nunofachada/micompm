@@ -9,7 +9,7 @@
 of covariance matrices by the Box's M ([License](MBoxtest_LICENSE.txt)).
 
 * [mtest](mtest.m) - Perform Box's M test to check the homogeneity of covariance
-matrices. Used as an interface for [MBoxtest](MBoxtest.m)
+matrices, used as an interface for [MBoxtest](MBoxtest.m)
 ([License](mtest_LICENSE.txt)).
 
 * [Roystest](Roystest.m) - Royston's multivariate normality test
