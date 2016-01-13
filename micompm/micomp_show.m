@@ -1,8 +1,19 @@
 function fids = micomp_show(type, c, nout, ncomp, do_plot)
-%MICOMP_SHOW Summary of this function goes here
+% MICOMP_SHOW Generate tables and plots of model-independent comparison 
+% of simulation output.
+%
+%   fids = MICOMP_SHOW(type, c, nout, ncomp, do_plot)
+%
 % Parameters:
-%     type - Table format, 0 for matlab, 1 for Latex.
-%   Detailed explanation goes here
+%    type - Table format, 0 for matlab, 1 for LaTeX.
+%       c - Output of micomp function.
+%    nout - Number of outputs or cell array with output names.
+%   ncomp - Number of comparisons or cell array with comparison names.
+% do_plot - Optional parameter, if given several plots summarizing the
+%           performed comparisons are generated.
+%
+% Outputs:
+%    fids - Handles of the generated plots, if any.
 %
 % Copyright (c) 2016 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
@@ -79,9 +90,6 @@ if type == 0 % Matlab type
 
     end;
     
-    
-    
- 
     print_sep(nout);
     fprintf(' Comp.     | Test  |');
     
@@ -127,7 +135,6 @@ if type == 0 % Matlab type
         end;
     print_sep(nout);
     end;    
-   
     
     
 elseif type == 1 % Latex type
