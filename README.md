@@ -10,7 +10,8 @@ compared.
 * [cmpoutput] - Compares one output from several runs of two or more model
 implementations.
 
-* [micomp] - ...
+* [micomp] - Perform multiple model-independent comparisons of simulation
+outputs.
 
 * [micomp_show] - ...
 
