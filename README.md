@@ -7,7 +7,8 @@ This is work-in-progress MATLAB package for comparing simulation output.
 * [grpoutputs] - Group outputs from multiple observations of the models to be
 compared.
 
-* [cmpoutput] - ...
+* [cmpoutput] - Compares one output from several runs of two or more model
+implementations.
 
 * [micomp] - ...
 
