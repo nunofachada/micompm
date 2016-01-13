@@ -15,7 +15,7 @@ outputs.
 
 * [micomp_show] - ...
 
-* [manova_check] - ...
+* [assumptions] - ...
 
 * [tikscatter] - ...
 
@@ -32,5 +32,5 @@ arXiv preprint.
 [cmpoutput]: cmpoutput.m
 [micomp]: micomp.m
 [micomp_show]: micomp_show.m
-[manova_check]: manova_check.m
+[assumptions]: assumptions.m
 [tikscatter]: tikscatter.m
