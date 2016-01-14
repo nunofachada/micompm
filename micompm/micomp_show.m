@@ -1,8 +1,8 @@
-function fids = micomp_show(type, c, nout, ncomp, do_plot)
+function [tbl, fids] = micomp_show(type, c, nout, ncomp, do_plot)
 % MICOMP_SHOW Generate tables and plots of model-independent comparison 
 % of simulation output.
 %
-%   fids = MICOMP_SHOW(type, c, nout, ncomp, do_plot)
+%   [tbl, fids] = MICOMP_SHOW(type, c, nout, ncomp, do_plot)
 %
 % Parameters:
 %    type - Table format, 0 for matlab, 1 for LaTeX.
@@ -13,6 +13,7 @@ function fids = micomp_show(type, c, nout, ncomp, do_plot)
 %           performed comparisons are generated.
 %
 % Outputs:
+%     tbl - String containing generated table.
 %    fids - Handles of the generated plots, if any.
 %
 % Copyright (c) 2016 Nuno Fachada
@@ -24,6 +25,9 @@ t = c.data;
 scores = c.scores;
 groups = c.groups;
 varexp = c.varexp;
+
+% Table string
+tbl = '';
 
 % Define output tags
 if isnumeric(nout)
@@ -56,7 +60,7 @@ fids = cell(nout, 1);
 
 if type == 0 % Matlab type
             
-    linestyles = {'-bo','-rs','-gd'}; % Improve this
+    linestyles = {'-bo', '-rs', '-gd'}; % Improve this
 
     if do_plot
         
@@ -71,12 +75,12 @@ if type == 0 % Matlab type
             title([output_tags{i} ' - Variance explained by PC']);
             
             % Cycle through comparisons
-            for j=1:ncomp
+            for j = 1:ncomp
 
                 fids{i}(j + 1) = figure();
-                gscatter(scores{i, j}(:, 1), scores{i, j}(:, 2), groups{j});
+                gscatter(scores{i, j}(:, 1), ...
+                    scores{i, j}(:, 2), groups{j});
                 title([output_tags{i} ' - comp. ' num2str(j)]);
-                
                 
                 figure(fids{i}(1));
                 plot(varexp{i, j}(1:10), linestyles{j});
@@ -87,96 +91,97 @@ if type == 0 % Matlab type
             
         end;
         
-
     end;
     
-    print_sep(nout);
-    fprintf(' Comp.     | Test  |');
+    tbl = sprintf('%s%s', tbl, print_sep(nout));
+    tbl = sprintf('%s Comp.     | Test  |', tbl);
     
-    for i=1:nout
-        fprintf(' % 14s |', output_tags{i});
+    for i = 1:nout
+        tbl = sprintf('%s % 14s |', tbl, output_tags{i});
     end;
-    fprintf('\n');
-    print_sep(nout);
+    tbl = sprintf('%s\n', tbl);
+    tbl = sprintf('%s%s', tbl, print_sep(nout));
 
-    for i=1:ncomp % Cycle through comparisons
+    for i = 1:ncomp % Cycle through comparisons
 
+        tbl = sprintf('%s % 7s   |', tbl, comp_tags{i});
 
-        fprintf(' % 7s   |', comp_tags{i});
+        % Cycle through numPCs + test tags
+        for j = 1:4
 
-        % Cycle through numPCs+test tags
-        for j=1:4
-
-            if j==1
-                fprintf(' #PCs  |');
+            if j == 1
+                tbl = sprintf('%s #PCs  |', tbl);
             elseif j==2
-                fprintf('           | MNV   |');
+                tbl = sprintf('%s           | MNV   |', tbl);
             elseif j==3
-                fprintf('           | TT    |');
+                tbl = sprintf('%s           | TT    |', tbl);
             elseif j==4
-                fprintf('           | MW    |');
+                tbl = sprintf('%s           | MW    |', tbl);
             end;
 
             % Cycle through outputs
-            for k=1:nout
-                row_idx = (i-1)*nout+k;
-                if j==1
+            for k = 1:nout
+                
+                row_idx = (i - 1) * nout + k;
+                
+                if j == 1
                     % Number of PCs, no special format
-                    fprintf(' % 14d |', t(row_idx, j));
+                    tbl = sprintf('%s % 14d |', tbl, t(row_idx, j));
                 else
                     % Properly format p-value        
-                    fprintf(' % 14.10f |', t(row_idx, j));
+                    tbl = sprintf('%s % 14.10f |', tbl, t(row_idx, j));
 
                 end;                
                  
             end;
 
-            fprintf('\n');
+            tbl = sprintf('%s\n', tbl);
         end;
-    print_sep(nout);
+    tbl = sprintf('%s%s', tbl, print_sep(nout));
     end;    
-    
-    
+
 elseif type == 1 % Latex type
     
-    for i=1:ncomp % Cycle through comparisons
+    for i = 1:ncomp % Cycle through comparisons
 
         % Print midrule
-        fprintf('\\midrule\n');
+        tbl = sprintf('%s\\midrule\n', tbl);
 
         % Print comparison tag
-        fprintf('\\multirow{5}{*}{% 10s}\n', comp_tags{i});
+        tbl = sprintf('%s\\multirow{5}{*}{% 10s}\n', tbl, comp_tags{i});
 
         % Cycle through numPCs+test tags
-        for j=1:5
+        for j = 1:5
 
-            if j==1
-                fprintf(' & $\\#$PCs ');
-            elseif j==2
-                fprintf(' & MNV      ');
-            elseif j==3
-                fprintf(' & $t$-test ');
-            elseif j==4
-                fprintf(' & MW       ');
-            elseif j==5
-                fprintf(' & PCS      ');
+            if j == 1
+                tbl = sprintf('%s & $\\#$PCs ', tbl);
+            elseif j == 2
+                tbl = sprintf('%s & MNV      ', tbl);
+            elseif j == 3
+                tbl = sprintf('%s & $t$-test ', tbl);
+            elseif j == 4
+                tbl = sprintf('%s & MW       ', tbl);
+            elseif j == 5
+                tbl = sprintf('%s & PCS      ', tbl);
             end;
 
             % Cycle through outputs
-            for k=1:nout
-                row_idx = (i-1)*nout+k;
-                if j==1
+            for k = 1:nout
+                row_idx = (i - 1) * nout + k;
+                if j == 1
                     % Number of PCs, no special format
-                    fprintf('& %d ', t(row_idx, j));
-                elseif j<5
+                    tbl = sprintf('%s& %d ', tbl, t(row_idx, j));
+                elseif j < 5
                     % Properly format p-value        
-                    fprintf(' & %14s', ltxpv(t(row_idx, j)));
+                    tbl = sprintf('%s & %14s', tbl, ltxpv(t(row_idx, j)));
                 else
                     % Scatter plot
-                    fprintf(' & \\raisebox{-.5\\height}{\\resizebox {1.2cm} {1.2cm} {%s}}', tikscatter(scores{k, i}, groups{i}));
+                    tbl = sprintf(['%s & \\raisebox{-.5\\height}{\\' ...
+                        'resizebox {1.2cm} {1.2cm} {%s}}'], ...
+                        tbl, tikscatter(scores{k, i}, groups{i}));
                 end;                
             end;
-            fprintf('\\\\\n');
+            tbl = sprintf('%s\\\\\n', tbl);
         end;
     end;
 
@@ -187,18 +192,15 @@ else % Unknown type
     
 end;
 
-
-
 end
 
-
 % Helper function for printing plain text tables
-function print_sep(nout)
+function tbl = print_sep(nout)
 
-fprintf('--------------------');
-for j=1:nout
-    fprintf('-----------------');
+tbl = '--------------------';
+for j = 1:nout
+    tbl = sprintf('%s-----------------', tbl);
 end;
-fprintf('\n');
+tbl = sprintf('%s\n', tbl);
 
 end
