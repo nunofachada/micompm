@@ -1,6 +1,7 @@
 ### Summary
 
-This is work-in-progress MATLAB package for comparing simulation output.
+_micompm_ is a MATLAB package for comparing simulation output, ported from
+[micompr], the original [R] package.
 
 ### List of functions
 
@@ -13,9 +14,11 @@ implementations.
 * [micomp] - Perform multiple model-independent comparisons of simulation
 outputs.
 
-* [micomp_show] - ...
+* [micomp_show] - Generate tables and plots of model-independent comparison of
+simulation output.
 
-* [test_assumptions] - ...
+* [test_assumptions] - Get assumptions for the parametric tests performed in
+a comparison.
 
 _micompm_ uses additional [helper] and [3rd party] functions.
 
@@ -35,3 +38,5 @@ arXiv preprint.
 [test_assumptions]: micompm/test_assumptions.m
 [helper]: helpers
 [3rd party]: 3rdparty
+[micompr]: https://github.com/fakenmc/micompr
+[R]: https://www.r-project.org/
