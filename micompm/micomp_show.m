@@ -32,7 +32,7 @@ tbl = '';
 % Define output tags
 if isnumeric(nout)
     output_tags = cell(nout, 1);
-    for i=1:nout
+    for i = 1:nout
         output_tags{i} = ['Output ' num2str(i)];
     end;
 elseif iscell(nout)
@@ -94,7 +94,7 @@ if type == 0 % Matlab type
     end;
     
     tbl = sprintf('%s%s', tbl, print_sep(nout));
-    tbl = sprintf('%s Comp.     | Test  |', tbl);
+    tbl = sprintf('%s| Comp.    | Test  |', tbl);
     
     for i = 1:nout
         tbl = sprintf('%s % 14s |', tbl, output_tags{i});
@@ -104,7 +104,7 @@ if type == 0 % Matlab type
 
     for i = 1:ncomp % Cycle through comparisons
 
-        tbl = sprintf('%s % 7s   |', tbl, comp_tags{i});
+        tbl = sprintf('%s| % 7s  |', tbl, comp_tags{i});
 
         % Cycle through numPCs + test tags
         for j = 1:4
@@ -112,11 +112,11 @@ if type == 0 % Matlab type
             if j == 1
                 tbl = sprintf('%s #PCs  |', tbl);
             elseif j==2
-                tbl = sprintf('%s           | MNV   |', tbl);
+                tbl = sprintf('%s|          | MNV   |', tbl);
             elseif j==3
-                tbl = sprintf('%s           | TT    |', tbl);
+                tbl = sprintf('%s|          | TT    |', tbl);
             elseif j==4
-                tbl = sprintf('%s           | MW    |', tbl);
+                tbl = sprintf('%s|          | MW    |', tbl);
             end;
 
             % Cycle through outputs
@@ -142,15 +142,33 @@ if type == 0 % Matlab type
 
 elseif type == 1 % Latex type
     
-    for i = 1:ncomp % Cycle through comparisons
+    % Begin LaTeX table
+    tbl = sprintf('%s\\begin{tabular}{cl%s}\n', tbl, repmat('r', 1, nout));
+    
+    % Add toprule
+    tbl = sprintf('%s\\toprule\n', tbl);
 
-        % Print midrule
+    % Header
+    tbl = sprintf(['%s\\multirow{2}{*}{Comp.} & \\multirow{2}{*}{Test}' ...
+        ' & \\multicolumn{%d}{c}{Outputs} \\\\\n'], ...
+        tbl, nout);
+    
+    % cmidrule
+    tbl = sprintf('%s\\cmidrule(l){3-%d}\n', tbl, 2 + nout);
+    
+    % Sub-header
+    tbl = sprintf('%s & & %s \\\\\n', tbl, strjoin(output_tags', ' & '));
+
+    % Cycle through comparisons
+    for i = 1:ncomp
+
+        % Add midrule
         tbl = sprintf('%s\\midrule\n', tbl);
 
-        % Print comparison tag
+        % Add comparison tag
         tbl = sprintf('%s\\multirow{5}{*}{% 10s}\n', tbl, comp_tags{i});
 
-        % Cycle through numPCs+test tags
+        % Cycle through numPCs + test tags
         for j = 1:5
 
             if j == 1
@@ -185,6 +203,11 @@ elseif type == 1 % Latex type
         end;
     end;
 
+    % Bottom line
+    tbl = sprintf('%s\\bottomrule\n', tbl);
+    
+    % Close table
+    tbl = sprintf('%s\\end{tabular}\n', tbl);
     
 else % Unknown type
     
