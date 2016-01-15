@@ -60,36 +60,75 @@ fids = cell(nout, 1);
 
 if type > 0 % Plain text table
             
-    linestyles = {'-bo', '-rs', '-gd'}; % Improve this
-
     if type > 1 % Generate plots
+        
+        % Markers for score plots
+        markers = ...
+            {'ob', 'xr', 'sg', 'dk', '*m', '+k', '^c', '>y', 'pr', 'hb'};
+
+        % Structure containing figure IDs
+        fids = struct('main', 0, 'subplots', zeros(ncomp + 1, nout));
+        
+        % Main figure
+        fids.main = figure();
         
         % Cycle through outputs
         for i = 1:nout
+            
+            % Matrix of explained variance for current output
+            ve = zeros(ncomp, 10);
     
-            fids{i} = zeros(1 + ncomp, 1);
-            
-            fids{i}(1) = figure();
-            hold on;
-            grid on;
-            title([output_tags{i} ' - Variance explained by PC']);
-            
             % Cycle through comparisons
             for j = 1:ncomp
 
-                fids{i}(j + 1) = figure();
-                gscatter(scores{i, j}(:, 1), ...
-                    scores{i, j}(:, 2), groups{j});
-                title([output_tags{i} ' - comp. ' num2str(j)]);
+                % Allocate space for score plot
+                fids.subplots(j, i) = ...
+                    subplot(ncomp + 1, nout, (j - 1) * nout + i);
+                hold on;
                 
-                figure(fids{i}(1));
-                plot(varexp{i, j}(1:10), linestyles{j});
+                % Generate score plot
+                grps = unique(groups{j});
+                for k = grps
+                    scrs = scores{i, j}(k == groups{j}, 1:2);
+                    plot(scrs(:, 1), scrs(:, 2), markers{k});
+                end;
+                
+                title([output_tags{i} ' (' comp_tags{j} ')']);
+                
+                % Keep explained variance to plot later
+                ve(j, 1:10) = varexp{i, j}(1:10);
+                
+                if i == nout
+                    
+                    % Place groups legend
+                    pos = get(fids.subplots(j, nout), 'Position');
+                    lh = legend(fids.subplots(j, nout), ...
+                        num2str((1:numel(grps))'));
+                    pos(1) = 0.05;
+                    set(lh, 'Position', pos .* [1 1 0.4 0.5]);
+                    
+                end;
                 
             end;
-                
-            legend(comp_tags);
+
+            % Allocate space for explained variance plot
+            fids.subplots(ncomp + 1, i) = ...
+                subplot(ncomp + 1, nout, ncomp * nout + i);
+            
+            % Generate explained variance plot
+            plot(1:10, ve', '-+');
+            grid on;
+            xlabel('PC');
+            ylabel('%var');
             
         end;
+        
+        % Legend for explained variance plots
+        fids.subplots(ncomp + 1, nout)
+        pos = get(fids.subplots(ncomp + 1, nout), 'Position');
+        pos(1) = 0.05;
+        lh = legend(fids.subplots(ncomp + 1, nout), comp_tags);
+        set(lh, 'Position', pos .* [1 1 0.4 0.5]);
         
     end;
     
