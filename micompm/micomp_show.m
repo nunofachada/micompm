@@ -145,6 +145,17 @@ if type > 0 % Plain text table
 
         tbl = sprintf('%s| % 7s  |', tbl, comp_tags{i});
 
+        % Test names
+        if numel(unique(c.groups{i, 1})) == 2
+            % Two-sample tests
+            partest = 'TT';
+            npartest = 'MW';
+        else
+            % n-sample tests
+            partest = 'ANOVA';
+            npartest = 'KW';
+        end;
+
         % Cycle through numPCs + test tags
         for j = 1:4
 
@@ -153,9 +164,9 @@ if type > 0 % Plain text table
             elseif j==2
                 tbl = sprintf('%s|          | MNV   |', tbl);
             elseif j==3
-                tbl = sprintf('%s|          | TT    |', tbl);
+                tbl = sprintf('%s|          | %-5s |', tbl, partest);
             elseif j==4
-                tbl = sprintf('%s|          | MW    |', tbl);
+                tbl = sprintf('%s|          | %-5s |', tbl, npartest);
             end;
 
             % Cycle through outputs
@@ -168,7 +179,7 @@ if type > 0 % Plain text table
                     tbl = sprintf('%s % 14d |', tbl, t(row_idx, j));
                 else
                     % Properly format p-value        
-                    tbl = sprintf('%s % 14.10f |', tbl, t(row_idx, j));
+                    tbl = sprintf('%s % 14.6g |', tbl, t(row_idx, j));
 
                 end;                
                  
@@ -200,6 +211,17 @@ elseif type ==  0 % LaTeX table
 
     % Cycle through comparisons
     for i = 1:ncomp
+        
+        % Test names
+        if numel(unique(c.groups{i, 1})) == 2
+            % Two-sample tests
+            partest = '$t$-test';
+            npartest = 'MW';
+        else
+            % n-sample tests
+            partest = 'ANOVA';
+            npartest = 'KW';
+        end;
 
         % Add midrule
         tbl = sprintf('%s\\midrule\n', tbl);
@@ -213,11 +235,11 @@ elseif type ==  0 % LaTeX table
             if j == 1
                 tbl = sprintf('%s & $\\#$PCs ', tbl);
             elseif j == 2
-                tbl = sprintf('%s & MNV      ', tbl);
+                tbl = sprintf('%s & MNV ', tbl);
             elseif j == 3
-                tbl = sprintf('%s & $t$-test ', tbl);
+                tbl = sprintf('%s & %s ', tbl, partest);
             elseif j == 4
-                tbl = sprintf('%s & MW       ', tbl);
+                tbl = sprintf('%s & %s ', tbl, npartest);
             elseif j == 5
                 tbl = sprintf('%s & PCS      ', tbl);
             end;
