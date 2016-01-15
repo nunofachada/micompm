@@ -1,16 +1,16 @@
-function [tbl, fids] = micomp_show(type, c, nout, ncomp, do_plot)
+function [tbl, fids] = micomp_show(type, c, nout, ncomp)
 % MICOMP_SHOW Generate tables and plots of model-independent comparison 
 % of simulation output.
 %
-%   [tbl, fids] = MICOMP_SHOW(type, c, nout, ncomp, do_plot)
+%   [tbl, fids] = MICOMP_SHOW(type, c, nout, ncomp)
 %
 % Parameters:
-%    type - Table format, 0 for matlab, 1 for LaTeX.
+%    type - Table format: 0 for LaTeX table, 1 for plain text table, 2 for
+%           plain text table with MATLAB plots summarizing the performed
+%           comparisons.
 %       c - Output of micomp function.
 %    nout - Number of outputs or cell array with output names.
 %   ncomp - Number of comparisons or cell array with comparison names.
-% do_plot - Optional parameter, if given several plots summarizing the
-%           performed comparisons are generated.
 %
 % Outputs:
 %     tbl - String containing generated table.
@@ -58,14 +58,14 @@ end;
 % Image IDs if plotting enabled
 fids = cell(nout, 1);
 
-if type == 0 % Matlab type
+if type > 0 % Plain text table
             
     linestyles = {'-bo', '-rs', '-gd'}; % Improve this
 
-    if do_plot
+    if type > 1 % Generate plots
         
         % Cycle through outputs
-        for i=1:nout
+        for i = 1:nout
     
             fids{i} = zeros(1 + ncomp, 1);
             
@@ -140,7 +140,7 @@ if type == 0 % Matlab type
     tbl = sprintf('%s%s', tbl, print_sep(nout));
     end;    
 
-elseif type == 1 % Latex type
+elseif type ==  0 % LaTeX table
     
     % Begin LaTeX table
     tbl = sprintf('%s\\begin{tabular}{cl%s}\n', tbl, repmat('r', 1, nout));
