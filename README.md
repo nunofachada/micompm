@@ -1,7 +1,7 @@
 ### Summary
 
-_micompm_ is a MATLAB package for comparing simulation output, ported from
-[micompr], the original [R] package.
+_micompm_ is a MATLAB/Octave package for comparing simulation output, ported
+from [micompr], the original [R] package.
 
 ### List of functions
 

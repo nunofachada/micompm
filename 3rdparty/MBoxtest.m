@@ -62,6 +62,11 @@ function [MB X2 v P] = MBoxtest(X, alpha)
 %             Roberto Carmona-Pina.
 %  November 2002.
 %
+% Changes by Nuno Fachada (Copyright 2016), according to the terms of the
+% BSD license:
+%  * Supress output
+%  * Other small code style improvements
+%
 %  To cite this file, this would be an appropriate format:
 %  Trujillo-Ortiz, A., R. Hernandez-Walls, K. Castro-Morales, A. Espinoza-Tenorio, A. Guia-Ramirez
 %    and R. Carmona-Pina. (2002). MBoxtest: Multivariate Statistical Testing for the Homogeneity of 
@@ -82,7 +87,7 @@ if nargin < 2,
 end; 
 
 if (alpha <= 0 || alpha >= 1)
-   fprintf('Warning: significance level must be between 0 and 1\n');
+   warning('Significance level must be between 0 and 1\n');
    return;
 end;
 
@@ -145,18 +150,18 @@ v=(p*(p+1)*(g-1))/2;  %Degrees of freedom.
 X2 = real(X2);
 
 P=1-chi2cdf(X2,v);  %Significance value associated to the observed Chi-square statistic.
-disp(' ')
-;
-fprintf('------------------------------------------------\n');
-disp('     MBox     Chi-sqr.         df          P')
-fprintf('------------------------------------------------\n');
-fprintf('%10.4f%11.4f%12.i%13.4f\n',MB,X2,v,P);
-fprintf('------------------------------------------------\n');
-   if P >= alpha
-      disp('Covariance matrices are not significantly different.');
-   else
-      disp('Covariance matrices are significantly different.');
-   end
+% disp(' ')
+% ;
+% fprintf('------------------------------------------------\n');
+% disp('     MBox     Chi-sqr.         df          P')
+% fprintf('------------------------------------------------\n');
+% fprintf('%10.4f%11.4f%12.i%13.4f\n',MB,X2,v,P);
+% fprintf('------------------------------------------------\n');
+%    if P >= alpha
+%       disp('Covariance matrices are not significantly different.');
+%    else
+%       disp('Covariance matrices are significantly different.');
+%    end
 else
 %To obtain the F approximation we first define Co, which combined to the before C value
 %are used to estimate the denominator degrees of freedom (v2); resulting two possible cases. 
@@ -166,18 +171,18 @@ Co=(((p-1)*(p+2))/(6*(g-1)))*(suma2-(1/(deno^2)));
    v21=fix((v1+2)/(Co-(C^2)));  %Denominator degrees of freedom.
    F1=MB*((1-C-(v1/v21))/v1);  %F approximation.
    P1=1-fcdf(F1,v1,v21);  %Significance value associated to the observed F statistic.
-disp(' ')
-  ;
-fprintf('------------------------------------------------------------\n');
-disp('     MBox         F           df1          df2          P')
-fprintf('------------------------------------------------------------\n');
-fprintf('%10.4f%11.4f%11.i%14.i%13.4f\n',MB,F1,v1,v21,P1);
-fprintf('------------------------------------------------------------\n');   
-   if P1 >= alpha
-      disp('Covariance matrices are not significantly different.');
-   else
-      disp('Covariance matrices are significantly different.');
-   end
+% disp(' ')
+%   ;
+% fprintf('------------------------------------------------------------\n');
+% disp('     MBox         F           df1          df2          P')
+% fprintf('------------------------------------------------------------\n');
+% fprintf('%10.4f%11.4f%11.i%14.i%13.4f\n',MB,F1,v1,v21,P1);
+% fprintf('------------------------------------------------------------\n');   
+%    if P1 >= alpha
+%       disp('Covariance matrices are not significantly different.');
+%    else
+%       disp('Covariance matrices are significantly different.');
+%    end
    
  else 
    v1=(p*(p+1)*(g-1))/2;  %Numerator degrees of freedom.
@@ -185,18 +190,18 @@ fprintf('------------------------------------------------------------\n');
    b=v22/(1-C-(2/v22));
    F2=(v22*MB)/(v1*(b-MB));  %F approximation.
    P2=1-fcdf(F2,v1,v22);  %Significance value associated to the observed F statistic.
-disp(' ') 
-  ;
-fprintf('------------------------------------------------------------\n');
-disp('     MBox         F           df1          df2          P')
-fprintf('------------------------------------------------------------\n');
-fprintf('%10.4f%11.4f%11.i%14.i%13.4f\n',MB,F2,v1,v22,P2);
-fprintf('------------------------------------------------------------\n');
+% disp(' ') 
+%   ;
+% fprintf('------------------------------------------------------------\n');
+% disp('     MBox         F           df1          df2          P')
+% fprintf('------------------------------------------------------------\n');
+% fprintf('%10.4f%11.4f%11.i%14.i%13.4f\n',MB,F2,v1,v22,P2);
+% fprintf('------------------------------------------------------------\n');
    
-   if P2 >= alpha
-      disp('Covariance matrices are not significantly different.');
-   else
-      disp('Covariance matrices are significantly different.');
-   end
+%    if P2 >= alpha
+%       disp('Covariance matrices are not significantly different.');
+%    else
+%       disp('Covariance matrices are significantly different.');
+%    end
  end
 end

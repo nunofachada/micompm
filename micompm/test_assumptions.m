@@ -47,8 +47,7 @@ for i = 1:numgrp
     
     % Multivariate normality:
     % Perform test for first npcs variables in current group
-    [~, p] = evalc('Roystest(datagrp, 0.05);');
-    p_mv(i) = p;
+    p_mv(i) = Roystest(datagrp, 0.05);
     
 end;
 
@@ -57,5 +56,5 @@ if size(groups, 1) < size(groups, 2)
     groups = groups';
 end;
 
-[~, mbox] = evalc('mtest(groups, data, 0.1);');
+mbox = mtest(groups, data, 0.1);
 p_hcvm = mbox.pValue;

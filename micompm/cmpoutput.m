@@ -72,24 +72,48 @@ npcs = find(cumvar > ve, 1);
 p_par = zeros(npcs, 1);
 p_npar = zeros(npcs, 1);
 
-% Perform ANOVA and KW on each PC
-if numel(unique(groups)) > 2
-    
+% Number of unique groups
+ugrps = unique(groups);
+ngrps = numel(ugrps);
+
+% How many groups?
+if ngrps > 2
+
+    % More than two groups, perform ANOVA and KW on each PC
     for i = 1:npcs
-        p_par(i) = anova1(score(:, i), groups, 'off');
-        p_npar(i) = kruskalwallis(score(:, i), groups, 'off');
+        if is_octave()
+            p_par(i) = anova(score(:, i), groups);
+            cellscore = cell(1, ngrps);
+            for j = 1:ngrps
+                idxs = find(groups == ugrps(j));
+                cellscore{j} = score(idxs(1):idxs(numel(idxs)), i);
+            end;
+            p_npar(i) = kruskal_wallis_test(cellscore{:});
+        else
+            p_par(i) = anova1(score(:, i), groups, 'off');
+            p_npar(i) = kruskalwallis(score(:, i), groups, 'off');
+        end;
     end;
     
-else % Only two samples, use ttest and mann-whitney instead
+else
+    
+    % Only two groups, use t-test and Mann-Whitney instead
     
     % Find group change index
-    gci = find(groups == 2,1);
+    gci = find(groups == 2, 1);
     
     for i = 1:npcs
-        [~, p_par(i)] = ttest2(score(1:(gci - 1), i), ...
-            score(gci:numel(groups), i));
-        p_npar(i) = ranksum(score(1:(gci - 1), i), ...
-            score(gci:numel(groups), i));
+        if is_octave()
+            p_par(i) = t_test_2(score(1:(gci - 1), i), ...
+                score(gci:numel(groups), i));
+            p_npar(i) = u_test(score(1:(gci - 1), i), ...
+                score(gci:numel(groups), i));
+        else
+            [~, p_par(i)] = ttest2(score(1:(gci - 1), i), ...
+                score(gci:numel(groups), i));
+            p_npar(i) = ranksum(score(1:(gci - 1), i), ...
+                score(gci:numel(groups), i));
+        end;
     end;
 end;
 

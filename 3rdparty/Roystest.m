@@ -121,6 +121,12 @@ function P = Roystest(X,alpha)
 %
 % Copyright. November 20, 2007.
 %
+% Changes by Nuno Fachada (Copyright 2016), according to the terms of the
+% BSD license:
+%  * Supress output
+%  * Add Octave compatibility
+%  * Other small code style improvements
+%
 % To cite this file, this would be an appropriate format:
 % Trujillo-Ortiz, A., R. Hernandez-Walls, K. Barba-Rojo and
 %   L. Cupul-Magana. (2007). Roystest:Royston's Multivariate Normality Test.   
@@ -151,21 +157,19 @@ if nargin < 2,
 end
 
 if (alpha <= 0 || alpha >= 1),
-    fprintf(['Warning: Significance level error; must be 0 <'...
+    warning(['Warning: Significance level error; must be 0 <'...
         ' alpha < 1 \n']);
     return;
 end
 
 if nargin < 1,
     error('Requires at least one input argument.');
-    return;
 end
 
 [n,p] = size(X);
 
 if (n <= 3),
     error('n is too small.');
-    return,
 elseif (n >= 4) && (n <=11),
     x = n;
     g = -2.273 + 0.459*x;
@@ -186,7 +190,6 @@ elseif (n >= 12) && (n <=2000),
     end
 else
     error('n is not in the proper size range.'); %error('n is too large.');return,
-    return,
 end
 
 for j = 1:p,
@@ -196,30 +199,34 @@ end
 u = 0.715;
 v = 0.21364 + 0.015124*(log(n))^2 - 0.0018034*(log(n))^3;
 l = 5;
-C = corrcoef(X); %correlation matrix
+if is_octave()
+    C = corr(X);
+else
+    C = corrcoef(X); %correlation matrix
+end;
 NC = (C.^l).*(1 - (u*(1 - C).^u)/v); %transformed correlation matrix
 T = sum(sum(NC)) - p; %total
 mC = T/(p^2 - p); %average correlation
 e = p/(1 + (p - 1)*mC); %equivalent degrees of freedom
 H = (e*(sum(R)))/p; %Royston's statistic
-P = 1 - chi2cdf(H,e); %P-value
+P = 1 - chi2cdf(real(H), real(e)); %P-value
 
-disp(' ')
-disp('Royston''s Multivariate Normality Test')
-disp('-------------------------------------------------------------------')
-fprintf('Number of variables: %i\n', p);
-fprintf('Sample size: %i\n', n);
-disp('-------------------------------------------------------------------')
-fprintf('Royston''s statistic: %3.6f\n', H);
-fprintf('Equivalent degrees of freedom: %3.6f\n', e);
-fprintf('P-value associated to the Royston''s statistic: %3.6f\n', P);
-fprintf('With a given significance = %3.3f\n', alpha);
-if P >= alpha;
-    disp('Data analyzed have a normal distribution.');
-else
-    disp('Data analyzed do not have a normal distribution.');
-end
-disp('-------------------------------------------------------------------')
+% disp(' ')
+% disp('Royston''s Multivariate Normality Test')
+% disp('-------------------------------------------------------------------')
+% fprintf('Number of variables: %i\n', p);
+% fprintf('Sample size: %i\n', n);
+% disp('-------------------------------------------------------------------')
+% fprintf('Royston''s statistic: %3.6f\n', H);
+% fprintf('Equivalent degrees of freedom: %3.6f\n', e);
+% fprintf('P-value associated to the Royston''s statistic: %3.6f\n', P);
+% fprintf('With a given significance = %3.3f\n', alpha);
+% if P >= alpha;
+%     disp('Data analyzed have a normal distribution.');
+% else
+%     disp('Data analyzed do not have a normal distribution.');
+% end
+% disp('-------------------------------------------------------------------')
 
 %-----------------------------------
 function [W] = ShaWilstat(x)
