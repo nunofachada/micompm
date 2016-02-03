@@ -2,6 +2,10 @@
 
 #### List of helper functions
 
+* [centerscale](centerscale.m) - Center and scale input vector using one of the
+specified methods: 'center', 'auto', 'range', 'iqrange', 'vast', 'pareto' and
+'level'.
+
 * [is_octave](is_octave.m) - Checks if the code is running in Octave or
 MATLAB.
 

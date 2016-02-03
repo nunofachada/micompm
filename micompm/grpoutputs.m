@@ -2,11 +2,13 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 % GRPOUTPUTS Group outputs from multiple observations of the models to
 % be compared.
 %
-%   [outputs, groups] = GRPOUTPUTS(ccat, folder1, files1, folder2, files2)
+%   [outputs, groups] = GRPOUTPUTS(ccat, vargin)
 %
 % Parameters:
-%        ccat - If true add an additional output which corresponds to the
-%               concatenation of all outputs, properly range scaled.
+%        ccat - If not 0 or '', add an additional output which corresponds
+%               to the concatenation of all outputs, centered and scaled
+%               using one of the following methods: 'center', 'auto',
+%               'range', 'iqrange', 'vast', 'pareto' or 'level'.
 %    varargin - Pairs of folder and files containing simulation output to
 %               open in folder.
 %
@@ -17,6 +19,8 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 %             of observations.
 %    groups - Vector indicating to which group individual observations
 %             belong to.
+%
+% See also CENTERSCALE.
 %
 % Copyright (c) 2016 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
@@ -30,7 +34,7 @@ groups = [];
 [n_outputs, n_iters] = get_data_dims(varargin{1}, varargin{2});
 
 % Add an extra concatenated output?
-oxtra = ccat > 0;
+if ccat, oxtra = 1; else oxtra = 0; end;
 
 % Cycle through all file sets
 for k = 1:2:numel(varargin)
@@ -81,7 +85,7 @@ for k = 1:2:numel(varargin)
                 idx1 = ((j - 1) * n_iters + 1);
                 idx2 = (j * n_iters);
                 set_outputs{n_outputs + 1}(idx1:idx2, i) =  ...
-                    rangescale(data(:, j));
+                    centerscale(data(:, j), ccat);
                 
             end;
 
@@ -121,13 +125,4 @@ function [n_outputs, n_iters] = get_data_dims(folder, files)
     % Determine number of outputs and iterations
     [n_iters, n_outputs] = size(data);
     
-end
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
-% Helper function to range scale outputs %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
-function v_scaled = rangescale(v)
-
-v_scaled = (v - mean(v)) / (max(v) - min(v));
-
 end

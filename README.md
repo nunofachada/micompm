@@ -29,7 +29,7 @@ arXiv preprint.
 
 ### Limitations
 
-This port has the following limitations when compared with the original [R]
+This port has the following limitations when compared with the original R
 [implementation][micompr]:
 
 * It does not support outputs with different lengths.

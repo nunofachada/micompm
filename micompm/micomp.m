@@ -5,8 +5,12 @@ function c = micomp(nout, ccat, ve, varargin)
 %    c = MICOMP(nout, ccat, ve, varargin)
 %
 % Parameters:
-%      nout - Number of outputs.
-%      ccat - Create an additional, concatenated output?
+%      nout - Number of outputs (including the optional concatenated
+%             output).
+%      ccat - If not 0 or '', add an additional output which corresponds
+%             to the concatenation of all outputs, centered and scaled
+%             using one of the following methods: 'center', 'auto',
+%             'range', 'iqrange', 'vast', 'pareto' or 'level'.
 %        ve - Percentage (between 0 and 1) of variance explained by the q
 %             principal components (i.e. number of dimensions) used in
 %             MANOVA.
@@ -31,6 +35,8 @@ function c = micomp(nout, ccat, ve, varargin)
 %                    to the percentage of variance explained by individual
 %                    principal components for the respective 
 %                    output/comparison pair.
+%
+% See also GRPOUTPUTS, CENTERSCALE.
 %
 % Copyright (c) 2016 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
