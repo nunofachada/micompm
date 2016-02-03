@@ -27,6 +27,15 @@ _micompm_ uses additional [helper] and [3rd party] functions.
 [Model-independent comparison of simulation output](http://arxiv.org/abs/1509.09174),
 arXiv preprint.
 
+### Limitations
+
+This port has the following limitations when compared with the original [R]
+[implementation][micompr]:
+
+* It does not support outputs with different lengths.
+* It does not directly provide _p_-values adjusted with the weighted Bonferroni
+procedure.
+
 ### License
 
 [MIT License](LICENSE)
