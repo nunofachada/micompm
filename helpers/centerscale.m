@@ -16,10 +16,9 @@ function vcs = centerscale(v, type)
 %     vcs - Center and scaled vector using the specified method.
 %
 % Reference:
-%    "Centering, scaling, and transformations: improving the biological
-%     information content of metabolomics data"
-%     R. Berg, H. Hoefsloot, J. Westerhuis, A. Smilde and M. Werf
-%     BMC Genomics (2006)
+%     R. Berg, H. Hoefsloot, J. Westerhuis, A. Smilde and M. Werf (2006).
+%     "Centering, scaling, and transformations: improving the biological
+%     information content of metabolomics data". BMC Genomics 7:142
 %     DOI: 10.1186/1471-2164-7-142
 %
 % Copyright (c) 2016 Nuno Fachada
