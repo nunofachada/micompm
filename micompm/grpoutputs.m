@@ -1,16 +1,16 @@
 function [outputs, groups] = grpoutputs(ccat, varargin)
-% GRPOUTPUTS Group outputs from multiple observations of the models to
-% be compared.
+% GRPOUTPUTS Load and group outputs from files containing multiple
+% observations of the groups to be compared.
 %
 %   [outputs, groups] = GRPOUTPUTS(ccat, vargin)
 %
 % Parameters:
-%        ccat - If not 0 or '', add an additional output which corresponds
-%               to the concatenation of all outputs, centered and scaled
-%               using one of the following methods: 'center', 'auto',
-%               'range', 'iqrange', 'vast', 'pareto' or 'level'.
-%    varargin - Pairs of folder and files containing simulation output to
-%               open in folder.
+%        ccat - Centering and scaling method for additional concatenated
+%               output. Available methods include 'center', 'auto',
+%               'range', 'iqrange', 'vast', 'pareto' or 'level'. If set to
+%               0 or '' no additional output is added.
+%    varargin - Pairs of folder and files containing outputs to load and
+%               group.
 %
 % Outputs:
 %   outputs - Cell array containing grouped outputs. Each cell is
@@ -22,7 +22,7 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 %
 % See also CENTERSCALE.
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %

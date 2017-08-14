@@ -7,7 +7,7 @@ function lvalue = ltxpv(pvalue, minpv, ulims)
 %   lvalue = LTXPV(pvalue, minpv, ulims)
 %
 % Parameters:
-%   value - P-value to format.
+%  pvalue - P-value to format.
 %   minpv - Minimum displayable value (optional, default = 0.001).
 %   ulims - Optional vector of two scalar containing the values below which 
 %           the p-values will be underline or double-underline, 
@@ -28,7 +28,7 @@ function lvalue = ltxpv(pvalue, minpv, ulims)
 %             * If p-value is less than ulims(2) it will be 
 %               double-underlined.
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %

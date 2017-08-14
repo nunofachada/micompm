@@ -1,21 +1,20 @@
 function c = micomp(nout, ccat, ve, varargin)
-% MICOMP Perform multiple model-independent comparisons of simulation
-% outputs.
+% MICOMP Performs multiple independent comparisons of output observations.
 %
 %    c = MICOMP(nout, ccat, ve, varargin)
 %
 % Parameters:
 %      nout - Number of outputs (including the optional concatenated
 %             output).
-%      ccat - If not 0 or '', add an additional output which corresponds
-%             to the concatenation of all outputs, centered and scaled
-%             using one of the following methods: 'center', 'auto',
-%             'range', 'iqrange', 'vast', 'pareto' or 'level'.
+%      ccat - Centering and scaling method for additional concatenated
+%             output. Available methods include 'center', 'auto',
+%             'range', 'iqrange', 'vast', 'pareto' or 'level'. If set to
+%             0 or '' no additional output is added.
 %        ve - Percentage (between 0 and 1) of variance explained by the q
 %             principal components (i.e. number of dimensions) used in
 %             MANOVA.
-%  varargin - Each variable argument is a cell of folder + files pairs
-%             which defines a comparison.
+%  varargin - Each variable argument is a cell of folder and files pairs
+%             defining a comparison.
 %
 % Outputs:
 %         c - A struct with the following fields: 
@@ -36,9 +35,9 @@ function c = micomp(nout, ccat, ve, varargin)
 %                    principal components for the respective 
 %                    output/comparison pair.
 %
-% See also GRPOUTPUTS, CENTERSCALE.
+% See also GRPOUTPUTS, CMPOUTPUT, CENTERSCALE.
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %

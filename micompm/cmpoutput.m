@@ -1,9 +1,8 @@
 function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
     cmpoutput(ve, data, groups, summary)
-% CMPOUTPUT Compares one output from several runs of two or more model
-% implementations.
+% CMPOUTPUT Compares output observations from two or more groups.
 %
-%    [npcs, p_mnv, p_anv, p_kw, score, varexp] = ...
+%    [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
 %       CMPOUTPUT(ve, data, groups, summary)
 %
 % Parameters:
@@ -11,29 +10,29 @@ function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
 %             principal components (i.e. number of dimensions) used in
 %             MANOVA.
 %      data - An n x m matrix, where n is the total number of output
-%             observations (runs) and m is the number of variables (i.e.
-%             output length).
+%             observations and m is the number of variables (i.e. output
+%             length).
 %    groups - Vector of integers specifying the group to which individual
 %             observations are associated with.
-%   summary - Optional argument, which if given, will indicate the function
-%             to print a comparison summary.
+%   summary - Set this optional argument to 0 to suppress printing the
+%             comparison summary.
 %
 % Outputs:
 %      npcs - Number of principal components which explain ve percentage of
 %             variance.
 %     p_mnv - P-values for the MANOVA test for npcs principal components.
-%     p_anv - Vector of p-values for the parametric test applied to groups
+%     p_par - Vector of p-values for the parametric test applied to groups
 %             along each principal component (t-test for 2 groups, ANOVA
 %             for more than 2 groups).
-%      p_kw - Vector of p-values for the non-parametric test applied to
+%    p_npar - Vector of p-values for the non-parametric test applied to
 %             groups along each principal component (Mann-Whitney U test
 %             for 2 groups, Kruskal-Wallis test for more than 2 groups).
-%     score - n x (n - 1) matrix containing projections of simulation
-%             output data in the principal components space. Rows
-%             correspond to observations, columns to principal components.
+%     score - n x (n - 1) matrix containing projections of output data in
+%             the principal components space. Rows correspond to
+%             observations, columns to principal components.
 %    varexp - Percentage of variance explained by each principal component.
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %
@@ -49,7 +48,7 @@ if numel(groups) ~= size(data, 1)
         'as the number of rows in data']);
 end;
 
-% Print summary?
+% Print summary by default
 if nargin < 4
     summary = 1;
 end;

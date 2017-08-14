@@ -1,6 +1,6 @@
 function [p_uv, p_mv, p_hcvm] = test_assumptions(data, groups, npcs)
-% TEST_ASSUMPTIONS Get assumptions for the parametric tests performed in
-% a comparison.
+% TEST_ASSUMPTIONS Verify the assumptions for parametric tests applied to
+% the comparison of output observations.
 %
 %   [p_uv, p_mv, p_hcvm] = TEST_ASSUMPTIONS(data, groups, npcs)
 %
@@ -17,7 +17,7 @@ function [p_uv, p_mv, p_hcvm] = test_assumptions(data, groups, npcs)
 %  p_hcvm - P-value of the Box's M test for the homogeneity of covariance
 %           matrices.
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %

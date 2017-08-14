@@ -1,6 +1,6 @@
 function [tbl, fids] = micomp_show(type, c, nout, ncomp)
-% MICOMP_SHOW Generate tables and plots of model-independent comparison 
-% of simulation output.
+% MICOMP_SHOW Generate tables and plots of model-independent comparison of
+% observations.
 %
 %   [tbl, fids] = MICOMP_SHOW(type, c, nout, ncomp)
 %
@@ -16,7 +16,7 @@ function [tbl, fids] = micomp_show(type, c, nout, ncomp)
 %     tbl - String containing generated table.
 %    fids - Handles of the generated plots, if any.
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %
