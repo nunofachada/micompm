@@ -1,9 +1,9 @@
 function vcs = centerscale(v, type)
 % CENTERSCALE Center and scale input vector using the specified method.
 % Available methods include 'center', 'auto', 'range', 'iqrange', 'vast',
-% 'pareto' and 'level', all of which are described in the reference provided
-% below, except for 'iqrange', in which the centered vector is divided by
-% the interquartile range.
+% 'pareto' and 'level', all of which are described in the reference
+% provided below, except for 'iqrange', in which the centered vector is
+% divided by the interquartile range.
 %
 %   vcs = CENTERSCALE(v, type)
 %
@@ -21,7 +21,7 @@ function vcs = centerscale(v, type)
 %     information content of metabolomics data". BMC Genomics 7:142
 %     DOI: 10.1186/1471-2164-7-142
 %
-% Copyright (c) 2016 Nuno Fachada
+% Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %
@@ -44,4 +44,3 @@ switch type
     otherwise
         error('Unknown scaling method');
 end
-
