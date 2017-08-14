@@ -27,8 +27,26 @@ function test_suite = tests_all
 % Test function grpoutputs
 function test_grpoutputs
 
-    error('Test not implemented');
+    % Load data with grpoutputs
+    [o_ok, g_ok] = grpoutputs(0, ...
+        '../data/nl_ok', 'stats400v1*.tsv', ...
+        '../data/j_ex_ok', 'stats400v1*.tsv');
+    [o_noshuff, g_noshuff] = grpoutputs(0, ...
+        '../data/nl_ok', 'stats400v1*.tsv', ...
+        '../data/j_ex_noshuff', 'stats400v1*.tsv');
+    [o_diff, g_diff] = grpoutputs('range', ...
+        '../data/nl_ok', 'stats400v1*.tsv', ...
+        '../data/j_ex_diff', 'stats400v1*.tsv');    
 
+    % Test if grpoutputs produces the expected outputs
+    assertEqual(numel(o_ok), 6);
+    assertEqual(numel(o_noshuff), 6);
+    assertEqual(numel(o_diff), 7);
+
+    assertEqual(g_ok, [repmat(1,1,10) repmat(2,1,10)]);
+    assertEqual(g_noshuff, [repmat(1,1,10) repmat(2,1,10)]);
+    assertEqual(g_diff, [repmat(1,1,10) repmat(2,1,10)]);    
+    
 % Test function cmpoutput
 function test_cmpoutput
 
