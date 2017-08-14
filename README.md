@@ -1,31 +1,38 @@
 ### Summary
 
-_micompm_ is a MATLAB/Octave package for comparing simulation output, ported
-from [micompr], the original [R] package.
+_micompm_ is a [MATLAB]/[Octave] port of the original [micompr] [R] package for
+comparing multivariate samples associated with different groups. It uses
+principal component analysis to convert multivariate observations into a set of
+linearly uncorrelated statistical measures, which are then compared using a
+number of statistical methods. This technique is independent of the
+distributional properties of samples and automatically selects features that
+best explain their differences, avoiding manual selection of specific points or
+summary statistics. The procedure is appropriate for comparing samples of time
+series, images, spectrometric measures or similar multivariate observations.
 
 ### List of functions
 
-* [grpoutputs] - Group outputs from multiple observations of the models to be
-compared.
+* [grpoutputs] - Load and group outputs from files containing multiple
+observations of the groups to be compared.
 
-* [cmpoutput] - Compares one output from several runs of two or more model
-implementations.
+* [cmpoutput] - Compares output observations from two or more groups.
 
-* [micomp] - Perform multiple model-independent comparisons of simulation
-outputs.
+* [micomp] - Performs multiple independent comparisons of output observations.
 
 * [micomp_show] - Generate tables and plots of model-independent comparison of
-simulation output.
+observations.
 
-* [test_assumptions] - Get assumptions for the parametric tests performed in
-a comparison.
+* [test_assumptions] - Verify the assumptions for parametric tests applied to
+the comparison of output observations.
 
 _micompm_ uses additional [helper] and [3rd party] functions.
 
 ### Theory
 
-[Model-independent comparison of simulation output](http://arxiv.org/abs/1509.09174),
-arXiv preprint.
+* Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
+Model-independent comparison of simulation output. *Simulation Modelling
+Practice and Theory*. 72:131–149. http://dx.doi.org/10.1016/j.simpat.2016.12.013
+([arXiv preprint](http://arxiv.org/abs/1509.09174))
 
 ### Limitations
 
@@ -51,3 +58,6 @@ output/comparison combination for multiple user-specified variances to explain.
 [3rd party]: 3rdparty
 [micompr]: https://github.com/fakenmc/micompr
 [R]: https://www.r-project.org/
+[Matlab]: http://www.mathworks.com/products/matlab/
+[Octave]: https://gnu.org/software/octave/
+
