@@ -5,7 +5,6 @@
 % at http://opensource.org/licenses/MIT)
 %
 addpath([pwd() filesep '3rdparty']);
-addpath([pwd() filesep '3rdparty/mancovan']);
 addpath([pwd() filesep 'helpers']);
 addpath([pwd() filesep 'micompm']);
 

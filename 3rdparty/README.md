@@ -2,8 +2,8 @@
 
 #### List of 3rd party functions and toolboxes
 
-* [mancovan](mancovan) - Tools for multivariate analysis
-([License](mancovan/license.txt)).
+* [manova_micomp](manova_micomp.m) - Octave implementation of the MANOVA test
+adapted for usage with _micompm_ ([License](manova_micomp_LICENSE.txt)).
 
 * [MBoxtest](MBoxtest.m) - Multivariate statistical testing for the homogeneity
 of covariance matrices by the Box's M ([License](MBoxtest_LICENSE.txt)).

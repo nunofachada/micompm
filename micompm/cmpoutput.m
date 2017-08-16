@@ -32,6 +32,12 @@ function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
 %             observations, columns to principal components.
 %    varexp - Percentage of variance explained by each principal component.
 %
+% Note:
+%     This function requires the statistics toolbox or package for MATLAB
+%     or Octave, respectively. In the latter case, the statistics package
+%     can be loaded (if installed) with the following command:
+%        "pkg load statistics"
+%     
 % Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
@@ -54,7 +60,11 @@ if nargin < 4
 end;
 
 % Perform PCA
-[~, score, latent] = princomp(data, 'econ');
+if is_octave()
+    [~, score, latent] = princomp(data, 'econ');
+else
+    [~, score, latent] = pca(data);
+end;
 
 % Variance explain by each PC
 varexp = latent ./ sum(latent);
@@ -63,9 +73,16 @@ varexp = latent ./ sum(latent);
 cumvar = cumsum(varexp);
 npcs = find(cumvar > ve, 1);
 
-% Perform MANOVA
-%[~, p_mnv] = manova1(score(:, 1:npcs), groups);
-[~ , p_mnv] = mancovan(score(:, 1:npcs), groups);
+% Perform MANOVA if possible
+if npcs > 1
+    if is_octave()
+        p_mnv = manova_micomp(score(:, 1:npcs), groups);
+    else
+        [~, p_mnv] = manova1(score(:, 1:npcs), groups);
+    end;
+else
+    p_mnv = NaN;
+end;
 
 % Allocate arrays for ANOVA and KW
 p_par = zeros(npcs, 1);
@@ -119,7 +136,9 @@ end;
 % Present some summary statistics, if required
 if summary
     fprintf('\nNumber of PCs: %d\n', npcs);
-    fprintf('MANOVA 1st P-Value: %f\n', p_mnv(1));
+    if npcs > 1
+        fprintf('MANOVA 1st P-Value: %f\n', p_mnv(1));
+    end;
     fprintf('ANOVA/t-test P-Value (1st PC): %5.3f\n', p_par(1));
     fprintf('KW/MW P-Value (1st PC): %5.3f\n\n', p_npar(1));
 end;
