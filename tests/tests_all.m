@@ -54,10 +54,27 @@ function test_grpoutputs
 % Test function cmpoutput
 function test_cmpoutput
 
+    % Load data with grpoutputs
+    [o_noshuff, g_noshuff] = grpoutputs('auto', ...
+        '../data/nl_ok', 'stats400v1*.tsv', ...
+        '../data/j_ex_noshuff', 'stats400v1*.tsv');
+    
+    % Compare first output
+    [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
+        cmpoutput(0.9, o_ok{1,1}, g_ok);
+    
+    % Check return values
+    
     error('Test not implemented');
     
 % Test function micomp
 function test_micomp
+    
+    c = micomp(6, 0, 0.9, ...
+        {'../data/nl_ok', 'stats400v1*.tsv', ...
+        '../data/j_ex_ok', 'stats400v1*.tsv'}, ...
+        {'../data/nl_ok', 'stats400v1*.tsv', ...
+        '../data/j_ex_noshuff', 'stats400v1*.tsv'});
 
     error('Test not implemented');
     
