@@ -14,9 +14,8 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 %
 % Outputs:
 %   outputs - Cell array containing grouped outputs. Each cell is
-%             associated to one output, and contains a m x n matrix, where
-%             m corresponds to the number of iterations and n to the number
-%             of observations.
+%             associated to one output, and contains a n x m matrix, where
+%             n is the number of observations and m is the output length.
 %    groups - Vector indicating to which group individual observations
 %             belong to.
 %
@@ -30,8 +29,8 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 % Number of replications (files) in each set
 groups = [];
 
-% Get number of outputs and number of iterations
-[n_outputs, n_iters] = get_data_dims(varargin{1}, varargin{2});
+% Get number of outputs and output length
+[n_outputs, outlen] = get_data_dims(varargin{1}, varargin{2});
 
 % Add an extra concatenated output?
 if ccat, oxtra = 1; else oxtra = 0; end;
@@ -56,12 +55,12 @@ for k = 1:2:numel(varargin)
     % Initialize temporary variable for this file set
     set_outputs = cell(n_outputs + oxtra, 1);
     for i = 1:n_outputs
-        set_outputs{i} = zeros(n_iters, num_files);
+        set_outputs{i} = zeros(outlen, num_files);
     end;
     
     % Initialize temporary array for extra concatenated output?
     if ccat
-        set_outputs{n_outputs + 1} = zeros(n_iters * n_outputs, num_files);
+        set_outputs{n_outputs + 1} = zeros(outlen * n_outputs, num_files);
     end;
 
     % Cycle through files in current folder
@@ -82,8 +81,8 @@ for k = 1:2:numel(varargin)
             % Optionally also put partial concatenated output in a
             % temporary variable
             if ccat
-                idx1 = ((j - 1) * n_iters + 1);
-                idx2 = (j * n_iters);
+                idx1 = ((j - 1) * outlen + 1);
+                idx2 = (j * outlen);
                 set_outputs{n_outputs + 1}(idx1:idx2, i) =  ...
                     centerscale(data(:, j), ccat);
                 
@@ -104,12 +103,17 @@ for k = 1:2:numel(varargin)
 
 end;
 
+% Set output matrices to n x m format
+for i=1:(n_outputs + oxtra)
+    outputs{i} = outputs{i}';
+end;
+
 end
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
-% Helper function to get number of outputs and number of iterations %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
-function [n_outputs, n_iters] = get_data_dims(folder, files)
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
+% Helper function to get number of outputs and output length %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
+function [n_outputs, outlen] = get_data_dims(folder, files)
 
     % Get file list
     listing = dir([folder '/' files]);
@@ -122,7 +126,7 @@ function [n_outputs, n_iters] = get_data_dims(folder, files)
     % Open first file
     data = dlmread([folder '/' listing(1).name]);
 
-    % Determine number of outputs and iterations
-    [n_iters, n_outputs] = size(data);
+    % Determine number of outputs and output length
+    [outlen, n_outputs] = size(data);
     
 end

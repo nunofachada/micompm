@@ -39,13 +39,17 @@ function test_grpoutputs
         '../data/j_ex_diff', 'stats400v1*.tsv');    
 
     % Test if grpoutputs produces the expected outputs
+    assertEqual(iscell(o_ok), true);
+    assertEqual(iscell(o_noshuff), true);
+    assertEqual(iscell(o_diff), true);
+
     assertEqual(numel(o_ok), 6);
     assertEqual(numel(o_noshuff), 6);
-    assertEqual(numel(o_diff), 7);
+    assertEqual(numel(o_diff), 7);     % Contains concat. output
 
-    assertEqual(g_ok, [repmat(1,1,10) repmat(2,1,10)]);
-    assertEqual(g_noshuff, [repmat(1,1,10) repmat(2,1,10)]);
-    assertEqual(g_diff, [repmat(1,1,10) repmat(2,1,10)]);    
+    assertEqual(g_ok, [ones(1,10) 2 * ones(1, 10)]);
+    assertEqual(g_noshuff, [ones(1,10) 2 * ones(1, 10)]);
+    assertEqual(g_diff, [ones(1,10) 2 * ones(1, 10)]);
     
 % Test function cmpoutput
 function test_cmpoutput
