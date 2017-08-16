@@ -72,9 +72,9 @@ for i = 1:nout
     % Cycle through comparisons
     for j = 1:ncomp
 
-        % Get current output e group
-        co = (outputs{j}{i})';
-        cg = (groups{j})';
+        % Get current output and group
+        co = outputs{j}{i};
+        cg = groups{j};
 
         % Perform model comparison
         [npcs, p_mnv, p_par, p_npar, scores{i, j}, varexp{i, j}] = ...
