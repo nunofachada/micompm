@@ -31,10 +31,11 @@ function test_grpoutputs
     cmeth = {0, ...
         'center', 'auto', 'range', 'iqrange', 'vast', 'pareto', 'level'};
 
-    % Folders for comparison with nl_ok
+    % Folders for grouping with nl_ok
     fldcmp = ...
         {'../data/j_ex_ok', '../data/j_ex_noshuff', '../data/j_ex_diff'};
 
+    % Perform grouping and test return values
     for i = 1:numel(fldcmp)
         for j = 1:numel(cmeth)
 
@@ -47,13 +48,22 @@ function test_grpoutputs
                 fldcmp{i}, 'stats400v1*.tsv');
 
             % Test if grpoutputs produces the expected outputs
-            assertEqual(iscell(o), true);
+            assertTrue(iscell(o));
             assertEqual(numel(o), nout);
             assertEqual(g, [ones(1,10) 2 * ones(1, 10)]);
 
         end;
     end;
-
+    
+    % Test grouping with only one output
+    [o, g] = grpoutputs(0, ...
+                '../data/oneoutput_nl_ok', 'stats400v1*.tsv', ...
+                '../data/oneoutput_j_ex_diff', 'stats400v1*.tsv');
+            
+    assertTrue(iscell(o));
+    assertEqual(numel(o), 1);
+    assertEqual(g, [ones(1,10) 2 * ones(1, 10)]);
+   
 % Test function cmpoutput
 function test_cmpoutput
 
