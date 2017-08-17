@@ -16,6 +16,12 @@ function [tbl, fids] = micomp_show(type, c, nout, ncomp)
 %     tbl - String containing generated table.
 %    fids - Handles of the generated plots, if any.
 %
+% Note:
+%    To compile LaTeX documents with the tables generated with this
+%    function, the following LaTeX packages are required:
+%        fontenc (with T1 option), siunitx, multirow, booktabs,
+%        ulem (with normalem option), tikz and tikz plotmarks library.
+%
 % Copyright (c) 2016-2017 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
