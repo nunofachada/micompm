@@ -54,18 +54,51 @@ function test_grpoutputs
 % Test function cmpoutput
 function test_cmpoutput
 
-    % Load data with grpoutputs
-    [o_noshuff, g_noshuff] = grpoutputs('auto', ...
-        '../data/nl_ok', 'stats400v1*.tsv', ...
-        '../data/j_ex_noshuff', 'stats400v1*.tsv');
-    
-    % Compare first output
-    [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
-        cmpoutput(0.9, o_ok{1,1}, g_ok);
-    
-    % Check return values
-    
-    error('Test not implemented');
+    % Folders for comparison with nl_ok
+    fldcmp = ...
+        {'../data/j_ex_ok', '../data/j_ex_noshuff', '../data/j_ex_diff'};
+
+    % Compare nl_ok with other folders
+    for i = 1:numel(fldcmp)
+        
+        % Load data with grpoutputs
+        [o, g] = grpoutputs('auto', ...
+            '../data/nl_ok', 'stats400v1*.tsv', ...
+            fldcmp{i}, 'stats400v1*.tsv');
+
+        % Compare each output individually
+        for j = 1:7 % 6 outputs + 1 concatenated output
+            
+            % Test with different percentages of variance to explain
+            for k = [0.1 0.5 0.9]
+            
+                % Compare current output
+                [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
+                    cmpoutput(k, o{j, 1}, g, 0);
+            
+                % Check return values
+                assertTrue(isnumeric(npcs));
+                assertEqual(numel(npcs), 1);
+                assertEqual(npcs - round(npcs), 0);
+
+                assertTrue(isnumeric(p_mnv));
+                assertEqual(numel(p_mnv), 1);
+                
+                assertTrue(isnumeric(p_par));
+                assertEqual(numel(p_par), size(score, 2));
+
+                assertTrue(isnumeric(p_npar));
+                assertEqual(numel(p_npar), size(score, 2));
+
+                assertTrue(isnumeric(score));
+                assertEqual(size(score, 1), numel(g));
+                
+                assertTrue(isnumeric(varexp));
+                assertEqual(numel(varexp), size(score, 2));
+
+            end;
+        end;
+    end;
     
 % Test function micomp
 function test_micomp
