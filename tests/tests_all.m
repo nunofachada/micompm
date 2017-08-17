@@ -27,30 +27,33 @@ function test_suite = tests_all
 % Test function grpoutputs
 function test_grpoutputs
 
-    % Load data with grpoutputs
-    [o_ok, g_ok] = grpoutputs(0, ...
-        '../data/nl_ok', 'stats400v1*.tsv', ...
-        '../data/j_ex_ok', 'stats400v1*.tsv');
-    [o_noshuff, g_noshuff] = grpoutputs(0, ...
-        '../data/nl_ok', 'stats400v1*.tsv', ...
-        '../data/j_ex_noshuff', 'stats400v1*.tsv');
-    [o_diff, g_diff] = grpoutputs('range', ...
-        '../data/nl_ok', 'stats400v1*.tsv', ...
-        '../data/j_ex_diff', 'stats400v1*.tsv');    
+    % Test with different output concatenation methods
+    cmeth = {0, ...
+        'center', 'auto', 'range', 'iqrange', 'vast', 'pareto', 'level'};
 
-    % Test if grpoutputs produces the expected outputs
-    assertEqual(iscell(o_ok), true);
-    assertEqual(iscell(o_noshuff), true);
-    assertEqual(iscell(o_diff), true);
+    % Folders for comparison with nl_ok
+    fldcmp = ...
+        {'../data/j_ex_ok', '../data/j_ex_noshuff', '../data/j_ex_diff'};
 
-    assertEqual(numel(o_ok), 6);
-    assertEqual(numel(o_noshuff), 6);
-    assertEqual(numel(o_diff), 7);     % Contains concat. output
+    for i = 1:numel(fldcmp)
+        for j = 1:numel(cmeth)
 
-    assertEqual(g_ok, [ones(1,10) 2 * ones(1, 10)]);
-    assertEqual(g_noshuff, [ones(1,10) 2 * ones(1, 10)]);
-    assertEqual(g_diff, [ones(1,10) 2 * ones(1, 10)]);
-    
+            % Number of outputs for this comparison
+            nout = 6 + ischar(cmeth{j});
+
+            % Load data with grpoutputs
+            [o, g] = grpoutputs(cmeth{j}, ...
+                '../data/nl_ok', 'stats400v1*.tsv', ...
+                fldcmp{i}, 'stats400v1*.tsv');
+
+            % Test if grpoutputs produces the expected outputs
+            assertEqual(iscell(o), true);
+            assertEqual(numel(o), nout);
+            assertEqual(g, [ones(1,10) 2 * ones(1, 10)]);
+
+        end;
+    end;
+
 % Test function cmpoutput
 function test_cmpoutput
 
