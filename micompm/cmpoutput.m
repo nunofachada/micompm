@@ -69,6 +69,9 @@ end;
 % Variance explain by each PC
 varexp = latent ./ sum(latent);
 
+% Total number of PCs
+tpcs = size(score, 2);
+
 % How many PCs required to explain user-specified minimum variance
 cumvar = cumsum(varexp);
 npcs = find(cumvar > ve, 1);
@@ -85,8 +88,8 @@ else
 end;
 
 % Allocate arrays for ANOVA and KW
-p_par = zeros(npcs, 1);
-p_npar = zeros(npcs, 1);
+p_par = zeros(tpcs, 1);
+p_npar = zeros(tpcs, 1);
 
 % Number of unique groups
 ugrps = unique(groups);
@@ -96,7 +99,7 @@ ngrps = numel(ugrps);
 if ngrps > 2
 
     % More than two groups, perform ANOVA and KW on each PC
-    for i = 1:npcs
+    for i = 1:tpcs
         if is_octave()
             p_par(i) = anova(score(:, i), groups);
             cellscore = cell(1, ngrps);
@@ -118,7 +121,7 @@ else
     % Find group change index
     gci = find(groups == 2, 1);
     
-    for i = 1:npcs
+    for i = 1:tpcs
         if is_octave()
             p_par(i) = t_test_2(score(1:(gci - 1), i), ...
                 score(gci:numel(groups), i));
