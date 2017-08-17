@@ -127,13 +127,59 @@ function test_cmpoutput
 % Test function micomp
 function test_micomp
     
-    c = micomp(6, 0, 0.9, ...
-        {'../data/nl_ok', 'stats400v1*.tsv', ...
-        '../data/j_ex_ok', 'stats400v1*.tsv'}, ...
-        {'../data/nl_ok', 'stats400v1*.tsv', ...
-        '../data/j_ex_noshuff', 'stats400v1*.tsv'});
+    % Test without and with concatenated output
+    ccat = {0, 'vast'};
+    
+    % Test with different percentages of variance to explain
+    ve = [0.05 0.3 0.6 0.8 0.95];
+    
+    % Test multiple comparisons
+    for i = 1:numel(ccat)
+        
+        for j = 1:numel(ve)
+    
+            % Perform multiple comparisons
+            c = micomp(6 + ischar(ccat{i}), ccat{i}, ve(j), ...
+                {'../data/nl_ok', 'stats400v1*.tsv', ...
+                    '../data/j_ex_ok',  'stats400v1*.tsv'}, ...
+                {'../data/nl_ok', 'stats400v1*.tsv', ...
+                    '../data/j_ex_noshuff', 'stats400v1*.tsv'}, ...
+                {'../data/nl_ok', 'stats400v1*.tsv', ...
+                    '../data/j_ex_diff', 'stats400v1*.tsv'}, ...
+                {'../data/nl_ok', 'stats400v1*.tsv', ...
+                    '../data/j_ex_noshuff', 'stats400v1*.tsv', ...
+                    '../data/j_ex_diff', 'stats400v1*.tsv'});
+                
+            % Check return values
+            
+            % Number of PCs for MANOVA and p-values must be numeric
+            assertTrue(isnumeric(c.data));
+            % 4 comparison * 6/7 outputs, 4 stats
+            assertEqual(size(c.data), [4 * (6 + ischar(ccat{i})) 4]);
+            
+            % Check values for each comparison performed
+            for k = 1:4
+                
+                % Check groups
+                assertTrue(isnumeric(c.groups{k}));
+                assertEqual(numel(c.groups{k}), ...
+                    10 * numel(unique(c.groups{k})));
+                
+                % Check values for each output
+                for l = 1:(6 + ischar(ccat{i}))
+                    
+                    assertTrue(isnumeric(c.scores{l, k}));
+                    assertEqual(size(c.scores{l, k}, 1), ...
+                        numel(c.groups{k}));
+                    
+                    assertTrue(isnumeric(c.varexp{l, k}));
+                    
+                end;
+                
+            end;
 
-    error('Test not implemented');
+        end;
+    end;
     
 % Test function micomp_show
 function test_micomp_show
