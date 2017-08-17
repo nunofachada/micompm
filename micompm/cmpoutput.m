@@ -82,6 +82,7 @@ if npcs > 1
         p_mnv = manova_micomp(score(:, 1:npcs), groups);
     else
         [~, p_mnv] = manova1(score(:, 1:npcs), groups);
+        p_mnv = p_mnv(1);
     end;
 else
     p_mnv = NaN;
