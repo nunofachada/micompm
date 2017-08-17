@@ -150,10 +150,16 @@ function test_micomp
                     '../data/j_ex_noshuff', 'stats400v1*.tsv', ...
                     '../data/j_ex_diff', 'stats400v1*.tsv'});
                 
-            % Check return values
+            % Check if micomp_show does not throw errors and returns a
+            % string
+            tbl = micomp_show(0, c, 6 + ischar(ccat{i}), 4); % LaTeX
+            assertTrue(ischar(tbl));
+            tbl = micomp_show(1, c, 6 + ischar(ccat{i}), 4); % Plain text
+            assertTrue(ischar(tbl));
             
             % Number of PCs for MANOVA and p-values must be numeric
             assertTrue(isnumeric(c.data));
+            
             % 4 comparison * 6/7 outputs, 4 stats
             assertEqual(size(c.data), [4 * (6 + ischar(ccat{i})) 4]);
             
@@ -180,11 +186,6 @@ function test_micomp
 
         end;
     end;
-    
-% Test function micomp_show
-function test_micomp_show
-
-    error('Test not implemented');
         
 % Test function test_assumptions
 function test_test_assumptions
