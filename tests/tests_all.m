@@ -124,7 +124,7 @@ function test_cmpoutput
         end;
     end;
     
-% Test function micomp
+% Test functions micomp, micomp_show and assumptions
 function test_micomp
     
     % Test without and with concatenated output
@@ -179,6 +179,29 @@ function test_micomp
                         numel(c.groups{k}));
                     
                     assertTrue(isnumeric(c.varexp{l, k}));
+                
+                    % Test assumptions for current comparison
+                    [p_unorm, p_mnorm, p_uvar, p_mvar] = ...
+                        micomp_assumptions(...
+                            c.scores{l, k}, ...
+                            c.groups{k}, ...
+                            c.data((k - 1) * l + l, 1));
+                    
+                    assertTrue(isnumeric(p_unorm));
+                    assertTrue(isnumeric(p_mnorm));
+                    assertTrue(isnumeric(p_uvar));
+                    assertTrue(isnumeric(p_mvar));
+                    
+                    assertEqual(size(p_unorm), ...
+                        [numel(unique(c.groups{k})) ...
+                        size(c.scores{l, k}, 2)]);
+                    
+                    assertEqual(...
+                        numel(p_mnorm), numel(unique(c.groups{k})));
+                    
+                    assertEqual(numel(p_uvar), size(c.scores{l, k}, 2));
+                    
+                    assertEqual(numel(p_mvar), 1);
                     
                 end;
                 
@@ -186,8 +209,4 @@ function test_micomp
 
         end;
     end;
-        
-% Test function test_assumptions
-function test_test_assumptions
 
-    error('Test not implemented');
