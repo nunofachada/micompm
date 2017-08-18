@@ -22,7 +22,7 @@ observations of the groups to be compared.
 * [micomp_show] - Generate tables and plots of model-independent comparison of
 observations.
 
-* [assumptions] - Verify the assumptions for parametric tests applied to
+* [micomp_assumptions] - Verify the assumptions for parametric tests applied to
 the comparison of output observations.
 
 _micompm_ uses additional [helper] and [3rd party] functions.
@@ -53,7 +53,7 @@ output/comparison combination for multiple user-specified variances to explain.
 [cmpoutput]: micompm/cmpoutput.m
 [micomp]: micompm/micomp.m
 [micomp_show]: micompm/micomp_show.m
-[test_assumptions]: micompm/test_assumptions.m
+[micomp_assumptions]: micompm/micomp_assumptions.m
 [helper]: helpers
 [3rd party]: 3rdparty
 [micompr]: https://github.com/fakenmc/micompr
