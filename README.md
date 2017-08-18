@@ -22,7 +22,7 @@ observations of the groups to be compared.
 * [micomp_show] - Generate tables and plots of model-independent comparison of
 observations.
 
-* [test_assumptions] - Verify the assumptions for parametric tests applied to
+* [assumptions] - Verify the assumptions for parametric tests applied to
 the comparison of output observations.
 
 _micompm_ uses additional [helper] and [3rd party] functions.

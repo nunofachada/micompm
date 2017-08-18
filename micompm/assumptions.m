@@ -1,8 +1,8 @@
-function [p_uv, p_mv, p_hcvm] = test_assumptions(data, groups, npcs)
-% TEST_ASSUMPTIONS Verify the assumptions for parametric tests applied to
-% the comparison of output observations.
+function [p_uv, p_mv, p_hcvm] = assumptions(data, groups, npcs)
+% ASSUMPTIONS Verify the assumptions for parametric tests applied to the
+% comparison of output observations.
 %
-%   [p_uv, p_mv, p_hcvm] = TEST_ASSUMPTIONS(data, groups, npcs)
+%   [p_uv, p_mv, p_hcvm] = ASSUMPTIONS(data, groups, npcs)
 %
 % Parameters:
 %    data - PCA scores, i.e. the scores matrix returned by cmpoutput.
