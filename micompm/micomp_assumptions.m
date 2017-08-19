@@ -67,17 +67,26 @@ end;
 % Equality of variances
 for i = 1:tpcs
     if is_octave()
+        % Bartlett test with Octave
         cellscore = cell(1, numgrp);
         for j = 1:numgrp
             idxs = find(groups == uniqgrp(j));
             cellscore{j} = scores(idxs(1):idxs(numel(idxs)), i);
         end;
-        % Octave's bartlett_test function does not generate the same
+        % Octave's bartlett_test() function does not generate the same
         % p-values as MATLAB and R implementations of the Bartlett test.
-        % However, Octave's var_test function does, and as such, it is
-        % used in the following line:
-        p_uvar(i) = var_test(cellscore{:});
+        % However, Octave's var_test() function does, and as such, it is
+        % used when there are two groups. Unfortunately, var_test() only
+        % works with two groups. Thus, if there are more than two groups
+        % we are forced to use bartlett_test(), which generates slightly
+        % different p-values.
+        if numgrp == 2
+            p_uvar(i) = var_test(cellscore{:});
+        else
+            p_uvar(i) = bartlett_test(cellscore{:});
+        end;
     else
+        % Bartlett test with MATLAB
         p_uvar(i) = vartestn(scores(:, i), groups,  'display', 'off');
     end;
 end;
