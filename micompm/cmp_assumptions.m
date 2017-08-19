@@ -1,9 +1,9 @@
 function [p_unorm, p_mnorm, p_uvar, p_mvar] = ...
-    micomp_assumptions(scores, groups, npcs)
-% MICOMP_ASSUMPTIONS Verify the assumptions for parametric tests applied to
+    cmp_assumptions(scores, groups, npcs)
+% CMP_ASSUMPTIONS Verify the assumptions for parametric tests applied to
 % the comparison of output observations.
 %
-%   [p_unorm, p_mnorm, p_uvar, p_mvar] = MICOMP_ASSUMPTIONS(scores, groups, npcs)
+%   [p_unorm, p_mnorm, p_uvar, p_mvar] = CMP_ASSUMPTIONS(scores, groups, npcs)
 %
 % Parameters:
 %  scores - PCA scores, i.e. the scores matrix returned by cmpoutput.
