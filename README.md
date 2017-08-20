@@ -10,22 +10,7 @@ best explain their differences, avoiding manual selection of specific points or
 summary statistics. The procedure is appropriate for comparing samples of time
 series, images, spectrometric measures or similar multivariate observations.
 
-### List of functions
-
-* [grpoutputs] - Load and group outputs from files containing multiple
-observations of the groups to be compared.
-
-* [cmpoutput] - Compares output observations from two or more groups.
-
-* [micomp] - Performs multiple independent comparisons of output observations.
-
-* [micomp_show] - Generate tables and plots of model-independent comparison of
-observations.
-
-* [cmp_assumptions] - Verify the assumptions for parametric tests applied to
-the comparison of output observations.
-
-_micompm_ uses additional [helper] and [3rd party] functions.
+Follow _micomp_'s [User Guide] to get started.
 
 ### Theory
 
@@ -49,15 +34,8 @@ output/comparison combination for multiple user-specified variances to explain.
 
 [MIT License](LICENSE)
 
-[grpoutputs]: micompm/grpoutputs.m
-[cmpoutput]: micompm/cmpoutput.m
-[micomp]: micompm/micomp.m
-[micomp_show]: micompm/micomp_show.m
-[cmp_assumptions]: micompm/cmp_assumptions.m
-[helper]: helpers
-[3rd party]: 3rdparty
 [micompr]: https://github.com/fakenmc/micompr
 [R]: https://www.r-project.org/
 [Matlab]: http://www.mathworks.com/products/matlab/
 [Octave]: https://gnu.org/software/octave/
-
+[User Guide]: docs/userguide.md
