@@ -10,7 +10,9 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 %               'range', 'iqrange', 'vast', 'pareto' or 'level'. If set to
 %               0 or '' no additional output is added.
 %    varargin - Pairs of folder and files containing outputs to load and
-%               group.
+%               group. Files should contain one output per column, with
+%               rows representing variables or dimensions (e.g. time steps
+%               for time-series-type outputs).
 %
 % Outputs:
 %   outputs - Cell array containing grouped outputs. Each cell is

@@ -9,12 +9,18 @@ function c = micomp(nout, ccat, ve, varargin)
 %      ccat - Centering and scaling method for additional concatenated
 %             output. Available methods include 'center', 'auto',
 %             'range', 'iqrange', 'vast', 'pareto' or 'level'. If set to
-%             0 or '' no additional output is added.
+%             0 or '' no additional output is added. This is ignored if
+%             the second type of varargin is used (see below).
 %        ve - Percentage (between 0 and 1) of variance explained by the q
 %             principal components (i.e. number of dimensions) used in
 %             MANOVA.
-%  varargin - Each variable argument is a cell of folder and files pairs
-%             defining a comparison.
+%  varargin - Each variable argument defines a comparison and is either:
+%              * A cell of folder and files pairs.
+%              * A cell containing two elements: 1) a cell containing
+%                output matrices, each matrix (representing an output) of
+%                size n x m (n observations, m variables/dimensions); 2) a
+%                vector specifying the groups to which each of the n
+%                observations belongs to.
 %
 % Outputs:
 %         c - A struct with the following fields: 
@@ -55,9 +61,26 @@ varexp = cell(nout, ncomp);
 
 % Group data for comparisons
 for i = 1:ncomp
-    
-    [outputs{i}, groups{i}] = grpoutputs(ccat, varargin{i}{:});
 
+    %varargin{i}{2}
+    
+    if numel(varargin{i}) == 2
+        % Variable argument contains outputs and groups
+
+        outputs{i} = varargin{i}{1};
+        groups{i} = varargin{i}{2};
+
+    elseif numel(varargin{i}) > 2
+        % Variable argument contains folder/file pairs
+
+        [outputs{i}, groups{i}] = grpoutputs(ccat, varargin{i}{:});
+        
+    else
+        % Variable argument is invalid
+        
+        error(['Variable argument #' i ' is invalid']);
+
+    end;
 end;
 
 % Compare outputs
