@@ -90,7 +90,39 @@ in the `micompm` folder; or, 2) within [MATLAB]/[Octave], `cd` into the
 
 ### Data layout and data file format
 
-**TODO** Talk about grpoutputs
+The basic data layout used in _micompm_ consists of _n_ x _m_ matrices, each
+matrix representing an output, where _n_ is the number of observations and _m_
+corresponds to the number of variables or dimensions. Individual observations
+in these matrices must be associated with a group. This association is
+expressed with a _n_-dimensional integer vector, where its _i_ th value
+corresponds to the i _th_ observation (row) of the output matrix. For example:
+
+```
+data =
+
+    0.5341    0.6815    0.0190    0.5497   46.4804
+    0.0900    3.3933    0.0495    8.5071   34.8334
+    0.1117    2.4759    0.0148    5.6056   29.1395
+    0.6523    0.0037    0.1980    5.6094   19.8188
+    0.7032    6.0581    0.1055    1.5949   12.6425
+    0.7911    4.2880    0.0959    3.4867   18.5939
+
+groups =
+
+    1     1     1     2     2     2
+```
+
+In this example, the `data` matrix contains six five-dimensional
+observations. The `groups` vector specifies that the first three observations
+(rows) are associated with group 1, while the last three belong to group 2.
+
+The [grpoutputs] function loads and groups outputs from files containing
+multiple observations of the groups to be compared. Each individual file
+represents an observation, and must be comprised of numeric data with _m_ rows
+and _g_ columns, where rows correspond to dimensions or variables and columns
+to different outputs.
+
+**TODO** Finish this section
 
 ### Compare observations from two or more groups
 
