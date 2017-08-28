@@ -140,9 +140,9 @@ explained by the principal components (PCs) compared in the [MANOVA] test. More
 precisely, it determines the number of PCs used in the test. The second
 parameter, `data`, is the _n_ x _m_ output matrix containing the data to be
 compared, while the third parameter is the _n_-dimensional vector specifying
-the groups to which the observations in `data` belong to. The last parameter,
+the `groups` to which the observations in `data` belong to. The last parameter,
 `summary`, can be set to 0 in order to suppress the comparison summary shown by
-default. Besides this summary, [cmooutput] also returns a number of _p_-values
+default. Besides this summary, [cmpoutput] also returns a number of _p_-values
 from different tests and other useful information related with the performed
 comparison.
 
@@ -152,13 +152,33 @@ The [cmpoutput] function performs several statistical tests, including the
 [_t_-test][t-test] (on each PC) and [MANOVA] (on the number of PCs that explain
 `ve` percentage of variance). These two tests are parametric, which means they
 expect samples to be drawn from distributions with particular characteristics,
-namely that: 1) and 2)
+namely that: 1) they are drawn from a normally distributed population; and, 2)
+they are drawn from populations with equal variances. The [cmp_assumptions]
+function performs additional tests that verify these assumptions. It is invoked
+as follows:
 
 ```matlab
 [p_unorm, p_mnorm, p_uvar, p_mvar] = cmp_assumptions(scores, groups, npcs)
 ```
 
-**TODO** Finish this section
+The function accepts as arguments the PCA `scores` returned by [cmpoutput],
+the `groups` to which the observations in `scores` belong to, and the number of
+PCs (for the multivariate comparison with [MANOVA]). [cmp_assumptions] returns
+_p_-values for the assumptions tests, namely:
+
+* `p_unorm` - Matrix _p_-values from the [Shapiro-Wilk] test for univariate
+normality, rows correspond to groups, columns to PCs.
+* `p_mnorm` - Vector of _p_-values from the [Royston] test of multivariate
+normality (on `npcs`), one _p_-value per group.
+* `p_uvar` - Vector of _p_-values from the [Bartlett's] test for equality of
+variances, one _p_-value per PC.
+* `p_mvar` - _P_-value from the [Box's M] test for the homogeneity of
+covariance matrices (on `npcs`).
+
+_P_-values less than the typical 0.05 or 0.01 thresholds may be considered
+statistically significant, casting doubt on the respective assumption. However,
+as discussed in reference [\[1\]][ref1], analysis of these these _p_-values is
+often not so simple.
 
 ### Multiple comparisons and different outputs
 
@@ -264,7 +284,7 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [micomp_show]: ../micompm/micomp_show.m
 [cmp_assumptions]: ../micompm/cmp_assumptions.m
 [helper]: ../helpers
-[3rd party]: ../3rdparty
+[3rd party]: ``../3rdparty
 [micompr]: https://github.com/fakenmc/micompr
 [R]: https://www.r-project.org/
 [Matlab]: http://www.mathworks.com/products/matlab/
@@ -277,3 +297,7 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [ANOVA]: https://en.wikipedia.org/wiki/Analysis_of_variance
 [Kruskal-Wallis test]: https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance
 [Bonferroni]: https://en.wikipedia.org/wiki/Bonferroni_correction
+[Shapiro-Wilk]: https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test
+[Royston]: https://www.jstor.org/stable/2347291
+[Box's M]:https://en.wikiversity.org/wiki/Box%27s_M
+[Bartlett's]: https://en.wikipedia.org/wiki/Bartlett%27s_test
