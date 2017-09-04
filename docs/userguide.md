@@ -54,14 +54,14 @@ are drawn from populations with the same distribution. There are two possible
 lines of action:
 
 1. Apply a [MANOVA] test to the samples, where each observation has
-q-dimensions, corresponding to the first q PCs (dimensions) such that these
+_q_-dimensions, corresponding to the first _q_ PCs (dimensions) such that these
 explain a user-defined minimum percentage of variance.
 2. Apply a univariate test to observations in individual PCs. Possible tests
-include the [_t_-test][t-test] and the [Mann-Whitney U test] for comparing two
+include the [_t_-test] and the [Mann-Whitney _U_ test] for comparing two
 samples, or [ANOVA] and [Kruskal-Wallis test], which are the respective
 parametric and non-parametric versions for comparing more than two samples.
 
-The MANOVA test yields a single p-value from the simultaneous comparison of
+The MANOVA test yields a single _p_-value from the simultaneous comparison of
 observations along multiple PCs. An equally succinct answer can be obtained
 with a univariate test using the [Bonferroni] correction or a similar method
 for handling _p_-values from multiple comparisons.
@@ -72,9 +72,9 @@ should be below the typical 1% or 5% when samples are significantly different.
 The scatter plot of the first two PC dimensions can also provide visual,
 although subjective feedback on sample similarity.
 
-While the procedure is most appropriate for comparing multivariate observations
-with highly correlated and similar scale dimensions, assessing the similarity
-of “systems” with multiple outputs of different scales is also possible. The
+While the procedure is appropriate for comparing multivariate observations with
+highly correlated and similar scale dimensions, assessing the similarity of
+“systems” with multiple outputs of different scales is also possible. The
 simplest approach would be to apply the proposed method to samples of
 individual outputs, and analyze the results in a multiple comparison context.
 An alternative approach consists in concatenating, observation-wise, all
@@ -109,8 +109,8 @@ _micompm_ also provides and uses additional [helper] and [3rd party] functions.
 
 ### 2.1\. Getting started
 
-Clone or download _micompm_. Then, either: 1) start [MATLAB]/[Octave] directly
-in the `micompm` folder; or, 2) within [MATLAB]/[Octave], `cd` into the
+Clone or download _micompm_. Then, either: 1) launch [MATLAB]/[Octave] directly
+from the `micompm` folder; or, 2) within [MATLAB]/[Octave], `cd` into the
 `micompm` folder and execute the [startup] script.
 
 <a name="datalayoutanddatafileformat"></a>
@@ -122,7 +122,7 @@ matrix representing an output, where _n_ is the number of observations and _m_
 corresponds to the number of variables or dimensions. Individual observations
 in these matrices must be associated with a group. This association is
 expressed with a _n_-dimensional integer vector, where its _i_ th value
-corresponds to the i _th_ observation (row) of the output matrix. For example:
+corresponds to the _i_ th observation (row) of the output matrix. For example:
 
 ```
 data =
@@ -144,24 +144,23 @@ observations. The `groups` vector specifies that the first three observations
 (rows) are associated with group 1, while the last three belong to group 2.
 
 The [grpoutputs] function loads and groups outputs from files containing
-multiple observations of the groups to be compared. Each individual file
-represents an observation, and must be comprised of numerical data with _m_
-rows and _g_ columns, where rows correspond to dimensions or variables and
-columns to different outputs. The [grpoutputs] function returns two variables:
-1) a cell array containing _g_ output matrices (_n_ x _m_); and, 2) a
-_n_-dimensional integer vector defining the groups each observation belongs to.
-In other words, [grpoutputs] returns data ready to be used in other _micompm_
-functions.
+observations of the groups to be compared. Each individual file represents an
+observation, and must be comprised of numerical data with _m_ rows and _g_
+columns, where rows correspond to dimensions or variables and columns to
+different outputs. The [grpoutputs] function returns two variables: 1) a cell
+array containing _g_ output matrices (_n_ x _m_); and, 2) a _n_-dimensional
+integer vector defining the group each observation belongs to. In other words,
+[grpoutputs] returns data ready to be used in other _micompm_ functions.
 
 <a name="compareobservationsfromtwoormoregroups"></a>
 
 ### 2.3\. Compare observations from two or more groups
 
-The [cmpoutput] function compare observations from two or more groups and is at
-the core of the _micompm_ toolbox. Its prototype is as follows:
+The [cmpoutput] function compares observations from two or more groups and is
+at the core of the _micompm_ toolbox. Its prototype is as follows:
 
 ```matlab
-cmpoutput(ve, data, groups, summary)
+[npcs, p_mnv, p_par, p_npar, score, varexp] = cmpoutput(ve, data, groups, summary)
 ```
 
 The first parameter, `ve`, specifies the percentage of variance which must be
@@ -170,18 +169,31 @@ precisely, it determines the number of PCs used in the test. The second
 parameter, `data`, is the _n_ x _m_ output matrix containing the data to be
 compared, while the third parameter is the _n_-dimensional vector specifying
 the `groups` to which the observations in `data` belong to. The last parameter,
-`summary`, can be set to 0 in order to suppress the comparison summary shown by
-default. Besides this summary, [cmpoutput] also returns a number of _p_-values
-from different tests and other useful information related with the performed
-comparison.
+`summary`, is optional and can be set to 0 in order to suppress the comparison
+summary shown by default. Besides printing this summary, [cmpoutput] returns
+the following information:
+
+* `npcs` - Number of principal components which explain `ve` percentage of
+variance.
+* `p_mnv` - _P_-values for the [MANOVA] test for `npcs` principal components.
+* `p_par` - Vector of _p_-values for the parametric test applied to groups
+along each principal component ([_t_-test] for 2 groups, [ANOVA] for more than
+2 groups).
+* `p_npar` - Vector of _p_-values for the non-parametric test applied to groups
+along each principal component ([Mann-Whitney _U_ test] for 2 groups,
+[Kruskal-Wallis test] for more than 2 groups).
+* `score` - _n_ x (_n_ - 1) matrix containing projections of output data in
+the principal components space. Rows correspond to observations, columns to
+principal components.
+* `varexp` - Percentage of variance explained by each principal component.
 
 <a name="verifyassumptionsfortheperformedparametrictests"></a>
 
 ### 2.4\. Verify assumptions for the performed parametric tests
 
 The [cmpoutput] function performs several statistical tests, including the
-[_t_-test][t-test] (on each PC) and [MANOVA] (on the number of PCs that explain
-`ve` percentage of variance). These two tests are parametric, which means they
+[_t_-test] (on each PC) and [MANOVA] (on the number of PCs that explain `ve`
+percentage of variance). These two tests are parametric, which means they
 expect samples to be drawn from distributions with particular characteristics,
 namely that: 1) they are drawn from a normally distributed population; and, 2)
 they are drawn from populations with equal variances. The [cmp_assumptions]
@@ -209,7 +221,7 @@ covariance matrices (on `npcs`).
 _P_-values less than the typical 0.05 or 0.01 thresholds may be considered
 statistically significant, casting doubt on the respective assumption. However,
 as discussed in reference [\[1\]][ref1], analysis of these these _p_-values is
-often not so simple.
+often more elaborate.
 
 <a name="multiplecomparisonsanddifferentoutputs"></a>
 
@@ -333,8 +345,8 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [tests]: ../tests
 [MOxUnit]: https://github.com/MOxUnit/MOxUnit
 [MANOVA]: https://en.wikipedia.org/wiki/Multivariate_analysis_of_variance
-[t-test]: https://en.wikipedia.org/wiki/Student%27s_t-test
-[Mann-Whitney U test]: https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test
+[_t_-test]: https://en.wikipedia.org/wiki/Student%27s_t-test
+[Mann-Whitney _U_ test]: https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test
 [ANOVA]: https://en.wikipedia.org/wiki/Analysis_of_variance
 [Kruskal-Wallis test]: https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance
 [Bonferroni]: https://en.wikipedia.org/wiki/Bonferroni_correction
