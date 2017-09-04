@@ -227,13 +227,33 @@ often more elaborate.
 
 ### 2.5\. Multiple comparisons and different outputs
 
-**TODO** Talk about micomp
+The [micomp] function performs multiple comparisons of different outputs in one
+call by leveraging the functionality provided by [grpoutputs] and [cmpoutput].
+Its prototype is as follows:
+
+```matlab
+c = micomp(nout, ccat, ve, varargin)
+```
+
+The `nout` parameter specifies the number of outputs to compare, including an
+optional concatenated output. The centering and scaling method for the optional
+concatenated output is given in the `ccat` parameter (available options are
+'center', 'auto', 'range', 'iqrange', 'vast', 'pareto' or 'level'); if `ccat`
+is set to 0 or '', the concatenated output is not generated. The `ve` argument
+defines the percentage of variance explained by the _q_ principal components
+(i.e. number of dimensions) used in the [MANOVA] test. The remaining arguments,
+i.e. `varargin`, define the data and the comparisons to be performed.
+
+The [micomp] function returns a struct containing the *TODO*
 
 <a name="visualizationandpublicationqualitytables"></a>
 
 ### 2.6\. Visualization and publication quality tables
 
-**TODO** Talk about micomp_show
+Plots and publication quality tables summarizing the performed comparisons can
+be generated with the [micomp_show] function.
+
+*TODO*
 
 <a name="tutorial"></a>
 
