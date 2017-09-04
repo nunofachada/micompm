@@ -252,7 +252,7 @@ datafolder = 'path/to/dataset';
 ```
 
 The dataset contains output from several implementations or variants of the
-[PPHPC] agent-based model. [PPHPC], discussed in reference  [\[3\]][ref3], is a
+[PPHPC] agent-based model. [PPHPC], discussed in reference  [\[2\]][ref2], is a
 realization of prototypical predator-prey system with six outputs:
 
 1. Sheep population
@@ -263,7 +263,7 @@ realization of prototypical predator-prey system with six outputs:
 6. Mean value of the grass countdown parameter
 
 The following implementations or variants of the [PPHPC] model were used to
-generate the data:
+generate the data [\[3\]][ref3]:
 
 1. [Canonical NetLogo][pphpc_netlogo] implementation.
 2. Parallel [Java][pphpc_java] implementation.
@@ -272,12 +272,12 @@ generate the data:
 simulation parameters.
 
 The first two implementations strictly follow the [PPHPC] conceptual model
-[\[3\]][ref3], and should generate statistically similar outputs. Variants 3
+[\[2\]][ref2], and should generate statistically similar outputs. Variants 3
 and 4 are purposefully misaligned, and should yield outputs with statistically
 significant differences from the first two. The datasets were collected under
 five different model sizes (100 _x_ 100, 200 _x_ 200, 400 _x_ 400, 800 _x_ 800
 and 1600 _x_ 1600) and two distinct parameterizations (_v1_ and _v2_), as
-discussed in reference [\[2\]][ref2].
+discussed in reference [\[3\]][ref3].
 
 **TODO** Finish the remaining tutorial...
 
@@ -308,16 +308,17 @@ Practice and Theory*. 72:131–149. http://dx.doi.org/10.1016/j.simpat.2016.12.0
 
 <a name="ref2"></a>
 
-[\[2\]][ref2] Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
-Model-independent comparison of simulation output. *Simulation Modelling
-Practice and Theory*. 72:131–149. http://dx.doi.org/10.1016/j.simpat.2016.12.013
-([arXiv preprint](http://arxiv.org/abs/1509.09174))
+[\[2\]][ref2] Fachada N, Lopes VV, Martins RC, Rosa AC. (2015) Towards a
+standard model for research in agent-based modeling and simulation. *PeerJ
+Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 
 <a name="ref3"></a>
 
-[\[3\]][ref3] Fachada N, Lopes VV, Martins RC, Rosa AC. (2015) Towards a
-standard model for research in agent-based modeling and simulation. *PeerJ
-Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
+[\[3\]][ref3] Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
+Parallelization strategies for spatial agent-based models. *International
+Journal of Parallel Programming*. 45(3):449–481.
+http://dx.doi.org/10.1007/s10766-015-0399-9
+([arXiv preprint](http://arxiv.org/abs/1507.04047))
 
 [ref1]: #ref1
 [ref2]: #ref2
