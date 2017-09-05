@@ -13,6 +13,10 @@ micompm - Multivariate independent comparison of observations
 2.5\.  [Multiple comparisons and different outputs](#multiplecomparisonsanddifferentoutputs)  
 2.6\.  [Visualization and publication quality tables](#visualizationandpublicationqualitytables)  
 3\.  [Tutorial](#tutorial)  
+3.1\.  [Loading simulation data](#loadingsimulationdata)  
+3.2\.  [Compare individual outputs and assess distributional assumptions](#compareindividualoutputsandassessdistributionalassumptions)  
+3.3\.  [Simultaneous of several outputs](#simultaneousofseveraloutputs)  
+3.4\.  [Tables and plots](#tablesandplots)  
 4\.  [Unit tests](#unittests)  
 5\.  [References](#references)  
 
@@ -277,7 +281,7 @@ The [micomp_show] function returns `tbl`, containing the generated table, and
 ## 3\. Tutorial
 
 The tutorial uses the following dataset, which corresponds to the results
-presented in reference [\[2\]][ref2]:
+presented in reference [\[1\]][ref1]:
 
 * [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.46848.svg)](http://dx.doi.org/10.5281/zenodo.46848)
 
@@ -300,7 +304,7 @@ realization of prototypical predator-prey system with six outputs:
 6. Mean value of the grass countdown parameter
 
 The following implementations or variants of the [PPHPC] model were used to
-generate the data [\[3\]][ref3]:
+generate the data:
 
 1. [Canonical NetLogo][pphpc_netlogo] implementation.
 2. Parallel [Java][pphpc_java] implementation.
@@ -314,9 +318,54 @@ and 4 are purposefully misaligned, and should yield outputs with statistically
 significant differences from the first two. The datasets were collected under
 five different model sizes (100 _x_ 100, 200 _x_ 200, 400 _x_ 400, 800 _x_ 800
 and 1600 _x_ 1600) and two distinct parameterizations (_v1_ and _v2_), as
-discussed in reference [\[3\]][ref3].
+discussed in reference [\[1\]][ref1]. For the remainder of this tutorial we
+will focus on model size 400 _x_ 400 and parameterization _v1_.
 
-**TODO** Finish the remaining tutorial...
+<a name="loadingsimulationdata"></a>
+
+### 3.1\. Loading simulation data
+
+```matlab
+[o_ok, g_ok] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
+[o_ns, g_ns] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt');
+[o_diff, g_diff] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt');
+```
+
+<a name="compareindividualoutputsandassessdistributionalassumptions"></a>
+
+### 3.2\. Compare individual outputs and assess distributional assumptions
+
+```matlab
+cmpoutput(0.9, o_ok{1}, g_ok);
+```
+
+```matlab
+cmpoutput(0.9, o_ok{7}, g_ok);
+```
+
+```matlab
+cmpoutput(0.9, o_ns{1}, g_ns);
+```
+
+```matlab
+cmpoutput(0.9, o_diff{1}, g_diff);
+```
+
+```matlab
+[npcs, p_mnv, p_par, p_npar, score, varexp] = cmpoutput(0.9, o_diff{1}, g_diff);
+```
+
+<a name="simultaneousofseveraloutputs"></a>
+
+### 3.3\. Simultaneous of several outputs
+
+**TODO**
+
+<a name="tablesandplots"></a>
+
+### 3.4\. Tables and plots
+
+**TODO**
 
 <a name="unittests"></a>
 
@@ -349,17 +398,8 @@ Practice and Theory*. 72:131–149. http://dx.doi.org/10.1016/j.simpat.2016.12.0
 standard model for research in agent-based modeling and simulation. *PeerJ
 Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 
-<a name="ref3"></a>
-
-[\[3\]][ref3] Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
-Parallelization strategies for spatial agent-based models. *International
-Journal of Parallel Programming*. 45(3):449–481.
-http://dx.doi.org/10.1007/s10766-015-0399-9
-([arXiv preprint](http://arxiv.org/abs/1507.04047))
-
 [ref1]: #ref1
 [ref2]: #ref2
-[ref3]: #ref3
 [NetLogo]: https://ccl.northwestern.edu/netlogo/
 [PPHPC]: https://github.com/fakenmc/pphpc
 [pphpc_netlogo]: https://github.com/fakenmc/pphpc/tree/netlogo
