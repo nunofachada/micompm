@@ -100,7 +100,7 @@ observations of the groups to be compared.
 * [micomp] - Performs multiple independent comparisons of output observations.
 * [micomp_show] - Generate tables and plots of model-independent comparison of
 observations.
-* [cmp_assumptions] - Verify the assumptions for parametric tests applied to
+* [cmpassumptions] - Verify the assumptions for parametric tests applied to
 the comparison of output observations.
 
 _micompm_ also provides and uses additional [helper] and [3rd party] functions.
@@ -203,17 +203,17 @@ The [cmpoutput] function performs several statistical tests, including the
 percentage of variance). These two tests are parametric, which means they
 expect samples to be drawn from distributions with particular characteristics,
 namely that: 1) they are drawn from a normally distributed population; and, 2)
-they are drawn from populations with equal variances. The [cmp_assumptions]
+they are drawn from populations with equal variances. The [cmpassumptions]
 function performs additional tests that verify these assumptions. It is invoked
 as follows:
 
 ```matlab
-[p_unorm, p_mnorm, p_uvar, p_mvar] = cmp_assumptions(scores, groups, npcs)
+[p_unorm, p_mnorm, p_uvar, p_mvar] = cmpassumptions(scores, groups, npcs)
 ```
 
 The function accepts as arguments the PCA `scores` returned by [cmpoutput],
 the `groups` to which the observations in `scores` belong to, and the number of
-PCs (for the multivariate comparison with [MANOVA]). [cmp_assumptions] returns
+PCs (for the multivariate comparison with [MANOVA]). [cmpassumptions] returns
 _p_-values for the assumptions tests, namely:
 
 * `p_unorm` - Matrix _p_-values from the [Shapiro-Wilk] test for univariate
@@ -413,7 +413,7 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [cmpoutput]: ../micompm/cmpoutput.m
 [micomp]: ../micompm/micomp.m
 [micomp_show]: ../micompm/micomp_show.m
-[cmp_assumptions]: ../micompm/cmp_assumptions.m
+[cmpassumptions]: ../micompm/cmpassumptions.m
 [helper]: ../helpers
 [3rd party]: ``../3rdparty
 [micompr]: https://github.com/fakenmc/micompr
