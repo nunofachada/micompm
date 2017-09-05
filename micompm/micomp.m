@@ -26,11 +26,11 @@ function c = micomp(nout, ccat, ve, varargin)
 %         c - A struct with the following fields: 
 %             data - 2D matrix with dimension (nout x ncomp) x 4, rows
 %                    corresponding to outputs grouped by comparison, and 4
-%                    corresponds to number of principal components, p-value
-%                    of the MANOVA test, 1st p-value of the parametric test
-%                    and 1st p-value of the non-parametric test (see
-%                    documentation for cmpoutput for more information on
-%                    these tests).
+%                    corresponds to: number of principal components,
+%                    p-value of the MANOVA test, 1st p-value of the
+%                    parametric test, and 1st p-value of the non-parametric
+%                    test (see documentation for cmpoutput for more
+%                    information on these tests).
 %           scores - nout x ncomp cell matrix, each element corresponding
 %                    to a scores matrix returned by cmpoutput for each
 %                    combination of output and comparison.

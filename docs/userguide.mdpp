@@ -194,9 +194,9 @@ often more elaborate.
 
 ### Multiple comparisons and different outputs
 
-The [micomp] function performs multiple comparisons of different outputs in one
-call by leveraging the functionality provided by [grpoutputs] and [cmpoutput].
-Its prototype is as follows:
+The [micomp] function performs multiple comparisons of different outputs,
+making use the functionality provided by [grpoutputs] and [cmpoutput]. It is
+invoked as follows:
 
 ```matlab
 c = micomp(nout, ccat, ve, varargin)
@@ -209,9 +209,10 @@ concatenated output is given in the `ccat` parameter (available options are
 is set to 0 or '', the concatenated output is not generated. The `ve` argument
 defines the percentage of variance explained by the _q_ principal components
 (i.e. number of dimensions) used in the [MANOVA] test. The remaining arguments,
-i.e. `varargin`, define the data and the comparisons to be performed.
+`varargin`, define the data and the comparisons to be performed.
 
-The [micomp] function returns a struct containing the *TODO*
+The [micomp] function returns a struct with several fields containing the
+results provided by [cmpoutput] for all comparisons and outputs.
 
 ### Visualization and publication quality tables
 
