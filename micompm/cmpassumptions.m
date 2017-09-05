@@ -9,8 +9,9 @@ function [p_unorm, p_mnorm, p_uvar, p_mvar] = ...
 %  scores - PCA scores, i.e. the scores matrix returned by cmpoutput.
 %  groups - Groups to which observations (rows of data) belong to.
 %    npcs - Number of principal components used in multivariate comparison.
-% summary - Set this optional argument to 0 to suppress printing the
-%           assumptions summary.
+% summary - Optional argument defining the maximum number of PCs to show
+%           in the summary (default is 8). Setting this argument to 0
+%           suppresses printing assumptions summary.
 %
 % Outputs:
 %  p_unorm - A ngrps x tpcs matrix with the p-values of the Shapiro-Wilk
@@ -30,7 +31,7 @@ function [p_unorm, p_mnorm, p_uvar, p_mvar] = ...
 
 % Print summary by default
 if nargin < 4
-    summary = 1;
+    summary = 8;
 end;
 
 % Unique groups
@@ -112,16 +113,18 @@ end;
 if summary
     
     % Maximum number of PCs to show the p-values for
-    maxpcs = 8;
+    maxpcs = summary;
     
     % Show Shapiro-Wilk test p-values
-    fprintf(['\n* P-values for the Shapiro-Wilk test ' ...
-        '(univariate normality)\n']);
-    %fprintf('           ');
-    %for j = 1:min(maxpcs, tpcs)
-    %   fprintf(' PC% 7i', j);
-    %end;
-    %fprintf('\n');
+    str = 'P-values for the Shapiro-Wilk test (univariate normality)';
+    fprintf(['\n' str '\n']);
+    fprintf([repmat('-', 1, numel(str)) '\n\n']);
+
+    fprintf('           ');
+    for j = 1:min(maxpcs, tpcs)
+       fprintf(' % 7s% 2i', 'PC', j);
+    end;
+    fprintf('\n');
     for i = 1:numgrp
         fprintf('    Group %d', i);
         for j = 1:min(maxpcs, tpcs)
@@ -135,16 +138,24 @@ if summary
     
     % Show Royston test p-values
     if npcs > 1
-        fprintf(['\n* P-values for the Royston test ' ...
-            '(multivariate normality, %d dimensions)\n'], npcs);
+        str = sprintf(['P-values for the Royston test ' ...
+            '(multivariate normality, %d dimensions)'], npcs);
+        fprintf(['\n' str '\n']);
+        fprintf([repmat('-', 1, numel(str)) '\n\n']);
         for i = 1:numgrp
             fprintf('    Group %d % 9.3g\n', i, p_mnorm(i));
         end;
     end;
     
     % Show Bartlett's test p-values
-    fprintf('\n* P-values for Bartlett''s test (equality of variances)\n');
+    str = 'P-values for Bartlett''s test (equality of variances)';
+    fprintf(['\n' str '\n']);
+    fprintf([repmat('-', 1, numel(str)) '\n\n']);
     fprintf('           ');
+    for j = 1:min(maxpcs, tpcs)
+       fprintf(' % 7s% 2i', 'PC', j);
+    end;
+    fprintf('\n           ');
     for j = 1:min(maxpcs, tpcs)
         fprintf(' % 9.3g', p_uvar(j));
     end;
@@ -155,8 +166,10 @@ if summary
     
     % Show Box's M p-value
     if npcs > 1
-        fprintf(['\n* P-value for Box''s M test (homogeneity of ' ...
-            'covariance matrices on %d dimensions)\n'], npcs);
+        str = sprintf(['P-value for Box''s M test (homogeneity of ' ...
+            'covariance matrices on %d dimensions)'], npcs);
+        fprintf(['\n' str '\n']);
+        fprintf([repmat('-', 1, numel(str)) '\n\n']);
         fprintf('            % 9.3g\n', p_mvar);
     end;
     
