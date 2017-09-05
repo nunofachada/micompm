@@ -252,9 +252,22 @@ results provided by [cmpoutput] for all comparisons and outputs.
 ### 2.6\. Visualization and publication quality tables
 
 Plots and publication quality tables summarizing the performed comparisons can
-be generated with the [micomp_show] function.
+be generated with the [micomp_show] function. The prototype of this function is
+simple:
 
-*TODO*
+```matlab
+[tbl, fids] = micomp_show(type, c, nout, ncomp)
+```
+
+The first parameter, `type`, defines the type of output to generate. If set to
+0, a LaTeX table is generated, while setting it to 1 yields a plain text table.
+Setting `type` to 2 also produces a plain text table, but also generates
+a number plots summarizing the performed comparisons. The second parameter,
+`c`, is the struct returned by the [micomp] function. `nout` and `ncomp` are
+the number of outputs and comparisons, respectively.
+
+The [micomp_show] function returns `tbl`, containing the generated table, and
+`fids`, which are the handles of the generated plots, if any.
 
 <a name="tutorial"></a>
 
