@@ -20,7 +20,7 @@ function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
 % Outputs:
 %      npcs - Number of principal components which explain ve percentage of
 %             variance.
-%     p_mnv - P-values for the MANOVA test for npcs principal components.
+%     p_mnv - P-value for the MANOVA test for npcs principal components.
 %     p_par - Vector of p-values for the parametric test applied to groups
 %             along each principal component (t-test for 2 groups, ANOVA
 %             for more than 2 groups).
@@ -139,12 +139,12 @@ end;
 
 % Present some summary statistics, if required
 if summary
-    fprintf('\nNumber of PCs: %d\n', npcs);
+    fprintf('\nNumber of PCs                 : %d\n', npcs);
     if npcs > 1
-        fprintf('MANOVA 1st P-Value: %f\n', p_mnv(1));
+        fprintf('MANOVA p-Value                : %6.4g\n', p_mnv(1));
     end;
-    fprintf('ANOVA/t-test P-Value (1st PC): %5.3f\n', p_par(1));
-    fprintf('KW/MW P-Value (1st PC): %5.3f\n\n', p_npar(1));
+    fprintf('ANOVA/t-test P-Value (1st PC) : %6.4g\n', p_par(1));
+    fprintf('KW/MW P-Value (1st PC)        : %6.4g\n\n', p_npar(1));
 end;
 
 
