@@ -10,7 +10,11 @@ best explain their differences, avoiding manual selection of specific points or
 summary statistics. The procedure is appropriate for comparing samples of time
 series, images, spectrometric measures or similar multivariate observations.
 
-Follow _micomp_'s [User Guide] to get started.
+Follow _micompm_'s [User Guide] to get started.
+
+### Dependencies
+
+* [MATLAB Statistics toolbox] / [Octave statistics package]
 
 ### Theory
 
@@ -29,6 +33,8 @@ This port has the following limitations when compared with the original R
 procedure.
 * It is unable to directly apply and compare multiple MANOVA tests to each
 output/comparison combination for multiple user-specified variances to explain.
+* The generated LaTeX tables are not directly configurable using function
+arguments.
 
 ### License
 
@@ -36,6 +42,8 @@ output/comparison combination for multiple user-specified variances to explain.
 
 [micompr]: https://github.com/fakenmc/micompr
 [R]: https://www.r-project.org/
-[Matlab]: http://www.mathworks.com/products/matlab/
+[MATLAB]: http://www.mathworks.com/products/matlab/
 [Octave]: https://gnu.org/software/octave/
 [User Guide]: docs/userguide.md
+[MATLAB Statistics toolbox]: https://www.mathworks.com/products/statistics.html
+[Octave statistics package]: https://octave.sourceforge.io/statistics/

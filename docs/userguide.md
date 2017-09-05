@@ -113,6 +113,9 @@ Clone or download _micompm_. Then, either: 1) launch [MATLAB]/[Octave] directly
 from the `micompm` folder; or, 2) within [MATLAB]/[Octave], `cd` into the
 `micompm` folder and execute the [startup] script.
 
+Note that _micompm_ requires the [MATLAB Statistics toolbox] (when used with
+[MATLAB]) or the [Octave statistics package] (when used with [Octave]).
+
 <a name="datalayoutanddatafileformat"></a>
 
 ### 2.2\. Data layout and data file format
@@ -376,7 +379,9 @@ http://dx.doi.org/10.1007/s10766-015-0399-9
 [micompr]: https://github.com/fakenmc/micompr
 [R]: https://www.r-project.org/
 [Matlab]: http://www.mathworks.com/products/matlab/
+[MATLAB Statistics toolbox]: https://www.mathworks.com/products/statistics.html
 [Octave]: https://gnu.org/software/octave/
+[Octave statistics package]: https://octave.sourceforge.io/statistics/
 [tests]: ../tests
 [MOxUnit]: https://github.com/MOxUnit/MOxUnit
 [MANOVA]: https://en.wikipedia.org/wiki/Multivariate_analysis_of_variance
