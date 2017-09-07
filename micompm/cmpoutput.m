@@ -14,8 +14,9 @@ function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
 %             length).
 %    groups - Vector of integers specifying the group to which individual
 %             observations are associated with.
-%   summary - Set this optional argument to 0 to suppress printing the
-%             comparison summary.
+%   summary - Optional argument defining the maximum number of PCs to show
+%             in the summary (default is 8). Setting this argument to 0
+%             suppresses printing the comparison summary.
 %
 % Outputs:
 %      npcs - Number of principal components which explain ve percentage of
@@ -54,9 +55,9 @@ if numel(groups) ~= size(data, 1)
         'as the number of rows in data']);
 end;
 
-% Print summary by default
+% Print summary by default with 8 PCs
 if nargin < 4
-    summary = 1;
+    summary = 8;
 end;
 
 % Perform PCA
@@ -139,12 +140,61 @@ end;
 
 % Present some summary statistics, if required
 if summary
-    fprintf('\nNumber of PCs                 : %d\n', npcs);
-    if npcs > 1
-        fprintf('MANOVA p-Value                : %6.4g\n', p_mnv(1));
+        
+    % Maximum number of PCs to show the p-values for
+    maxpcs = summary;
+    
+    % Univariate tests used
+    if ngrps == 2
+        ptst = 't-test';
+        nptst = 'Mann-Whitney U test';
+    else
+        ptst = 'ANOVA F-test';
+        nptst = 'Kruskal-Wallis H test';
     end;
-    fprintf('ANOVA/t-test P-Value (1st PC) : %6.4g\n', p_par(1));
-    fprintf('KW/MW P-Value (1st PC)        : %6.4g\n\n', p_npar(1));
+    
+    % Show parametric test p-values
+    str = sprintf('P-values for the parametric test (%s)', ptst);
+    fprintf(['\n' str '\n']);
+    fprintf([repmat('-', 1, numel(str)) '\n\n']);
+
+  %  fprintf('           ');
+    for i = 1:min(maxpcs, tpcs)
+       fprintf(' % 7s%02d', 'PC', i);
+    end;
+    fprintf('\n');
+    for i = 1:min(maxpcs, tpcs)
+        fprintf(' % 9.3g', p_par(i));
+    end;
+    if tpcs > maxpcs
+        fprintf(' ...');
+    end;
+    fprintf('\n');
+
+     % Show non-parametric test p-values
+    str = sprintf('P-values for the non-parametric test (%s)', nptst);
+    fprintf(['\n' str '\n']);
+    fprintf([repmat('-', 1, numel(str)) '\n\n']);
+
+  %  fprintf('           ');
+    for i = 1:min(maxpcs, tpcs)
+       fprintf(' % 7s%02d', 'PC', i);
+    end;
+    fprintf('\n');
+    for i = 1:min(maxpcs, tpcs)
+        fprintf(' % 9.3g', p_npar(i));
+    end;
+    if tpcs > maxpcs
+        fprintf(' ...');
+    end;
+    fprintf('\n');
+    
+    % Show MANOVA test p-value and info
+    str = sprintf(['P-value for the MANOVA test (%d PCs, %4.2f%%%% ' ...
+        'of variance explained)'], npcs, sum(varexp(1:npcs)) * 100);
+    fprintf(['\n' str '\n']);
+    fprintf([repmat('-', 1, numel(str)) '\n\n']);
+    fprintf(' % 9.3g', p_mnv(1));
+    fprintf('\n\n');
+
 end;
-
-
