@@ -143,9 +143,10 @@ precisely, it determines the number of PCs used in the test. The second
 parameter, `data`, is the _n_ x _m_ output matrix containing the data to be
 compared, while the third parameter is the _n_-dimensional vector specifying
 the `groups` to which the observations in `data` belong to. The last parameter,
-`summary`, is optional and can be set to 0 in order to suppress the comparison
-summary shown by default. Besides printing this summary, [cmpoutput] returns
-the following information:
+`summary`, is optional and defines the number of PCs to show the _p_-values for
+in the case for the univariate tests. It can be set to 0 in order to completely
+suppress the comparison summary. Besides printing this summary, [cmpoutput]
+returns the following information:
 
 * `npcs` - Number of principal components which explain `ve` percentage of
 variance.
@@ -173,12 +174,13 @@ function performs additional tests that verify these assumptions. It is invoked
 as follows:
 
 ```matlab
-[p_unorm, p_mnorm, p_uvar, p_mvar] = cmpassumptions(scores, groups, npcs)
+[p_unorm, p_mnorm, p_uvar, p_mvar] = cmpassumptions(scores, groups, npcs, summary)
 ```
 
 The function accepts as arguments the PCA `scores` returned by [cmpoutput],
 the `groups` to which the observations in `scores` belong to, and the number of
-PCs (for the multivariate comparison with [MANOVA]). [cmpassumptions] returns
+PCs (for the multivariate comparison with [MANOVA]). The `summary` argument
+plays a similar role to [cmpoutput]'s equivalent.  [cmpassumptions] returns
 _p_-values for the assumptions tests, namely:
 
 * `p_unorm` - Matrix _p_-values from the [Shapiro-Wilk] test for univariate
@@ -229,10 +231,10 @@ simple:
 
 The first parameter, `type`, defines the type of output to generate. If set to
 0, a LaTeX table is generated, while setting it to 1 yields a plain text table.
-Setting `type` to 2 also produces a plain text table, but also generates
-a number plots summarizing the performed comparisons. The second parameter,
-`c`, is the struct returned by the [micomp] function. `nout` and `ncomp` are
-the number of outputs and comparisons, respectively.
+Setting `type` to 2 also produces a plain text table, but additionally
+generates a number of plots summarizing the performed comparisons. The second
+parameter, `c`, is the struct returned by the [micomp] function. `nout` and
+`ncomp` are the number of outputs and comparisons, respectively.
 
 The [micomp_show] function returns `tbl`, containing the generated table, and
 `fids`, which are the handles of the generated plots, if any.
@@ -281,6 +283,22 @@ discussed in reference [\[1\]][ref1]. For the remainder of this tutorial we
 will focus on model size 400 _x_ 400 and parameterization _v1_.
 
 ### Loading simulation data
+
+The [grpoutputs] function can be used to load the model outputs into the format
+required by [cmpoutput]. For example, the following command will load data from
+the implementations 1 and 2, which are aligned:
+
+```matlab
+[o_ok, g_ok] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
+```
+
+The `o_ok` variable contains a cell array of seven matrices, each matrix
+corresponding to one of the six outputs, plus a seventh concatenated output
+(range scaled). Since the data contains 30 runs during 4001 iterations of each
+model implementation, individual matrices have 60 rows and 4001 columns. The
+seventh matrix, containing the concatenated output, contains 24006 columns
+(4000 _x_ 6). In turn, `g_ok`, a vector of length 60, specifies the
+implementations to which the runs are associated with.
 
 ```matlab
 [o_ok, g_ok] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
