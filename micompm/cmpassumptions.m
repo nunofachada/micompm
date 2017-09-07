@@ -29,7 +29,7 @@ function [p_unorm, p_mnorm, p_uvar, p_mvar] = ...
 % at http://opensource.org/licenses/MIT)
 %
 
-% Print summary by default
+% Print summary by default with 8 PCs
 if nargin < 4
     summary = 8;
 end;
@@ -122,7 +122,7 @@ if summary
 
     fprintf('           ');
     for j = 1:min(maxpcs, tpcs)
-       fprintf(' % 7s% 2i', 'PC', j);
+       fprintf(' % 7s%02d', 'PC', j);
     end;
     fprintf('\n');
     for i = 1:numgrp
@@ -153,7 +153,7 @@ if summary
     fprintf([repmat('-', 1, numel(str)) '\n\n']);
     fprintf('           ');
     for j = 1:min(maxpcs, tpcs)
-       fprintf(' % 7s% 2i', 'PC', j);
+       fprintf(' % 7s%02d', 'PC', j);
     end;
     fprintf('\n           ');
     for j = 1:min(maxpcs, tpcs)
