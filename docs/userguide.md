@@ -14,7 +14,7 @@ micompm - Multivariate independent comparison of observations
 2.6\.  [Visualization and publication quality tables](#visualizationandpublicationqualitytables)  
 3\.  [Tutorial](#tutorial)  
 3.1\.  [Loading simulation data](#loadingsimulationdata)  
-3.2\.  [Compare individual outputs and assess distributional assumptions](#compareindividualoutputsandassessdistributionalassumptions)  
+3.2\.  [Comparing implementation outputs and assessing distributional assumptions](#comparingimplementationoutputsandassessingdistributionalassumptions)  
 3.3\.  [Simultaneous of several outputs](#simultaneousofseveraloutputs)  
 3.4\.  [Tables and plots](#tablesandplots)  
 4\.  [Unit tests](#unittests)  
@@ -177,7 +177,7 @@ parameter, `data`, is the _n_ x _m_ output matrix containing the data to be
 compared, while the third parameter is the _n_-dimensional vector specifying
 the `groups` to which the observations in `data` belong to. The last parameter,
 `summary`, is optional and defines the number of PCs to show the _p_-values for
-in the case for the univariate tests. It can be set to 0 in order to completely
+in the case of univariate tests. It can be set to 0 in order to completely
 suppress the comparison summary. Besides printing this summary, [cmpoutput]
 returns the following information:
 
@@ -295,8 +295,9 @@ datafolder = 'path/to/dataset';
 ```
 
 The dataset contains output from several implementations or variants of the
-[PPHPC] agent-based model. [PPHPC], discussed in reference  [\[2\]][ref2], is a
-realization of prototypical predator-prey system with six outputs:
+[PPHPC] agent-based model. The [PPHPC] model, discussed in reference
+[\[2\]][ref2], is a realization of prototypical predator-prey system with six
+outputs:
 
 1. Sheep population
 2. Wolves population
@@ -317,19 +318,23 @@ simulation parameters.
 The first two implementations strictly follow the [PPHPC] conceptual model
 [\[2\]][ref2], and should generate statistically similar outputs. Variants 3
 and 4 are purposefully misaligned, and should yield outputs with statistically
-significant differences from the first two. The datasets were collected under
-five different model sizes (100 _x_ 100, 200 _x_ 200, 400 _x_ 400, 800 _x_ 800
-and 1600 _x_ 1600) and two distinct parameterizations (_v1_ and _v2_), as
-discussed in reference [\[1\]][ref1]. For the remainder of this tutorial we
-will focus on model size 400 _x_ 400 and parameterization _v1_.
+significant differences from the first two.
+
+The datasets were collected under five different model sizes (100 _x_ 100, 200
+_x_ 200, 400 _x_ 400, 800 _x_ 800 and 1600 _x_ 1600) and two distinct
+parameterizations (_v1_ and _v2_), as discussed in reference [\[1\]][ref1]. For
+the remainder of this tutorial we will focus on model size 400 _x_ 400 and
+parameterization _v1_.
 
 <a name="loadingsimulationdata"></a>
 
 ### 3.1\. Loading simulation data
 
 The [grpoutputs] function can be used to load the model outputs into the format
-required by [cmpoutput]. For example, the following command will load data from
-the implementations 1 and 2, which are aligned:
+required by [cmpoutput]. The idea here is to group outputs from implementation
+1, which is the canonical model realization, with outputs from the remaining
+implementations. For example, the following command will load data from
+implementations 1 and 2, which are supposedly aligned:
 
 ```matlab
 [o_ok, g_ok] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
@@ -343,15 +348,26 @@ seventh matrix, containing the concatenated output, contains 24006 columns
 (4000 _x_ 6). In turn, `g_ok`, a vector of length 60, specifies the
 implementations to which the runs are associated with.
 
+Similarly, outputs from implementations 1 and 3, the latter with a small
+realization difference, can be loaded as follows:
+
 ```matlab
-[o_ok, g_ok] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
 [o_ns, g_ns] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt');
+```
+
+Finally, the following command groups implementations 1 and 4:
+
+```matlab
 [o_diff, g_diff] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt');
 ```
 
-<a name="compareindividualoutputsandassessdistributionalassumptions"></a>
+<a name="comparingimplementationoutputsandassessingdistributionalassumptions"></a>
 
-### 3.2\. Compare individual outputs and assess distributional assumptions
+### 3.2\. Comparing implementation outputs and assessing distributional assumptions
+
+Outputs can be compared individually with the [cmpoutput] function. For
+example, comparing the first output (sheep population) of implementations 1 and
+2, 
 
 ```matlab
 cmpoutput(0.9, o_ok{1}, g_ok);
