@@ -76,10 +76,10 @@ end;
 for i = 1:tpcs
     if is_octave()
         % Bartlett test with Octave
-        cellscore = cell(1, numgrp);
+        cellscores = cell(1, numgrp);
         for j = 1:numgrp
             idxs = find(groups == uniqgrp(j));
-            cellscore{j} = scores(idxs(1):idxs(numel(idxs)), i);
+            cellscores{j} = scores(idxs(1):idxs(numel(idxs)), i);
         end;
         % Octave's bartlett_test() function does not generate the same
         % p-values as MATLAB and R implementations of the Bartlett test.
@@ -89,9 +89,9 @@ for i = 1:tpcs
         % we are forced to use bartlett_test(), which generates slightly
         % different p-values.
         if numgrp == 2
-            p_uvar(i) = var_test(cellscore{:});
+            p_uvar(i) = var_test(cellscores{:});
         else
-            p_uvar(i) = bartlett_test(cellscore{:});
+            p_uvar(i) = bartlett_test(cellscores{:});
         end;
     else
         % Bartlett test with MATLAB

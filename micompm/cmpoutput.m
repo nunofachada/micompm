@@ -1,8 +1,8 @@
-function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
+function [npcs, p_mnv, p_par, p_npar, scores, varexp] = ...
     cmpoutput(ve, data, groups, summary)
 % CMPOUTPUT Compares output observations from two or more groups.
 %
-%    [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
+%    [npcs, p_mnv, p_par, p_npar, scores, varexp] = ...
 %       CMPOUTPUT(ve, data, groups, summary)
 %
 % Parameters:
@@ -28,7 +28,7 @@ function [npcs, p_mnv, p_par, p_npar, score, varexp] = ...
 %    p_npar - Vector of p-values for the non-parametric test applied to
 %             groups along each principal component (Mann-Whitney U test
 %             for 2 groups, Kruskal-Wallis test for more than 2 groups).
-%     score - n x (n - 1) matrix containing projections of output data in
+%    scores - n x (n - 1) matrix containing projections of output data in
 %             the principal components space. Rows correspond to
 %             observations, columns to principal components.
 %    varexp - Percentage of variance explained by each principal component.
@@ -62,16 +62,16 @@ end;
 
 % Perform PCA
 if is_octave()
-    [~, score, latent] = princomp(data, 'econ');
+    [~, scores, latent] = princomp(data, 'econ');
 else
-    [~, score, latent] = pca(data);
+    [~, scores, latent] = pca(data);
 end;
 
 % Variance explain by each PC
 varexp = latent ./ sum(latent);
 
 % Total number of PCs
-tpcs = size(score, 2);
+tpcs = size(scores, 2);
 
 % How many PCs required to explain user-specified minimum variance
 cumvar = cumsum(varexp);
@@ -80,9 +80,9 @@ npcs = find(cumvar > ve, 1);
 % Perform MANOVA if possible
 if npcs > 1
     if is_octave()
-        p_mnv = manova_micomp(score(:, 1:npcs), groups);
+        p_mnv = manova_micomp(scores(:, 1:npcs), groups);
     else
-        [~, p_mnv] = manova1(score(:, 1:npcs), groups);
+        [~, p_mnv] = manova1(scores(:, 1:npcs), groups);
         p_mnv = p_mnv(1);
     end;
 else
@@ -103,16 +103,16 @@ if ngrps > 2
     % More than two groups, perform ANOVA and KW on each PC
     for i = 1:tpcs
         if is_octave()
-            p_par(i) = anova(score(:, i), groups);
-            cellscore = cell(1, ngrps);
+            p_par(i) = anova(scores(:, i), groups);
+            cellscores = cell(1, ngrps);
             for j = 1:ngrps
                 idxs = find(groups == ugrps(j));
-                cellscore{j} = score(idxs(1):idxs(numel(idxs)), i);
+                cellscores{j} = scores(idxs(1):idxs(numel(idxs)), i);
             end;
-            p_npar(i) = kruskal_wallis_test(cellscore{:});
+            p_npar(i) = kruskal_wallis_test(cellscores{:});
         else
-            p_par(i) = anova1(score(:, i), groups, 'off');
-            p_npar(i) = kruskalwallis(score(:, i), groups, 'off');
+            p_par(i) = anova1(scores(:, i), groups, 'off');
+            p_npar(i) = kruskalwallis(scores(:, i), groups, 'off');
         end;
     end;
     
@@ -125,15 +125,15 @@ else
     
     for i = 1:tpcs
         if is_octave()
-            p_par(i) = t_test_2(score(1:(gci - 1), i), ...
-                score(gci:numel(groups), i));
-            p_npar(i) = u_test(score(1:(gci - 1), i), ...
-                score(gci:numel(groups), i));
+            p_par(i) = t_test_2(scores(1:(gci - 1), i), ...
+                scores(gci:numel(groups), i));
+            p_npar(i) = u_test(scores(1:(gci - 1), i), ...
+                scores(gci:numel(groups), i));
         else
-            [~, p_par(i)] = ttest2(score(1:(gci - 1), i), ...
-                score(gci:numel(groups), i));
-            p_npar(i) = ranksum(score(1:(gci - 1), i), ...
-                score(gci:numel(groups), i));
+            [~, p_par(i)] = ttest2(scores(1:(gci - 1), i), ...
+                scores(gci:numel(groups), i));
+            p_npar(i) = ranksum(scores(1:(gci - 1), i), ...
+                scores(gci:numel(groups), i));
         end;
     end;
 end;
