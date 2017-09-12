@@ -168,7 +168,7 @@ The [cmpoutput] function compares observations from two or more groups and is
 at the core of the _micompm_ toolbox. Its prototype is as follows:
 
 ```matlab
-[npcs, p_mnv, p_par, p_npar, score, varexp] = cmpoutput(ve, data, groups, summary)
+[npcs, p_mnv, p_par, p_npar, scores, varexp] = cmpoutput(ve, data, groups, summary)
 ```
 
 The first parameter, `ve`, specifies the percentage of variance which must be
@@ -191,10 +191,12 @@ along each principal component ([_t_-test] for 2 groups, [ANOVA] for more than
 * `p_npar` - Vector of _p_-values for the non-parametric test applied to groups
 along each principal component ([Mann-Whitney _U_ test] for 2 groups,
 [Kruskal-Wallis test] for more than 2 groups).
-* `score` - _n_ x (_n_ - 1) matrix containing projections of output data in
+* `scores` - _n_ x (_n_ - 1) matrix containing projections of output data in
 the principal components space. Rows correspond to observations, columns to
 principal components.
 * `varexp` - Percentage of variance explained by each principal component.
+
+<a name="verifyassumptions"></a>
 
 <a name="verifyassumptionsfortheperformedparametrictests"></a>
 
@@ -501,15 +503,77 @@ P-value for the MANOVA test (2 PCs, 81.82% of variance explained)
    9.4e-65
 ```
 
-Results show highly significant univariate (for PC01) and multivariate
-_p_-values. There is little doubt that implementations 1 and 4 display
+Results show highly significant univariate (PC01) and multivariate _p_-values.
+Thus, it is possible to conclude that implementations 1 and 4 display
 considerably different behavior.
 
 <a name="assessingdistributionalassumptions"></a>
 
 ### 3.3\. Assessing distributional assumptions
 
-In the previous **TODO**
+In the previous section the _p_-values of the [_t_][_t_-test] and [MANOVA]
+tests were used to draw conclusions concerning the alignment of simulation
+outputs. However, as [already discussed](#verifyassumptions), these tests make
+a number of assumptions about the underlying distribution. The [cmpassumptions]
+function evaluates these assumptions. In the next example, this function is
+used to evaluate the assumptions underlying the last comparison in the previous
+section, namely the comparison of the second output of implementations 1 and 4.
+
+First, [cmpoutput] is invoked again, but this time its return values are kept.
+Additionally, the optional `summary` parameter is set to zero, since we do not
+require the summary to be displayed:
+
+```matlab
+[npcs, p_mnv, p_par, p_npar, scores, varexp] = cmpoutput(0.8, o_diff{2}, g_diff, 0);
+```
+
+Now [cmpassumptions] can be invoked:
+
+```matlab
+cmpassumptions(scores, g_diff, npcs);
+```
+
+For this comparison, [cmpassumptions] generates the following summary:
+
+```
+P-values for the Shapiro-Wilk test (univariate normality)
+---------------------------------------------------------
+
+                 PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+    Group 1     0.498     0.222     0.426     0.707     0.384     0.338     0.631     0.864 ...
+    Group 2     0.029     0.342     0.415     0.622     homogeneity of covariance matrices 0.867     0.843     0.818     0.861 ...
+
+P-values for the Royston test (multivariate normality, 2 dimensions)
+--------------------------------------------------------------------
+
+    Group 1     0.247
+    Group 2    0.0564
+
+P-values for Bartlett's test (equality of variances)
+----------------------------------------------------
+
+                 PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+                0.704  1.52e-07     0.437    0.0029   0.00234     0.694     0.664    0.0893 ...
+
+P-value for Box's M test (homogeneity of covariance matrices on 2 dimensions)
+-----------------------------------------------------------------------------
+
+             4.93e-06
+```
+
+The assumption of normality, the most crucial, seems to be verified. There are
+no significant _p_-values in the univariate case ([Shapiro-Wilk] test), at
+least for the eight first _p_-values. The same is true for the multivariate
+comparison on two PCs (i.e., dimensions) according to the _p_-values yielded by
+[Royston]'s test. The assumption of equal variances is not so clear. It stands
+in the univariate case for the first PC (the most important), but doubt is cast
+in a few less meaningful PCs, as shown by [Bartlett's] test _p_-values.
+Multivariate homogeneity of covariance matrices for the first two PCs is not
+confirmed by [Box's M] test. However, as discussed in reference [\[1\]][ref1],
+this test is highly sensitive, and this assumption is not really critical when
+sample size is equal for both groups, which is the case in this comparison.
+Summarizing, these results indicate that parametric test assumptions are
+essentially verified for the most critical cases.
 
 <a name="simultaneousofseveraloutputs"></a>
 
