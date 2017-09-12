@@ -14,9 +14,10 @@ micompm - Multivariate independent comparison of observations
 2.6\.  [Visualization and publication quality tables](#visualizationandpublicationqualitytables)  
 3\.  [Tutorial](#tutorial)  
 3.1\.  [Loading simulation data](#loadingsimulationdata)  
-3.2\.  [Comparing implementation outputs and assessing distributional assumptions](#comparingimplementationoutputsandassessingdistributionalassumptions)  
-3.3\.  [Simultaneous of several outputs](#simultaneousofseveraloutputs)  
-3.4\.  [Tables and plots](#tablesandplots)  
+3.2\.  [Comparing implementation outputs](#comparingimplementationoutputs)  
+3.3\.  [Assessing distributional assumptions](#assessingdistributionalassumptions)  
+3.4\.  [Simultaneous of several outputs](#simultaneousofseveraloutputs)  
+3.5\.  [Tables and plots](#tablesandplots)  
 4\.  [Unit tests](#unittests)  
 5\.  [References](#references)  
 
@@ -361,43 +362,164 @@ Finally, the following command groups implementations 1 and 4:
 [o_diff, g_diff] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt');
 ```
 
-<a name="comparingimplementationoutputsandassessingdistributionalassumptions"></a>
+<a name="comparingimplementationoutputs"></a>
 
-### 3.2\. Comparing implementation outputs and assessing distributional assumptions
+### 3.2\. Comparing implementation outputs
 
 Outputs can be compared individually with the [cmpoutput] function. For
-example, comparing the first output (sheep population) of implementations 1 and
-2, 
+example, the following instructions compares the first output (sheep
+population) of implementations 1 and 2, requesting that 90% of the variance be
+explained by the PCs used in the [MANOVA] test:
 
 ```matlab
 cmpoutput(0.9, o_ok{1}, g_ok);
 ```
 
+The command produces the following output:
+
+```
+P-values for the parametric test (t-test)
+-----------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+      0.53    0.0206     0.319     0.763     0.378     0.756     0.308     0.783 ...
+
+P-values for the non-parametric test (Mann-Whitney U test)
+----------------------------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+     0.483    0.0215     0.464     0.865      0.42     0.684     0.318     0.807 ...
+
+P-value for the MANOVA test (24 PCs, 90.17% of variance explained)
+-------------------------------------------------------------------
+
+     0.498
+```
+
+Since no _p_-values are significant, implementations 1 and 2 seem to be
+aligned, at least with respect to the first output. In order to draw more
+concrete conclusions, all the six outputs should be compared. Nonetheless,
+comparing only the optional concatenated output provides a good summary of the
+overall alignment of the two implementations:
+
 ```matlab
 cmpoutput(0.9, o_ok{7}, g_ok);
 ```
+
+This command yields:
+
+```
+
+P-values for the parametric test (t-test)
+-----------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+     0.879    0.0405     0.389     0.524     0.377     0.699     0.326     0.695 ...
+
+P-values for the non-parametric test (Mann-Whitney U test)
+----------------------------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+     0.935    0.0224     0.395     0.438     0.234     0.438     0.304     0.559 ...
+
+P-value for the MANOVA test (39 PCs, 90.63% of variance explained)
+-------------------------------------------------------------------
+
+     0.565
+```
+
+The second PC _p_-values are slightly significant (<0.05). However, as
+discussed in reference [\[1\]][ref1]: a) a few significant _p_-values are to be
+expected; and, b) outputs misalignments are mostly reflected in the first PC
+_p_-values. As such, and considering that the _p_-values are generally
+non-significant, it is not possible to show that the implementations are
+misaligned.
+
+Typically, how does implementation or output misalignment manifests itself?
+Comparing implementations 1 and 3, the latter with a small algorithmic
+difference, provides an answer to this question:
 
 ```matlab
 cmpoutput(0.9, o_ns{1}, g_ns);
 ```
 
-```matlab
-cmpoutput(0.9, o_diff{1}, g_diff);
+In this case, the [cmpoutput] function produces the following summary:
+
+```
+P-values for the parametric test (t-test)
+-----------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+    0.0421     0.128   0.00385     0.767      0.37  0.000117     0.461     0.333 ...
+
+P-values for the non-parametric test (Mann-Whitney U test)
+----------------------------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+    0.0468     0.105   0.00762     0.784     0.549  0.000168     0.569     0.549 ...
+
+P-value for the MANOVA test (24 PCs, 90.82% of variance explained)
+-------------------------------------------------------------------
+
+  1.44e-13
 ```
 
+There are some significant univariate _p_-values, namely for PC01 (<0.05), PC03
+and PC06 (both <0.01). However, the multivariate _p_-value, produced by the
+[MANOVA] test for the first 24 PCs, is clearly significant. These results
+suggest that implementations 1 and 3 generate statistically dissimilar
+behaviors with respect to the sheep population output.
+
+Finally, comparing the outputs of implementations 1 and 4 clarifies how
+[cmpoutput] behaves one of the input parameters of the model is modified (as is
+the case of implementation 4):
+
 ```matlab
-[npcs, p_mnv, p_par, p_npar, score, varexp] = cmpoutput(0.9, o_diff{1}, g_diff);
+cmpoutput(0.8, o_diff{2}, g_diff);
 ```
+
+To change things a bit, in this case we compare output 2 (wolves population),
+and request that only 80% of the variance is explained by the PCs used in the
+[MANOVA] test. The following summary is generated:
+
+```
+P-values for the parametric test (t-test)
+-----------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+  8.67e-67     0.966     0.906       0.8     0.935     0.695     0.854     0.929 ...
+
+P-values for the non-parametric test (Mann-Whitney U test)
+----------------------------------------------------------
+
+      PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
+  3.02e-11     0.641       0.9     0.762     0.888     0.559     0.819     0.982 ...
+
+P-value for the MANOVA test (2 PCs, 81.82% of variance explained)
+------------------------------------------------------------------
+
+   9.4e-65
+```
+
+Results show highly significant univariate (for PC01) and multivariate
+_p_-values. There is little doubt that implementations 1 and 4 display
+considerably different behavior.
+
+<a name="assessingdistributionalassumptions"></a>
+
+### 3.3\. Assessing distributional assumptions
+
+In the previous **TODO**
 
 <a name="simultaneousofseveraloutputs"></a>
 
-### 3.3\. Simultaneous of several outputs
+### 3.4\. Simultaneous of several outputs
 
 **TODO**
 
 <a name="tablesandplots"></a>
 
-### 3.4\. Tables and plots
+### 3.5\. Tables and plots
 
 **TODO**
 
