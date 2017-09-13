@@ -340,43 +340,44 @@ implementations. For example, the following command will load data from
 implementations 1 and 2, which are supposedly aligned:
 
 ```matlab
-[o_ok, g_ok] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
+[o_12, g_12] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt');
 ```
 
-The `o_ok` variable contains a cell array of seven matrices, each matrix
+The `o_12` variable contains a cell array of seven matrices, each matrix
 corresponding to one of the six outputs, plus a seventh concatenated output
 (range scaled). Since the data contains 30 runs during 4001 iterations of each
 model implementation, individual matrices have 60 rows and 4001 columns. The
 seventh matrix, containing the concatenated output, contains 24006 columns
-(4000 _x_ 6). In turn, `g_ok`, a vector of length 60, specifies the
+(4000 _x_ 6). In turn, `g_12`, a vector of length 60, specifies the
 implementations to which the runs are associated with.
 
 Similarly, outputs from implementations 1 and 3, the latter with a small
 realization difference, can be loaded as follows:
 
 ```matlab
-[o_ns, g_ns] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt');
+[o_13, g_13] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt');
 ```
 
-Finally, the following command groups implementations 1 and 4:
+Finally, the following command groups outputs from implementations 1 and 4:
 
 ```matlab
-[o_diff, g_diff] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt');
+[o_14, g_14] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt');
 ```
 
 <a name="comparingimplementationoutputs"></a>
 
 ### 3.2\. Comparing implementation outputs
 
-Outputs can be compared individually with the [cmpoutput] function. For
-example, the following instructions compares the first output (sheep
+Simulation outputs can be compared individually with the [cmpoutput] function.
+For example, the following instructions compares the first output (sheep
 population) of implementations 1 and 2, requesting that 90% of the variance be
 explained by the PCs used in the [MANOVA] test:
 
 ```matlab
-cmpoutput(0.9, o_ok{1}, g_ok);
+cmpoutput(0.9, o_12{1}, g_12);
 ```
 
+Note that the first output is specified in the index of the `o_12` cell array.
 The command produces the following output:
 
 ```
@@ -398,20 +399,20 @@ P-value for the MANOVA test (24 PCs, 90.17% of variance explained)
      0.498
 ```
 
-Since no _p_-values are significant, implementations 1 and 2 seem to be
-aligned, at least with respect to the first output. In order to draw more
-concrete conclusions, all the six outputs should be compared. Nonetheless,
-comparing only the optional concatenated output provides a good summary of the
-overall alignment of the two implementations:
+Since no _p_-values are significant (i.e., <0.01 or <0.05), implementations 1
+and 2 seem to be aligned, at least with respect to the first output. In order
+to draw more concrete conclusions, all six outputs should be compared.
+Nonetheless, comparing only the optional concatenated output (in the 7th
+position of the `o_12` cell array) provides a good summary of the overall
+alignment of the two implementations:
 
 ```matlab
-cmpoutput(0.9, o_ok{7}, g_ok);
+cmpoutput(0.9, o_12{7}, g_12);
 ```
 
 This command yields:
 
 ```
-
 P-values for the parametric test (t-test)
 -----------------------------------------
 
@@ -431,18 +432,19 @@ P-value for the MANOVA test (39 PCs, 90.63% of variance explained)
 ```
 
 The second PC _p_-values are slightly significant (<0.05). However, as
-discussed in reference [\[1\]][ref1]: a) a few significant _p_-values are to be
-expected; and, b) outputs misalignments are mostly reflected in the first PC
+discussed in reference [\[1\]][ref1], a few significant _p_-values are to be
+expected, and output misalignments are mostly reflected in the first PC
 _p_-values. As such, and considering that the _p_-values are generally
 non-significant, it is not possible to show that the implementations are
 misaligned.
 
 Typically, how does implementation or output misalignment manifests itself?
-Comparing implementations 1 and 3, the latter with a small algorithmic
-difference, provides an answer to this question:
+Comparing an output from implementations 1 and 3, the latter with a small
+algorithmic difference with respect to the conceptual model, answers this
+question:
 
 ```matlab
-cmpoutput(0.9, o_ns{1}, g_ns);
+cmpoutput(0.9, o_13{1}, g_13);
 ```
 
 In this case, the [cmpoutput] function produces the following summary:
@@ -473,11 +475,11 @@ suggest that implementations 1 and 3 generate statistically dissimilar
 behaviors with respect to the sheep population output.
 
 Finally, comparing the outputs of implementations 1 and 4 clarifies how
-[cmpoutput] behaves one of the input parameters of the model is modified (as is
-the case of implementation 4):
+[cmpoutput] behaves when one of the input parameters of the model is modified
+(as is the case of implementation 4):
 
 ```matlab
-cmpoutput(0.8, o_diff{2}, g_diff);
+cmpoutput(0.8, o_14{2}, g_14);
 ```
 
 To change things a bit, in this case we compare output 2 (wolves population),
@@ -524,13 +526,13 @@ Additionally, the optional `summary` parameter is set to zero, since we do not
 require the summary to be displayed:
 
 ```matlab
-[npcs, p_mnv, p_par, p_npar, scores, varexp] = cmpoutput(0.8, o_diff{2}, g_diff, 0);
+[npcs, p_mnv, p_par, p_npar, scores, varexp] = cmpoutput(0.8, o_14{2}, g_14, 0);
 ```
 
 Now [cmpassumptions] can be invoked:
 
 ```matlab
-cmpassumptions(scores, g_diff, npcs);
+cmpassumptions(scores, g_14, npcs);
 ```
 
 For this comparison, [cmpassumptions] generates the following summary:
