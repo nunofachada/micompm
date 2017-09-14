@@ -468,10 +468,10 @@ considerably different behavior.
 In the previous section the _p_-values of the [_t_][_t_-test] and [MANOVA]
 tests were used to draw conclusions concerning the alignment of simulation
 outputs. However, as [already discussed](#verifyassumptions), these tests make
-a number of assumptions about the underlying distribution. The [cmpassumptions]
-function evaluates these assumptions. In the next example, this function is
-used to evaluate the assumptions underlying the last comparison in the previous
-section, namely the comparison of the second output of implementations 1 and 4.
+a number of distributional assumptions. In the next example, the
+[cmpassumptions] function is used to evaluate the assumptions underlying the
+last comparison in the previous section, namely the comparison of the second
+output of implementations 1 and 4.
 
 First, [cmpoutput] is invoked again, but this time its return values are kept.
 Additionally, the optional `summary` parameter is set to zero, since we do not
@@ -495,7 +495,7 @@ P-values for the Shapiro-Wilk test (univariate normality)
 
                  PC01      PC02      PC03      PC04      PC05      PC06      PC07      PC08
     Group 1     0.498     0.222     0.426     0.707     0.384     0.338     0.631     0.864 ...
-    Group 2     0.029     0.342     0.415     0.622     homogeneity of covariance matrices 0.867     0.843     0.818     0.861 ...
+    Group 2     0.029     0.342     0.415     0.622     0.867     0.843     0.818     0.861 ...
 
 P-values for the Royston test (multivariate normality, 2 dimensions)
 --------------------------------------------------------------------
@@ -527,9 +527,9 @@ confirmed by [Box's M] test. However, as discussed in reference [\[1\]][ref1],
 this test is highly sensitive, and this assumption is not really critical when
 sample size is equal for both groups, which is the case in this comparison.
 Summarizing, these results indicate that parametric test assumptions are
-essentially verified for the most critical cases.
+essentially verified for the most critical tests.
 
-### Simultaneous of several outputs
+### Simultaneous comparisons of multiple outputs
 
 **TODO**
 
