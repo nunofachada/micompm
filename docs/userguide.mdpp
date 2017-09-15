@@ -607,6 +607,8 @@ output/comparison combination for multiple user-specified variances to explain.
 * The generated LaTeX tables are not directly configurable using function
 arguments.
 
+<a name="unittests">
+
 ## Unit tests
 
 The _micompm_ unit tests require the [MOxUnit] framework. Set the appropriate

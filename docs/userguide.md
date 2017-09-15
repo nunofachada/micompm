@@ -659,6 +659,8 @@ output/comparison combination for multiple user-specified variances to explain.
 * The generated LaTeX tables are not directly configurable using function
 arguments.
 
+<a name="unittests">
+
 <a name="unittests"></a>
 
 ## 5\. Unit tests
