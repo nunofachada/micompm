@@ -16,7 +16,13 @@ Follow _micompm_'s [User Guide] to get started.
 
 * [MATLAB Statistics toolbox] / [Octave statistics package]
 
-### Theory
+### Documents
+
+* [User Guide]
+* [Contributing guidelines](CONTRIBUTING.md)
+* [Code of conduct](CODE_OF_CONDUCT.md)
+
+### References
 
 * Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
 Model-independent comparison of simulation output. *Simulation Modelling
