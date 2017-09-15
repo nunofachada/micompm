@@ -23,19 +23,6 @@ Model-independent comparison of simulation output. *Simulation Modelling
 Practice and Theory*. 72:131–149. http://dx.doi.org/10.1016/j.simpat.2016.12.013
 ([arXiv preprint](http://arxiv.org/abs/1509.09174))
 
-### Limitations
-
-This port has the following limitations when compared with the original R
-[implementation][micompr]:
-
-* It does not support outputs with different lengths.
-* It does not directly provide _p_-values adjusted with the weighted Bonferroni
-procedure.
-* It is unable to directly apply and compare multiple MANOVA tests to each
-output/comparison combination for multiple user-specified variances to explain.
-* The generated LaTeX tables are not directly configurable using function
-arguments.
-
 ### License
 
 [MIT License](LICENSE)

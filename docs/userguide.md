@@ -17,8 +17,9 @@ micompm - Multivariate independent comparison of observations
 3.2\.  [Comparing implementation outputs](#comparingimplementationoutputs)  
 3.3\.  [Assessing distributional assumptions](#assessingdistributionalassumptions)  
 3.4\.  [Simultaneous comparisons of multiple outputs](#simultaneouscomparisonsofmultipleoutputs)  
-4\.  [Unit tests](#unittests)  
-5\.  [References](#references)  
+4\.  [Limitations](#limitations)  
+5\.  [Unit tests](#unittests)  
+6\.  [References](#references)  
 
 <a name="introduction"></a>
 
@@ -643,9 +644,24 @@ will show as follows:
 
 ![table](https://user-images.githubusercontent.com/3018963/30485509-87637f74-9a25-11e7-9985-0c27de1454ff.png)
 
+<a name="limitations"></a>
+
+## 4\. Limitations
+
+_micompm_ has the following limitations when compared with the original R
+[implementation][micompr]:
+
+* It does not support outputs with different lengths.
+* It does not directly provide _p_-values adjusted with the weighted Bonferroni
+procedure.
+* It is unable to directly apply and compare multiple MANOVA tests to each
+output/comparison combination for multiple user-specified variances to explain.
+* The generated LaTeX tables are not directly configurable using function
+arguments.
+
 <a name="unittests"></a>
 
-## 4\. Unit tests
+## 5\. Unit tests
 
 The _micompm_ unit tests require the [MOxUnit] framework. Set the appropriate
 path to this framework as specified in the respective instructions, `cd` into
@@ -659,7 +675,7 @@ The tests can take a few minutes to run.
 
 <a name="references"></a>
 
-## 5\. References
+## 6\. References
 
 <a name="ref1"></a>
 

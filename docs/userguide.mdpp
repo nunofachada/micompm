@@ -594,6 +594,19 @@ will show as follows:
 
 ![table](https://user-images.githubusercontent.com/3018963/30485509-87637f74-9a25-11e7-9985-0c27de1454ff.png)
 
+## Limitations
+
+_micompm_ has the following limitations when compared with the original R
+[implementation][micompr]:
+
+* It does not support outputs with different lengths.
+* It does not directly provide _p_-values adjusted with the weighted Bonferroni
+procedure.
+* It is unable to directly apply and compare multiple MANOVA tests to each
+output/comparison combination for multiple user-specified variances to explain.
+* The generated LaTeX tables are not directly configurable using function
+arguments.
+
 ## Unit tests
 
 The _micompm_ unit tests require the [MOxUnit] framework. Set the appropriate
