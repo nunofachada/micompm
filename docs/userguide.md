@@ -17,7 +17,6 @@ micompm - Multivariate independent comparison of observations
 3.2\.  [Comparing implementation outputs](#comparingimplementationoutputs)  
 3.3\.  [Assessing distributional assumptions](#assessingdistributionalassumptions)  
 3.4\.  [Simultaneous comparisons of multiple outputs](#simultaneouscomparisonsofmultipleoutputs)  
-3.5\.  [Tables and plots](#tablesandplots)  
 4\.  [Unit tests](#unittests)  
 5\.  [References](#references)  
 
@@ -581,19 +580,68 @@ essentially verified for the most critical tests.
 
 ### 3.4\. Simultaneous comparisons of multiple outputs
 
+The [cmpoutput] function compares one output at a time. However, many “systems”
+have more than one output; while outputs can be concatenated (via the
+[grpoutputs] function), it may be preferable to have a more general idea of how
+the comparison fares for individual outputs. Furthermore, it can also be useful
+to perform several comparisons at the same time. The [micomp] function solves
+this problem. In the code below, [micomp] is used to perform three simultaneous
+comparisons (implementation 1 vs. 2, 1 vs. 3 and 1 vs. 4) of seven outputs (the
+six model outputs, plus the additional concatenated output):
+
 ```matlab
 c = micomp(7, 'range', 0.9, ...
     {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt'}, ...
-    {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt'}, ... {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt'});
+    {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt'}, ...
+    {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt'});
 ```
 
-<a name="tablesandplots"></a>
-
-### 3.5\. Tables and plots
+The variable returned by [micomp], `c`, contains the information provided by
+[cmpoutput] for all comparison/output combinations. While this information can
+be further processed by the user, _micompm_ also provides the [micomp_show]
+function, which generates tables and plots summarizing the performed
+comparisons:
 
 ```matlab
+micomp_show(1, c, 7, 3)
+```
+
+The previous command invokes [micomp_show], requesting a plain text table
+(first parameter set to 1) summarizing the comparisons contained in `c` (second
+parameter) for seven outputs (third paramter) and three comparisons (fourth
+parameter), generating the following table:
 
 ```
+-------------------------------------------------------------------------------------------------------------------------------------------
+| Comp.    | Test  |       Output 1 |       Output 2 |       Output 3 |       Output 4 |       Output 5 |       Output 6 |       Output 7 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+| Comp. 1  | #PCs  |             24 |             32 |             25 |             36 |             43 |             26 |             39 |
+|          | MNV   |       0.497962 |       0.190919 |       0.514572 |      0.0501458 |       0.544597 |       0.539895 |       0.565243 |
+|          | TT    |       0.530184 |       0.836141 |       0.804125 |       0.783653 |       0.378008 |       0.804548 |        0.87892 |
+|          | MW    |       0.482517 |        0.78446 |       0.673495 |       0.982307 |       0.149449 |       0.684323 |       0.935192 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+| Comp. 2  | #PCs  |             24 |             29 |             24 |             12 |             43 |             25 |             38 |
+|          | MNV   |    1.43906e-13 |    6.14241e-30 |    1.19777e-08 |    1.29199e-59 |       0.236509 |    2.63812e-08 |    3.07441e-12 |
+|          | TT    |      0.0420774 |    1.98361e-23 |       0.108483 |    3.63094e-67 |      0.0169031 |       0.108666 |       0.389861 |
+|          | MW    |      0.0467558 |    3.01986e-11 |        0.10547 |    3.01986e-11 |      0.0260775 |       0.111987 |       0.395267 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+| Comp. 3  | #PCs  |             17 |              7 |              8 |             13 |             38 |              1 |             31 |
+|          | MNV   |    6.17271e-44 |    6.50151e-78 |    5.98915e-71 |    6.22156e-55 |    3.12626e-24 |            NaN |    6.55174e-19 |
+|          | TT    |    3.59397e-39 |     8.6741e-67 |    1.89671e-58 |    5.77936e-62 |    1.74162e-43 |    2.80948e-85 |    9.77023e-25 |
+|          | MW    |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.33839e-11 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+```
+
+Setting the first parameter to 2, while returning the same plain text table,
+also yields the plots below:
+
+![plots](https://user-images.githubusercontent.com/3018963/30485300-db8cc0ca-9a24-11e7-8152-0b962c03d7d2.png)
+
+Finally, setting the first parameter to zero will return the source code for a
+LaTeX table. After compiling the returned code in a LaTeX document, the table
+will show as follows:
+
+![table](https://user-images.githubusercontent.com/3018963/30485509-87637f74-9a25-11e7-9985-0c27de1454ff.png)
 
 <a name="unittests"></a>
 
