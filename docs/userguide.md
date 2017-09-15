@@ -581,13 +581,19 @@ essentially verified for the most critical tests.
 
 ### 3.4\. Simultaneous comparisons of multiple outputs
 
-**TODO**
+```matlab
+c = micomp(7, 'range', 0.9, ...
+    {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_ok'], 'stats400v1*.txt'}, ...
+    {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt'}, ... {[datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_diff'], 'stats400v1*.txt'});
+```
 
 <a name="tablesandplots"></a>
 
 ### 3.5\. Tables and plots
 
-**TODO**
+```matlab
+
+```
 
 <a name="unittests"></a>
 
