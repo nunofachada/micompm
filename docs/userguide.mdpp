@@ -558,7 +558,7 @@ micomp_show(1, c, 7, 3)
 
 The previous command invokes [micomp_show], requesting a plain text table
 (first parameter set to 1) summarizing the comparisons contained in `c` (second
-parameter) for seven outputs (third paramter) and three comparisons (fourth
+parameter) for seven outputs (third parameter) and three comparisons (fourth
 parameter), generating the following table:
 
 ```
@@ -582,16 +582,35 @@ parameter), generating the following table:
 -------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
-Setting the first parameter to 2, while returning the same plain text table,
-also yields the plots below:
+The [MANOVA], [_t_][_t_-test] and [Mann-Whitney][Mann-Whitney _U_ test] tests
+are abbreviated to MNV, TT and MW, respectively. By analyzing the table, it is
+possible to conclude that comparisons 1 to 3 show increasingly divergent
+implementations. Additionally, it becomes easier to observe which outputs are
+more dissimilar in each of the comparisons. For example, in comparison 2
+(implementation 1 vs. implementation 3), the fifth output (mean wolves energy)
+is barely affect, although the remaining outputs are significantly different.
+
+Setting the first parameter of [micomp_show] to 2 yields the plots below, while
+also returning the same plain text table:
 
 ![plots](https://user-images.githubusercontent.com/3018963/30485300-db8cc0ca-9a24-11e7-8152-0b962c03d7d2.png)
+
+The first three rows contain the PCA score plots of the first two principal
+components. Again, it is possible to observe that the compared implementations
+are increasingly distant when going from comparison 1 to comparison 3. The last
+row shows the variance explain by the first ten PCs for each comparison.
 
 Finally, setting the first parameter to zero will return the source code for a
 LaTeX table. After compiling the returned code in a LaTeX document, the table
 will show as follows:
 
 ![table](https://user-images.githubusercontent.com/3018963/30485509-87637f74-9a25-11e7-9985-0c27de1454ff.png)
+
+While the LaTeX table is not directly configurable using [micomp_show] function
+arguments, it can still be manually edited afterwards. Note that LaTeX tables
+generated with [micomp_show] require that the [fontenc] (with `T1` option),
+[multirow], [booktabs], [ulem] (with `normalem` option) and [tikz] (with
+`plotmarks` library) packages be included in the LaTeX document.
 
 ## Limitations
 
@@ -641,10 +660,6 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [PPHPC]: https://github.com/fakenmc/pphpc
 [pphpc_netlogo]: https://github.com/fakenmc/pphpc/tree/netlogo
 [pphpc_java]: https://github.com/fakenmc/pphpc/tree/java
-[siunitx]: https://www.ctan.org/pkg/siunitx
-[ulem]: https://www.ctan.org/pkg/ulem
-[multirow]: https://www.ctan.org/pkg/multirow
-[booktabs]: https://www.ctan.org/pkg/booktabs
 [startup]: ../startup.m
 [grpoutputs]: ../micompm/grpoutputs.m
 [cmpoutput]: ../micompm/cmpoutput.m
@@ -671,3 +686,8 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [Royston]: https://www.jstor.org/stable/2347291
 [Box's M]:https://en.wikiversity.org/wiki/Box%27s_M
 [Bartlett's]: https://en.wikipedia.org/wiki/Bartlett%27s_test
+[fontenc]: https://www.ctan.org/pkg/fontenc
+[multirow]: https://www.ctan.org/pkg/multirow
+[booktabs]: https://www.ctan.org/pkg/booktabs
+[ulem]: https://www.ctan.org/pkg/ulem
+[tikz]: https://www.ctan.org/pkg/pgf
