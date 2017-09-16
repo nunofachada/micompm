@@ -39,10 +39,6 @@ best explain their differences, avoiding manual selection of specific points or
 summary statistics. The procedure is appropriate for comparing samples of time
 series, images, spectrometric measures or similar multivariate observations.
 
-These utilities are compatible with GNU Octave. However, note that a number of
-statistical tests provided by Octave return slightly different _p_-values from
-those returned by the equivalent MATLAB functions.
-
 If you use _micompm_, please cite reference [\[1\]][ref1].
 
 <a name="basicconcepts"></a>
@@ -104,7 +100,10 @@ observations.
 * [cmpassumptions] - Verify the assumptions for parametric tests applied to
 the comparison of output observations.
 
-_micompm_ also provides and uses additional [helper] and [3rd party] functions.
+Note that some of the statistical tests available in [MATLAB] and [Octave],
+used in the [cmpoutput] and [cmpassumptions] functions, return slightly
+different _p_-values. _micompm_ also provides and uses additional [helper] and
+[3rd party] functions.
 
 <a name="the_micompm_workflow"></a>
 
