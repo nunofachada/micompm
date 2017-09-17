@@ -126,6 +126,7 @@ if type > 0 % Plain text table
             grid on;
             xlabel('PC');
             ylabel('%var');
+            title(output_tags{i});
 
         end;
 
