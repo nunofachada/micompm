@@ -638,19 +638,21 @@ possible to conclude that comparisons 1 to 3 show increasingly divergent
 implementations. Additionally, it becomes easier to observe which outputs are
 more dissimilar in each of the comparisons. For example, in comparison 2
 (implementation 1 vs. implementation 3), the fifth output (mean wolves energy)
-is barely affect, although the remaining outputs are significantly different.
+is barely affected, although the remaining outputs are significantly different.
 
 Setting the first parameter of [micomp_show] to 2 yields the plots below, while
 also returning the same plain text table:
 
 ![plots](https://user-images.githubusercontent.com/3018963/30485300-db8cc0ca-9a24-11e7-8152-0b962c03d7d2.png)
 
-The first three rows contain the PCA score plots of the first two principal
-components. Again, it is possible to observe that the compared implementations
-are increasingly distant when going from comparison 1 to comparison 3. The last
-row shows the variance explain by the first ten PCs for each comparison.
+The first three rows contain the PCA score plots for the first two principal
+components. The last row shows the variance explained by the first ten PCs for
+each comparison. Irrespective of row, plots in the same column are associated
+with one output. Again, it is possible to observe that the compared
+implementations are increasingly dissimilar when going from comparison 1 to
+comparison 3.
 
-Finally, setting the first parameter to zero will return the source code for a
+Finally, setting the first parameter to 0 will return the source code for a
 LaTeX table. After compiling the returned code in a LaTeX document, the table
 will show as follows:
 
