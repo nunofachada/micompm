@@ -1,3 +1,8 @@
+<!--
+* Edit the userguide.mdpp file and convert it to userguide.md using the
+  markdown-pp utility (https://github.com/jreese/markdown-pp).
+* Do not edit userguide.md directly!
+-->
 micompm - Multivariate independent comparison of observations
 =============================================================
 
@@ -641,10 +646,44 @@ more dissimilar in each of the comparisons. For example, in comparison 2
 (implementation 1 vs. implementation 3), the fifth output (mean wolves energy)
 is barely affected, although the remaining outputs are significantly different.
 
+The output and comparison labels can be customized by passing arrays of
+strings in parameters 3 and 4 of [micomp_show], respectively. For example:
+
+```matlab
+outputs = {'Sheep Pop.', 'Wolves Pop.', 'Grass Qty.', ...
+    'Mean Sheep En.', 'Mean Wolves En.', 'Mean Grass Qty.', 'Concat.'};
+comparisons = {'1 vs 2', '1 vs 3', '1 vs 4'};
+micomp_show(1, c, outputs, comparisons)
+```
+
+The plain text table now appears with the customized output and comparison
+labels:
+
+```
+-------------------------------------------------------------------------------------------------------------------------------------------
+| Comp.    | Test  |   Sheep Pop.   |   Wolves Pop.  |   Grass Qty.   | Mean Sheep En. | Mean Wolves En | Mean Grass Qty |     Concat.    |
+-------------------------------------------------------------------------------------------------------------------------------------------
+|  1 vs 2  | #PCs  |             24 |             32 |             25 |             36 |             43 |             26 |             39 |
+|          | MNV   |       0.497962 |       0.190919 |       0.514572 |      0.0501458 |       0.544597 |       0.539895 |       0.565243 |
+|          | TT    |       0.530184 |       0.836141 |       0.804125 |       0.783653 |       0.378008 |       0.804548 |        0.87892 |
+|          | MW    |       0.482517 |        0.78446 |       0.673495 |       0.982307 |       0.149449 |       0.684323 |       0.935192 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+|  1 vs 3  | #PCs  |             24 |             29 |             24 |             12 |             43 |             25 |             38 |
+|          | MNV   |    1.43906e-13 |    6.14241e-30 |    1.19777e-08 |    1.29199e-59 |       0.236509 |    2.63812e-08 |    3.07441e-12 |
+|          | TT    |      0.0420774 |    1.98361e-23 |       0.108483 |    3.63094e-67 |      0.0169031 |       0.108666 |       0.389861 |
+|          | MW    |      0.0467558 |    3.01986e-11 |        0.10547 |    3.01986e-11 |      0.0260775 |       0.111987 |       0.395267 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+|  1 vs 4  | #PCs  |             17 |              7 |              8 |             13 |             38 |              1 |             31 |
+|          | MNV   |    6.17271e-44 |    6.50151e-78 |    5.98915e-71 |    6.22156e-55 |    3.12626e-24 |            NaN |    6.55174e-19 |
+|          | TT    |    3.59397e-39 |     8.6741e-67 |    1.89671e-58 |    5.77936e-62 |    1.74162e-43 |    2.80948e-85 |    9.77023e-25 |
+|          | MW    |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.01986e-11 |    3.33839e-11 |
+-------------------------------------------------------------------------------------------------------------------------------------------
+```
+
 Setting the first parameter of [micomp_show] to 2 yields the plots below, while
 also returning the same plain text table:
 
-![plots](https://user-images.githubusercontent.com/3018963/30485300-db8cc0ca-9a24-11e7-8152-0b962c03d7d2.png)
+![plots](https://user-images.githubusercontent.com/3018963/30545026-55c7d782-9c80-11e7-8c1d-2e42b15b6a29.png)
 
 The first three rows contain the PCA score plots for the first two principal
 components. The last row shows the variance explained by the first ten PCs for
@@ -654,16 +693,23 @@ implementations are increasingly dissimilar when going from comparison 1 to
 comparison 3.
 
 Finally, setting the first parameter to 0 will return the source code for a
-LaTeX table. After compiling the returned code in a LaTeX document, the table
-will show as follows:
+LaTeX table. It is also convenient to redefine the output labels to better
+LaTeX styling:
 
-![table](https://user-images.githubusercontent.com/3018963/30485509-87637f74-9a25-11e7-9985-0c27de1454ff.png)
+```matlab
+outputs = {'$P^s$', '$P^w$', '$P^c$', '$\overline{E}^s$', ...
+    '$\overline{E}^w$', '$\overline{C}$', '$\tilde{A}$'};
+micomp_show(0, c, outputs, comparisons)
+```
 
-While the LaTeX table is not directly configurable using [micomp_show] function
-arguments, it can still be manually edited afterwards. Note that LaTeX tables
-generated with [micomp_show] require that the [fontenc] (with `T1` option),
-[multirow], [booktabs], [ulem] (with `normalem` option) and [tikz] (with
-`plotmarks` library) packages be included in the LaTeX document.
+After compiling the returned code in a LaTeX document, the table will show as
+follows:
+
+![table](https://user-images.githubusercontent.com/3018963/30545638-249a2320-9c82-11e7-8f37-90f1e742cf38.png)
+
+Note that LaTeX tables generated with [micomp_show] require that the [fontenc]
+(with `T1` option), [multirow], [booktabs], [ulem] (with `normalem` option) and
+[tikz] (with `plotmarks` library) packages be included in the LaTeX document.
 
 <a name="limitations"></a>
 
@@ -676,9 +722,10 @@ _micompm_ has the following limitations when compared with the original R
 * It does not directly provide _p_-values adjusted with the weighted Bonferroni
 procedure.
 * It is unable to directly apply and compare multiple MANOVA tests to each
-output/comparison combination for multiple user-specified variances to explain.
-* The generated LaTeX tables are not directly configurable using function
-arguments.
+output/comparison combination for multiple user-specified variances to explain,
+although this can be achieved via multiple calls to [micomp].
+* The generated LaTeX tables have limited configurability via [micomp_show]
+function arguments.
 
 <a name="unittests">
 
