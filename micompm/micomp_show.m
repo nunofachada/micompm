@@ -143,14 +143,14 @@ if type > 0 % Plain text table
     tbl = sprintf('%s| Comp.    | Test  |', tbl);
 
     for i = 1:nout
-        tbl = sprintf('%s % 14s |', tbl, output_tags{i});
+        tbl = sprintf('%s %14s |', tbl, lstr(output_tags{i}, 14));
     end;
     tbl = sprintf('%s\n', tbl);
     tbl = sprintf('%s%s', tbl, print_sep(nout));
 
     for i = 1:ncomp % Cycle through comparisons
 
-        tbl = sprintf('%s| % 7s  |', tbl, comp_tags{i});
+        tbl = sprintf('%s| %7s  |', tbl, lstr(comp_tags{i}, 7));
 
         % Test names
         if numel(unique(c.groups{i, 1})) == 2
@@ -283,7 +283,7 @@ else % Unknown type
 
 end;
 
-end
+end % main function
 
 % Helper function for printing plain text tables
 function tbl = print_sep(nout)
@@ -294,4 +294,33 @@ for j = 1:nout
 end;
 tbl = sprintf('%s\n', tbl);
 
-end
+end % print_sep function
+
+% Helper function for centering/trimming/padding strings to a preferred
+% length
+function str = lstr(str, len)
+
+if numel(str) > len % Is string larger than preferred length?
+    
+    % If so, trim string
+    str = str(1:min(len, numel(str)));
+
+elseif numel(str) < len % Or is string shorter than preferred length?
+    
+    % If so pad string with spaces on both sides
+    while numel(str) < len
+        
+        % Pad string at the left
+        str = sprintf(' %s', str);
+        
+        if numel(str) < len
+            % If string still shorter than preferred length, pad it at the
+            % right
+            str = sprintf('%s ', str);
+        end;
+        
+    end; % While
+    
+end; % If
+
+end % lstr function
