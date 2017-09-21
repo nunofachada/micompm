@@ -14,7 +14,7 @@ addpath([pwd() filesep 'micompm']);
 global micompm_version;
 
 % micompm version
-micompm_version = '1.0.0-dev';
+micompm_version = '1.0.0';
 
 % Check if statistics toolbox/package is present
 if is_octave()
