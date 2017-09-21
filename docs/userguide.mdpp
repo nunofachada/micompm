@@ -14,14 +14,14 @@ micompm - Multivariate independent comparison of observations
 
 _micompm_ is a [MATLAB]/[Octave] port of the original [micompr] [R]
 [\[1\]][ref1] package for comparing multivariate samples associated with
-different groups. It uses principal component analysis to convert multivariate
-observations into a set of linearly uncorrelated statistical measures, which
-are then compared using a number of statistical methods. This technique is
-independent of the distributional properties of samples and automatically
-selects features that best explain their differences, avoiding manual selection
-of specific points or summary statistics. The procedure is appropriate for
-comparing samples of time series, images, spectrometric measures or similar
-multivariate observations.
+different groups. It uses principal component analysis (PCA) to convert
+multivariate observations into a set of linearly uncorrelated statistical
+measures, which are then compared using a number of statistical methods. This
+technique is independent of the distributional properties of samples and
+automatically selects features that best explain their differences, avoiding
+manual selection of specific points or summary statistics. The procedure is
+appropriate for comparing samples of time series, images, spectrometric
+measures or similar multivariate observations.
 
 If you use _micompm_, please cite reference [\[2\]][ref2].
 
@@ -50,8 +50,8 @@ with a univariate test using the [Bonferroni] correction or a similar method
 for handling _p_-values from multiple comparisons.
 
 Conclusions concerning whether samples are statistically similar can be drawn
-by analyzing the _p_-values produced by the employed statistical tests, which
-should be below the typical 1% or 5% when samples are significantly different.
+by analyzing the _p_-values produced by the statistical tests, which should be
+below the typical 1% or 5% thresholds when samples are significantly different.
 The scatter plot of the first two PC dimensions can also provide visual,
 although subjective feedback on sample similarity.
 
@@ -155,7 +155,7 @@ returns the following information:
 
 * `npcs` - Number of principal components which explain `ve` percentage of
 variance.
-* `p_mnv` - _P_-values for the [MANOVA] test for `npcs` principal components.
+* `p_mnv` - _P_-value for the [MANOVA] test for `npcs` principal components.
 * `p_par` - Vector of _p_-values for the parametric test applied to groups
 along each principal component ([_t_-test] for 2 groups, [ANOVA] for more than
 2 groups).
@@ -172,13 +172,13 @@ principal components.
 ### Verify assumptions for the performed parametric tests
 
 The [cmpoutput] function performs several statistical tests, including the
-[_t_-test] (on each PC) and [MANOVA] (on the number of PCs that explain `ve`
-percentage of variance). These two tests are parametric, which means they
-expect samples to be drawn from distributions with particular characteristics,
-namely that: 1) they are drawn from a normally distributed population; and, 2)
-they are drawn from populations with equal variances. The [cmpassumptions]
-function performs additional tests that verify these assumptions. It is invoked
-as follows:
+[_t_-test] or [ANOVA] (on each PC) and [MANOVA] (on the number of PCs that
+explain `ve` percentage of variance). These tests are parametric, which means
+they expect samples to be drawn from distributions with particular
+characteristics, namely that: 1) samples are drawn from normally distributed
+populations; and, 2) samples are drawn from populations with equal variances.
+The [cmpassumptions] function performs additional tests that verify these
+assumptions. It is invoked as follows:
 
 ```matlab
 [p_unorm, p_mnorm, p_uvar, p_mvar] = cmpassumptions(scores, groups, npcs, summary)
@@ -190,19 +190,19 @@ PCs (for the multivariate comparison with [MANOVA]). The `summary` argument
 plays a similar role to [cmpoutput]'s equivalent.  [cmpassumptions] returns
 _p_-values for the assumptions tests, namely:
 
-* `p_unorm` - Matrix _p_-values from the [Shapiro-Wilk] test for univariate
-normality, rows correspond to groups, columns to PCs.
-* `p_mnorm` - Vector of _p_-values from the [Royston] test of multivariate
+* `p_unorm` - Matrix of _p_-values from [Shapiro-Wilk]'s test of univariate
+normality. Rows correspond to groups, columns to PCs.
+* `p_mnorm` - Vector of _p_-values from [Royston]'s test of multivariate
 normality (on `npcs`), one _p_-value per group.
-* `p_uvar` - Vector of _p_-values from the [Bartlett's] test for equality of
+* `p_uvar` - Vector of _p_-values from [Bartlett's] test of equality of
 variances, one _p_-value per PC.
-* `p_mvar` - _P_-value from the [Box's M] test for the homogeneity of
-covariance matrices (on `npcs`).
+* `p_mvar` - _P_-value from [Box's M] test of homogeneity of covariance
+matrices (on `npcs`).
 
-_P_-values less than the typical 0.05 or 0.01 thresholds may be considered
+_P_-values smaller than the typical 0.05 or 0.01 thresholds may be considered
 statistically significant, casting doubt on the respective assumption. However,
 as discussed in reference [\[2\]][ref2], analysis of these these _p_-values is
-often more elaborate.
+often not so clear-cut.
 
 ### Multiple comparisons and different outputs
 
@@ -221,7 +221,7 @@ concatenated output is given in the `ccat` parameter (available options are
 is set to 0 or '', the concatenated output is not generated. The `ve` argument
 defines the percentage of variance explained by the _q_ principal components
 (i.e. number of dimensions) used in the [MANOVA] test. The remaining arguments,
-`varargin`, define the data and the comparisons to be performed.
+`varargin`, define the data and comparisons to be performed.
 
 The [micomp] function returns a struct with several fields containing the
 results provided by [cmpoutput] for all comparisons and outputs.
@@ -262,7 +262,7 @@ datafolder = 'path/to/dataset';
 
 The dataset contains output from several implementations or variants of the
 [PPHPC] agent-based model. The [PPHPC] model, discussed in reference
-[\[3\]][ref3], is a realization of prototypical predator-prey system with six
+[\[3\]][ref3], is a realization of a prototypical predator-prey system with six
 outputs:
 
 1. Sheep population
@@ -284,7 +284,7 @@ simulation parameters.
 The first two implementations strictly follow the [PPHPC] conceptual model
 [\[3\]][ref3], and should generate statistically similar outputs. Variants 3
 and 4 are purposefully misaligned, and should yield outputs with statistically
-significant differences from the first two.
+significant differences from the first two implementations.
 
 The datasets were collected under five different model sizes (100 _x_ 100, 200
 _x_ 200, 400 _x_ 400, 800 _x_ 800 and 1600 _x_ 1600) and two distinct
@@ -309,11 +309,11 @@ corresponding to one of the six outputs, plus a seventh concatenated output
 (range scaled). Since the data contains 30 runs during 4001 iterations of each
 model implementation, individual matrices have 60 rows and 4001 columns. The
 seventh matrix, containing the concatenated output, contains 24006 columns
-(4000 _x_ 6). In turn, `g_12`, a vector of length 60, specifies the
+(4001 _x_ 6). In turn, `g_12`, a vector of length 60, specifies the
 implementations to which the runs are associated with.
 
-Similarly, outputs from implementations 1 and 3, the latter with a small
-realization difference, can be loaded as follows:
+Similarly, outputs from implementations 1 and 3, the latter with agent
+shuffling disabled, can be loaded as follows:
 
 ```matlab
 [o_13, g_13] = grpoutputs('range', [datafolder '/nl_ok'], 'stats400v1*.txt', [datafolder '/j_ex_noshuff'], 'stats400v1*.txt');
@@ -328,7 +328,7 @@ Finally, the following command groups outputs from implementations 1 and 4:
 ### Comparing implementation outputs
 
 Simulation outputs can be compared individually with the [cmpoutput] function.
-For example, the following instructions compares the first output (sheep
+For example, the following instruction compares the first output (sheep
 population) of implementations 1 and 2, requesting that 90% of the variance be
 explained by the PCs used in the [MANOVA] test:
 
@@ -430,8 +430,8 @@ P-value for the MANOVA test (24 PCs, 90.82% of variance explained)
 There are some significant univariate _p_-values, namely for PC01 (<0.05), PC03
 and PC06 (both <0.01). However, the multivariate _p_-value, produced by the
 [MANOVA] test for the first 24 PCs, is clearly significant. These results
-suggest that implementations 1 and 3 generate statistically dissimilar
-behaviors with respect to the sheep population output.
+suggest that implementations 1 and 3 have statistically dissimilar behaviors
+with respect to the sheep population output.
 
 Finally, comparing the outputs of implementations 1 and 4 clarifies how
 [cmpoutput] behaves when one of the input parameters of the model is modified
@@ -522,7 +522,7 @@ P-value for Box's M test (homogeneity of covariance matrices on 2 dimensions)
 
 The assumption of normality, the most crucial, seems to be verified. There are
 no significant _p_-values in the univariate case ([Shapiro-Wilk] test), at
-least for the eight first _p_-values. The same is true for the multivariate
+least for the first eight _p_-values. The same is true for the multivariate
 comparison on two PCs (i.e., dimensions) according to the _p_-values yielded by
 [Royston]'s test. The assumption of equal variances is not so clear. It stands
 in the univariate case for the first PC (the most important), but doubt is cast
@@ -531,19 +531,19 @@ Multivariate homogeneity of covariance matrices for the first two PCs is not
 confirmed by [Box's M] test. However, as discussed in reference [\[2\]][ref2],
 this test is highly sensitive, and this assumption is not really critical when
 sample size is equal for both groups, which is the case in this comparison.
-Summarizing, these results indicate that parametric test assumptions are
-essentially verified for the most critical tests.
+Summarizing, these results indicate that the most critical parametric test
+assumptions are essentially verified.
 
 ### Simultaneous comparisons of multiple outputs
 
 The [cmpoutput] function compares one output at a time. However, many “systems”
-have more than one output; while outputs can be concatenated (via the
-[grpoutputs] function), it may be preferable to have a more general idea of how
-the comparison fares for individual outputs. Furthermore, it can also be useful
-to perform several comparisons at the same time. The [micomp] function solves
-this problem. In the code below, [micomp] is used to perform three simultaneous
-comparisons (implementation 1 vs. 2, 1 vs. 3 and 1 vs. 4) of seven outputs (the
-six model outputs, plus the additional concatenated output):
+have more than one output; while outputs can be concatenated, it may be
+preferable to have a more general idea of how the comparison fares for
+individual outputs. Furthermore, it can also be useful to perform several
+comparisons at the same time. The [micomp] function solves this problem. In the
+code below, [micomp] is used to perform three simultaneous comparisons
+(implementation 1 vs. 2, 1 vs. 3 and 1 vs. 4) of seven outputs (the six model
+outputs, plus the additional concatenated output):
 
 ```matlab
 c = micomp(7, 'range', 0.9, ...
@@ -592,7 +592,7 @@ The [MANOVA], [_t_][_t_-test] and [Mann-Whitney][Mann-Whitney _U_ test] tests
 are abbreviated to MNV, TT and MW, respectively. By analyzing the table, it is
 possible to conclude that comparisons 1 to 3 show increasingly divergent
 implementations. Additionally, it becomes easier to observe which outputs are
-more dissimilar in each of the comparisons. For example, in comparison 2
+more dissimilar in each comparison. For example, in comparison 2
 (implementation 1 vs. implementation 3), the fifth output (mean wolves energy)
 is barely affected, although the remaining outputs are significantly different.
 
@@ -637,10 +637,9 @@ also returning the same plain text table:
 
 The first three rows contain the PCA score plots for the first two principal
 components. The last row shows the variance explained by the first ten PCs for
-each comparison. Irrespective of row, plots in the same column are associated
-with one output. Again, it is possible to observe that the compared
-implementations are increasingly dissimilar when going from comparison 1 to
-comparison 3.
+each comparison. Irrespective of row, plots in a column are associated with the
+same output. Again, it is possible to observe that the compared implementations
+are increasingly dissimilar when going from comparison 1 to comparison 3.
 
 Finally, setting the first parameter to 0 will return the source code for a
 LaTeX table. It is also convenient to redefine the output labels to better
@@ -725,7 +724,7 @@ Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 [micomp_show]: ../micompm/micomp_show.m
 [cmpassumptions]: ../micompm/cmpassumptions.m
 [helper]: ../helpers
-[3rd party]: ``../3rdparty
+[3rd party]: ../3rdparty
 [micompr]: https://github.com/fakenmc/micompr
 [R]: https://www.r-project.org/
 [Matlab]: http://www.mathworks.com/products/matlab/
