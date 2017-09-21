@@ -214,7 +214,8 @@ elseif type ==  0 % LaTeX table
     tbl = sprintf('%s\\cmidrule(l){3-%d}\n', tbl, 2 + nout);
 
     % Sub-header
-    tbl = sprintf('%s & & %s \\\\\n', tbl, strjoin(output_tags', ' & '));
+    tbl = sprintf('%s & & %s \\\\\n', tbl, ...
+        strjoin(reshape(output_tags, [1 numel(output_tags)]), ' & '));
 
     % Cycle through comparisons
     for i = 1:ncomp
