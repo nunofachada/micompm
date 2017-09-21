@@ -1,3 +1,7 @@
+[![Latest release](https://img.shields.io/github/release/fakenmc/micompm.svg)](https://github.com/fakenmc/micompm/releases)
+[![Documentation](https://img.shields.io/badge/documentation-user_guide-brightgreen.svg)](docs/userguide.md)
+[![MIT Licence](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT/)
+
 ### Summary
 
 _micompm_ is a [MATLAB]/[Octave] port of the original [micompr] [R] package for
