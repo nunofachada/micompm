@@ -55,7 +55,7 @@ for i = 1:numel(ugrps)
         figstr, marks{i});
 
     % Cycle points in group
-    for j=1:size(pts_in_grp, 1)
+    for j = 1:size(pts_in_grp, 1)
        figstr = sprintf('%s (%5.3f,%5.3f)', ...
            figstr, pts_in_grp(j, 1), pts_in_grp(j, 2));
     end;

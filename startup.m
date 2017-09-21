@@ -25,7 +25,7 @@ if is_octave()
         pkg('load', 'statistics');
     end;
 else
-    check = license('test','Statistics_toolbox');
+    check = license('test', 'Statistics_toolbox');
     if ~check
         error('Micompm requires MATLAB ''Statistics'' toolbox.');
     end;
