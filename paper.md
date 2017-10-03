@@ -11,13 +11,15 @@ tags:
 authors:
  - name: Nuno Fachada
    orcid: 0000-0002-8487-5837
-   affiliation: 1
+   affiliation: 1,2
  - name: Agostinho C. Rosa
    orcid: 0000-0001-5165-3114
-   affiliation: 1
+   affiliation: 2
 affiliations:
- - name: Institute for Systems and Robotics (ISR/IST), LARSyS, Instituto Superior Técnico, Universidade de Lisboa
+ - name: Departamento de Cinema e Arte dos Media, Universidade Lusófona de Humanidades e Tecnologias
    index: 1
+ - name: Institute for Systems and Robotics (ISR/IST), LARSyS, Instituto Superior Técnico, Universidade de Lisboa
+   index: 2
 date: 22 September 2017
 bibliography: paper.bib
 ---
