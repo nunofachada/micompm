@@ -2,7 +2,7 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 % GRPOUTPUTS Load and group outputs from files containing multiple
 % observations of the groups to be compared.
 %
-%   [outputs, groups] = GRPOUTPUTS(ccat, vargin)
+%   [outputs, groups] = GRPOUTPUTS(ccat, varargin)
 %
 % Parameters:
 %        ccat - Centering and scaling method for additional concatenated
