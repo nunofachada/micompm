@@ -1,4 +1,4 @@
-# Community guidelines
+# Contributing guidelines
 
 ## How to contribute
 
