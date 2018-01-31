@@ -1,7 +1,7 @@
 [![Latest release](https://img.shields.io/github/release/fakenmc/micompm.svg)](https://github.com/fakenmc/micompm/releases)
 [![Documentation](https://img.shields.io/badge/documentation-user_guide-brightgreen.svg)](docs/userguide.md)
 [![MIT Licence](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT/)
-[![DOI](https://zenodo.org/badge/49348636.svg)](https://zenodo.org/badge/latestdoi/49348636)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.931838.svg)](https://doi.org/10.5281/zenodo.931838)
 
 ### Summary
 
