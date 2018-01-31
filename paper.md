@@ -16,7 +16,7 @@ authors:
    orcid: 0000-0001-5165-3114
    affiliation: 2
 affiliations:
- - name: Departamento de Cinema e Arte dos Media, Universidade Lusófona de Humanidades e Tecnologias
+ - name: HEI-LAB - Digital Human-Environment and Interactions Labs, Universidade Lusófona de Humanidades e Tecnologias
    index: 1
  - name: Institute for Systems and Robotics (ISR/IST), LARSyS, Instituto Superior Técnico, Universidade de Lisboa
    index: 2
