@@ -709,6 +709,10 @@ follows:
 Note that LaTeX tables generated with [micomp_show] require that the [fontenc]
 (with `T1` option), [multirow], [booktabs], [ulem] (with `normalem` option) and
 [tikz] (with `plotmarks` library) packages be included in the LaTeX document.
+For quick testing LaTeX table generation, a template
+[document](../templates/table.tex) is provided in the [templates](../templates)
+folder. Simply replace the commented block with the generated LaTeX code for
+the table and compile the document.
 
 <a name="limitations"></a>
 
