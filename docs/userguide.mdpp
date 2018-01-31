@@ -21,7 +21,9 @@ technique is independent of the distributional properties of samples and
 automatically selects features that best explain their differences, avoiding
 manual selection of specific points or summary statistics. The procedure is
 appropriate for comparing samples of time series, images, spectrometric
-measures or similar multivariate observations.
+measures or similar multivariate observations. It is aimed at researchers from
+all fields of science, although it requires some knowledge on design of
+experiments, statistical testing and multidimensional data analysis.
 
 If you use _micompm_, please cite reference [\[2\]][ref2].
 

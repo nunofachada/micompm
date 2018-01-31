@@ -20,7 +20,7 @@ affiliations:
    index: 1
  - name: Institute for Systems and Robotics (ISR/IST), LARSyS, Instituto Superior Técnico, Universidade de Lisboa
    index: 2
-date: 22 September 2017
+date: 31 January 2018
 bibliography: paper.bib
 ---
 
@@ -38,6 +38,8 @@ independent of the distributional properties of samples and automatically
 selects features that best explain their differences, avoiding manual selection
 of specific points or summary statistics. The procedure is appropriate for
 comparing samples of time series, images, spectrometric measures or similar
-multivariate observations.
+multivariate observations. It is aimed at researchers from all fields of
+science, although it requires some knowledge on design of experiments,
+statistical testing and multidimensional data analysis.
 
 # References

@@ -13,7 +13,10 @@ number of statistical methods. This technique is independent of the
 distributional properties of samples and automatically selects features that
 best explain their differences, avoiding manual selection of specific points or
 summary statistics. The procedure is appropriate for comparing samples of time
-series, images, spectrometric measures or similar multivariate observations.
+series, images, spectrometric measures or similar multivariate observations. It
+is aimed at researchers from all fields of science, although it requires some
+knowledge on design of experiments, statistical testing and multidimensional
+data analysis.
 
 Follow _micompm_'s [User Guide] to get started.
 
