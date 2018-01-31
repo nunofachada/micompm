@@ -1,4 +1,6 @@
-# How to contribute
+# Community guidelines
+
+## How to contribute
 
 This project accepts contributions from anyone interested in improving it. To
 do so, follow these steps:
@@ -19,7 +21,7 @@ if relevant.
 
 <a name="codstand" />
 
-# Coding standards
+## Coding standards
 
 * Code must work in [MATLAB] (>= 2013a) and [Octave] (>= 4.0.0)
 * MATLAB-style documentation and comments
@@ -29,7 +31,13 @@ if relevant.
 * Newlines: Unix style, i.e. LF or \n
 * Function names: lower_case_with_underscores_allowed_butnotrequired
 
-# Attribution
+## Issues and support
+
+Problems with this software can be reported in the [issues section](https://github.com/fakenmc/micompm/issues).
+Support for _micompm_ is provided on best effort basis by emailing the author at
+nfachada@laseeb.org.
+
+#### Note
 
 This document is partially adapted from the [TempoSimple](https://github.com/gnugat-legacy/tempo-simple/blob/master/CONTRIBUTING.m)
 contributing guidelines.
