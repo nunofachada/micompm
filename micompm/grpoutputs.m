@@ -23,7 +23,7 @@ function [outputs, groups] = grpoutputs(ccat, varargin)
 %
 % See also CENTERSCALE.
 %
-% Copyright (c) 2016-2017 Nuno Fachada
+% Copyright (c) 2016-2018 Nuno Fachada
 % Distributed under the MIT License (See accompanying file LICENSE or copy 
 % at http://opensource.org/licenses/MIT)
 %
