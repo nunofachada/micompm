@@ -2,6 +2,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-user_guide-brightgreen.svg)](docs/userguide.md)
 [![MIT Licence](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.931838.svg)](https://doi.org/10.5281/zenodo.931838)
+[![JOSS](http://joss.theoj.org/papers/10.21105/joss.00430/status.svg)](https://doi.org/10.21105/joss.00430)
 
 ### Summary
 
@@ -31,6 +32,16 @@ Follow _micompm_'s [User Guide] to get started.
 * [Code of conduct](CODE_OF_CONDUCT.md)
 
 ### References
+
+#### Practice
+
+* Fachada N, Rosa AC. (2018)
+micompm: A MATLAB/Octave toolbox for multivariate independent comparison of
+observations.
+*Journal of Open Source Software*. 3(23):430.
+https://doi.org/10.21105/joss.00430
+
+#### Theory
 
 * Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
 Model-independent comparison of simulation output. *Simulation Modelling

@@ -34,8 +34,8 @@ micompm - Multivariate independent comparison of observations
 
 ### 1.1\. What is micompm?
 
-_micompm_ is a [MATLAB]/[Octave] port of the original [micompr] [R]
-[\[1\]][ref1] package for comparing multivariate samples associated with
+_micompm_ [\[1\]][ref1] is a [MATLAB]/[Octave] port of the original [micompr]
+[R] [\[2\]][ref2] package for comparing multivariate samples associated with
 different groups. It uses principal component analysis (PCA) to convert
 multivariate observations into a set of linearly uncorrelated statistical
 measures, which are then compared using a number of statistical methods. This
@@ -47,7 +47,7 @@ measures or similar multivariate observations. It is aimed at researchers from
 all fields of science, although it requires some knowledge on design of
 experiments, statistical testing and multidimensional data analysis.
 
-If you use _micompm_, please cite reference [\[2\]][ref2].
+If you use _micompm_, please cite reference [\[1\]][ref1].
 
 <a name="basicconcepts"></a>
 
@@ -91,7 +91,7 @@ outputs, centered and scaled to the same order of magnitude, thus reducing a
 “system” with k outputs to a “system” with one output. The proposed method
 would then be applied to samples composed of concatenated observations
 encompassing the existing outputs. This technique is described in detail in
-reference [\[2\]][ref2] in the context of comparing simulation outputs.
+reference [\[3\]][ref3] in the context of comparing simulation outputs.
 
 <a name="availablefunctions"></a>
 
@@ -239,7 +239,7 @@ matrices (on `npcs`).
 
 _P_-values smaller than the typical 0.05 or 0.01 thresholds may be considered
 statistically significant, casting doubt on the respective assumption. However,
-as discussed in reference [\[2\]][ref2], analysis of these these _p_-values is
+as discussed in reference [\[3\]][ref3], analysis of these these _p_-values is
 often not so clear-cut.
 
 <a name="multiplecomparisonsanddifferentoutputs"></a>
@@ -293,7 +293,7 @@ The [micomp_show] function returns `tbl`, containing the generated table, and
 ## 3\. Tutorial
 
 The tutorial uses the following dataset, which corresponds to the results
-presented in reference [\[2\]][ref2]:
+presented in reference [\[3\]][ref3]:
 
 * [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.46848.svg)](http://dx.doi.org/10.5281/zenodo.46848)
 
@@ -306,7 +306,7 @@ datafolder = 'path/to/dataset';
 
 The dataset contains output from several implementations or variants of the
 [PPHPC] agent-based model. The [PPHPC] model, discussed in reference
-[\[3\]][ref3], is a realization of a prototypical predator-prey system with six
+[\[4\]][ref4], is a realization of a prototypical predator-prey system with six
 outputs:
 
 1. Sheep population
@@ -326,13 +326,13 @@ generate the data:
 simulation parameters.
 
 The first two implementations strictly follow the [PPHPC] conceptual model
-[\[3\]][ref3], and should generate statistically similar outputs. Variants 3
+[\[4\]][ref4], and should generate statistically similar outputs. Variants 3
 and 4 are purposefully misaligned, and should yield outputs with statistically
 significant differences from the first two implementations.
 
 The datasets were collected under five different model sizes (100 _x_ 100, 200
 _x_ 200, 400 _x_ 400, 800 _x_ 800 and 1600 _x_ 1600) and two distinct
-parameterizations (_v1_ and _v2_), as discussed in reference [\[2\]][ref2]. For
+parameterizations (_v1_ and _v2_), as discussed in reference [\[3\]][ref3]. For
 the remainder of this tutorial we will focus on model size 400 _x_ 400 and
 parameterization _v1_.
 
@@ -439,7 +439,7 @@ P-value for the MANOVA test (39 PCs, 90.63% of variance explained)
 ```
 
 The second PC _p_-values are slightly significant (<0.05). However, as
-discussed in reference [\[2\]][ref2], a few significant _p_-values are to be
+discussed in reference [\[3\]][ref3], a few significant _p_-values are to be
 expected, and output misalignments are mostly reflected in the first PC
 _p_-values. As such, and considering that the _p_-values are generally
 non-significant, it is not possible to show that the implementations are
@@ -578,7 +578,7 @@ comparison on two PCs (i.e., dimensions) according to the _p_-values yielded by
 in the univariate case for the first PC (the most important), but doubt is cast
 in a few less meaningful PCs, as shown by [Bartlett's] test _p_-values.
 Multivariate homogeneity of covariance matrices for the first two PCs is not
-confirmed by [Box's M] test. However, as discussed in reference [\[2\]][ref2],
+confirmed by [Box's M] test. However, as discussed in reference [\[3\]][ref3],
 this test is highly sensitive, and this assumption is not really critical when
 sample size is equal for both groups, which is the case in this comparison.
 Summarizing, these results indicate that the most critical parametric test
@@ -721,7 +721,7 @@ the table and compile the document.
 ## 4\. Limitations
 
 _micompm_ has the following limitations when compared with the original R
-[implementation][micompr] [\[1\]][ref1]:
+[implementation][micompr] [\[2\]][ref2]:
 
 * It does not support outputs with different lengths.
 * It does not directly provide _p_-values adjusted with the weighted Bonferroni
@@ -754,27 +754,36 @@ The tests can take a few minutes to run.
 
 <a name="ref1"></a>
 
-* [\[1\]][ref1] Fachada N, Rodrigues J, Lopes VV, Martins RC, Rosa AC. (2016) micompr: An R
-Package for Multivariate Independent Comparison of Observations. *The R Journal*
-8(2):405–420.
-https://journal.r-project.org/archive/2016-2/fachada-rodrigues-lopes-etal.pdf
+* [\[1\]][ref1] Fachada N, Rosa AC. (2018)
+micompm: A MATLAB/Octave toolbox for multivariate independent comparison of
+observations.
+*Journal of Open Source Software*. 3(23):430.
+https://doi.org/10.21105/joss.00430
 
 <a name="ref2"></a>
 
-* [\[2\]][ref2] Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
+* [\[2\]][ref2] Fachada N, Rodrigues J, Lopes VV, Martins RC, Rosa AC. (2016)
+micompr: An R Package for Multivariate Independent Comparison of Observations.
+*The R Journal* 8(2):405–420.
+https://journal.r-project.org/archive/2016-2/fachada-rodrigues-lopes-etal.pdf
+
+<a name="ref3"></a>
+
+* [\[3\]][ref3] Fachada N, Lopes VV, Martins RC, Rosa AC. (2017)
 Model-independent comparison of simulation output. *Simulation Modelling
 Practice and Theory*. 72:131–149. http://dx.doi.org/10.1016/j.simpat.2016.12.013
 ([arXiv preprint](http://arxiv.org/abs/1509.09174))
 
-<a name="ref3"></a>
+<a name="ref4"></a>
 
-* [\[3\]][ref3] Fachada N, Lopes VV, Martins RC, Rosa AC. (2015) Towards a
+* [\[4\]][ref4] Fachada N, Lopes VV, Martins RC, Rosa AC. (2015) Towards a
 standard model for research in agent-based modeling and simulation. *PeerJ
 Computer Science* 1:e36. https://doi.org/10.7717/peerj-cs.36
 
 [ref1]: #ref1
 [ref2]: #ref2
 [ref3]: #ref3
+[ref4]: #ref4
 [NetLogo]: https://ccl.northwestern.edu/netlogo/
 [PPHPC]: https://github.com/fakenmc/pphpc
 [pphpc_netlogo]: https://github.com/fakenmc/pphpc/tree/netlogo
