@@ -39,7 +39,7 @@ nfachada@laseeb.org.
 
 #### Note
 
-This document is partially adapted from the [TempoSimple](https://github.com/gnugat-legacy/tempo-simple/blob/master/CONTRIBUTING.m)
+This document is partially adapted from the [TempoSimple](https://github.com/gnugat-legacy/tempo-simple/blob/master/CONTRIBUTING.md)
 contributing guidelines.
 
 [MATLAB]: http://www.mathworks.com/products/matlab/
